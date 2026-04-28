@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Registrazione</title>
+</head>
+<body>
+    <h1>Registrazione</h1>
+     <form method="POST">
+         {% csrf_token %}
+         <br><br>
+         <label for="username">Username: </label>
+         <input type="text" name="username" id="username">
+         <br><br>
+         <label for="password">Password: </label>
+         <input type="password" name="password" id="password">
+         <br><br>
+         <label for="password2">Conferma Password: </label>
+         <input type="password" name="password2" id="password2">
+         <br><br>
+         <button type="submit">Registrati</button>
+     </form>
+     <br><br>
+     {% if error %}
+        {{ error }}
+     {% endif %}
+     <br><br>
+     Hai già un account?
+     <br><br>
+     <a href="/login"><button>Login</button></a>
+</body>
+</html>
