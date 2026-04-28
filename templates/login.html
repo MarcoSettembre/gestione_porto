@@ -9,7 +9,7 @@
     {% if success %}
     {{ success }}
     {% endif %}
-    <form method="POST" action="/homepage">
+    <form method="POST">
         {% csrf_token %}
         <br><br>
         <label for="username">Username: </label>
