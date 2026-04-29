@@ -6,6 +6,21 @@ from django.contrib.auth.decorators import login_required
 
 def get_user_role(user):
     return user.groups.all()[0].name
+def redirect_by_role(request):
+    role = get_user_role(request.user)
+    if role == 'cliente':
+        return redirect('cliente')
+    elif role == 'gestore_attracco_navi':
+        return redirect('attracco')
+    elif role == 'gestore_navi_cargo':
+        return redirect('cargo')
+    elif role == 'gestore_navi_crociera':
+        return redirect('crociera')
+    elif role == 'gestore_magazzino':
+        return redirect('magazzino')
+    elif role == 'admin':
+        return redirect('homepage')
+    return redirect('')
 def register(request):
     if request.method != "POST":
         return render(request, 'index.html')
@@ -24,16 +39,9 @@ def register(request):
 def login_view(request):
     if request.user.is_authenticated and request.user is not None:
         role = get_user_role(request.user)
-        if role == 'cliente':
-            return redirect('cliente')
-        elif role == 'gestore_attracco_navi':
-            return redirect('attracco')
-        elif role == 'gestore_navi_cargo':
-            return redirect('cargo')
-        elif role == 'gestore_navi_crociera':
-            return redirect('crociera')
-        elif role == 'gestore_magazzino':
-            return redirect('magazzino')
+        if role != 'admin':
+            return redirect_by_role(request)
+        return render(request, 'login.html')
     if request.method != "POST":
         return render(request, 'login.html')
     username = request.POST.get('username')
@@ -41,19 +49,7 @@ def login_view(request):
     user = authenticate(request, username=username, password=password)
     if user is not None:
         login(request, user)
-        role = get_user_role(user)
-        if role == 'cliente':
-            return redirect('cliente')
-        elif role == 'gestore_attracco_navi':
-            return redirect('attracco')
-        elif role == 'gestore_navi_cargo':
-            return redirect('cargo')
-        elif role == 'gestore_navi_crociera':
-            return redirect('crociera')
-        elif role == 'gestore_magazzino':
-            return redirect('magazzino')
-        elif role == 'admin':
-            return render(request, 'homepage.html')
+        return redirect_by_role(request)
     return render(request, 'login.html', {'error': "Credenziali non valide"})
 @login_required
 def homepage(request):

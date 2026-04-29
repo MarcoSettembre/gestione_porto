@@ -3,5 +3,5 @@
   <component name="Black">
     <option name="sdkName" value="Python 3.13 (porto)" />
   </component>
-  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.13 (porto)" project-jdk-type="Python SDK" />
+  <component name="ProjectRootManager" version="2" project-jdk-name="WSL (Ubuntu): (/home/haley/.virtualenvs/porto/bin/python)" project-jdk-type="Python SDK" />
 </project>
