@@ -24,4 +24,10 @@ urlpatterns = [
     path('login',views.login_view, name='login'),
     path('homepage',views.homepage, name='homepage'),
     path('logout',views.logout_view, name='logout'),
+    path('cliente',views.cliente, name='cliente'),
+    path('attracco', views.attracco, name='attracco'),
+    path('cargo', views.cargo, name='cargo'),
+    path('crociera', views.crociera, name='crociera'),
+    path('magazzino', views.magazzino, name='magazzino'),
+    path('error', views.error, name='error'),
 ]

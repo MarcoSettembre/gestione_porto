@@ -6,10 +6,12 @@
 </head>
 <body>
     <h1>Login</h1>
-    {% if success %}
-    {{ success }}
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
     {% endif %}
-    <form method="POST">
+    <form method="POST" action="/login">
         {% csrf_token %}
         <br><br>
         <label for="username">Username: </label>
@@ -20,9 +22,13 @@
         <br><br>
         <button type="submit">Login</button>
     </form>
-<br><br>
     {% if error %}
+    <br><br>
     {{ error }}
     {% endif %}
+    <br><br>
+    Non hai un account?
+    <br>
+    <a href="/"><button>Registrati</button></a>
 </body>
 </html>

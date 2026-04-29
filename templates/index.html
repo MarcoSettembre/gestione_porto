@@ -6,19 +6,31 @@
 </head>
 <body>
     <h1>Registrazione</h1>
-     <form method="POST">
+     <form method="POST" action="/">
          {% csrf_token %}
          <br><br>
          <label for="username">Username: </label>
-         <input type="text" name="username" id="username">
+         <input type="text" name="username" id="username" required>
          <br><br>
          <label for="password">Password: </label>
-         <input type="password" name="password" id="password">
+         <input type="password" name="password" id="password" required>
          <br><br>
          <label for="password2">Conferma Password: </label>
-         <input type="password" name="password2" id="password2">
+         <input type="password" name="password2" id="password2" required>
+         <br><br>
+         <label for="ruolo">Seleziona il tuo ruolo: </label>
+         <br>
+         <select name="ruolo" id="ruolo" required>
+             <option disabled selected value> --- </option>
+             <option value="cliente">Cliente</option>
+             <option value="gestore_attracco_navi">Gestore Attracco Navi</option>
+             <option value="gestore_magazzino">Gestore Magazzino</option>
+             <option value="gestore_navi_cargo">Gestore Navi Cargo</option>
+             <option value="gestore_navi_crociera">Gestore Navi Crociera</option>
+         </select>
          <br><br>
          <button type="submit">Registrati</button>
+         <button type="reset">Reset</button>
      </form>
      <br><br>
      {% if error %}
