@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Eliminazione Dati</title>
+</head>
+<body>
+    <h1>Eliminazione Dati</h1>
+    <p>Sei sicuro di voler eliminare il cliente {{cliente.nome}} {{cliente.cognome}}?</p>
+    <form method="POST" action="/cliente/elimina">
+        {% csrf_token %}
+        <button type="submit">Elimina</button>
+    </form>
+    <a href="/cliente"><button>Annulla</button></a>
+</body>
+</html>

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifica Dati</title>
+</head>
+<body>
+    <h1>Modifica Dati</h1>
+<form method="POST" action="/cliente/modifica">
+    {% csrf_token %}
+    <br><br>
+    <label for="codice_fiscale">Codice Fiscale: </label>
+    <input type="text" name="codice_fiscale" id="codice_fiscale" value="{{cliente.codice_fiscale}}" required>
+    <br><br>
+    <label for="nome">Nome: </label>
+    <input type="text" name="nome" id="nome" value="{{cliente.nome}}" required>
+    <br><br>
+    <label for="cognome">Cognome: </label>
+    <input type="text" name="cognome" id="cognome" value="{{cliente.cognome}}" required>
+    <br><br>
+    <label for="data_nascita">Data Nascita: </label>
+    <input type="date" name="data_nascita" id="data_nascita" value="{{cliente.data_nascita}}" required>
+    <br><br>
+    <label for="telefono">Telefono: </label>
+    <input type="text" name="telefono" id="telefono" value="{{cliente.telefono}}">
+    <br><br>
+    <button type="submit">Modifica</button> <button type="reset">Reset</button>
+    <br><br>
+    {% if error %}
+    Errore: {{ error }}
+    {% endif %}
+</form>
+</body>
+</html>

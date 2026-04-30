@@ -30,4 +30,8 @@ urlpatterns = [
     path('crociera', views.crociera, name='crociera'),
     path('magazzino', views.magazzino, name='magazzino'),
     path('error', views.error, name='error'),
+    path('cliente/aggiungi', views.cliente_aggiungi, name='cliente_aggiungi'),
+    path('cliente/modifica', views.cliente_modifica, name='cliente_modifica'),
+    path('cliente/elimina', views.cliente_elimina, name='cliente_elimina'),
+    path('cliente/visualizza', views.cliente_visualizza, name='cliente_visualizza'),
 ]

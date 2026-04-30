@@ -6,6 +6,17 @@
 </head>
 <body>
    <h1> Benvenuto/a nell'area clienti, {{request.user.username}} </h1>
-    <a href="/logout"><button>Logout</button></a>
+   {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+   <br><br>
+   Seleziona l'operazione da effettuare: <br><br>
+   <a href="/cliente/aggiungi"><button>Aggiungi Dati</button></a> <br><br>
+   <a href="/cliente/visualizza"><button>Visualizza Dati</button></a> <br><br>
+   <a href="/cliente/modifica"><button>Modifica Dati</button></a> <br><br>
+   <a href="/cliente/elimina"><button>Elimina Dati</button></a> <br><br>
+   <a href="/logout"><button>Logout</button></a>
 </body>
 </html>
