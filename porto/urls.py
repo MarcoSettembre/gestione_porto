@@ -34,4 +34,7 @@ urlpatterns = [
     path('cliente/modifica', views.cliente_modifica, name='cliente_modifica'),
     path('cliente/elimina', views.cliente_elimina, name='cliente_elimina'),
     path('cliente/visualizza', views.cliente_visualizza, name='cliente_visualizza'),
+    path('crociera/aggiungi', views.crociera_aggiungi, name='crociera_aggiungi'),
+    path('crociera/modifica/<str:imo>', views.crociera_modifica, name='crociera_modifica'),
+    path('crociera/elimina/<str:imo>', views.crociera_elimina, name='crociera_elimina'),
 ]

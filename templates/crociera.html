@@ -6,6 +6,50 @@
 </head>
 <body>
     <h1> Benvenuto/a nell'area gestione navi crociera, {{request.user.username}} </h1>
+    <br><br>
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+        <br><br>
+    {% endif %}
+    <a href="/crociera/aggiungi"><button>Aggiungi Nave</button></a>
+    <br><br>
+    <table>
+        <tr>
+            <th>IMO</th>
+            <th>Nome</th>
+            <th>Nazionalità</th>
+            <th>Compagnia</th>
+            <th>Altezza</th>
+            <th>Lunghezza</th>
+            <th>Larghezza</th>
+            <th>Capienza</th>
+            <th>Numero Banchina</th>
+            <th>Settore Banchina</th>
+            <th>Itinerario</th>
+            <th>Azioni</th>
+        </tr>
+        {% for rel in navi %}
+        <tr>
+    <td>{{ rel.nave.imo }}</td>
+    <td>{{ rel.nave.nome }}</td>
+    <td>{{ rel.nave.nazionalita }}</td>
+    <td>{{ rel.nave.compagnia }}</td>
+    <td>{{ rel.nave.altezza }}</td>
+    <td>{{ rel.nave.lunghezza }}</td>
+    <td>{{ rel.nave.larghezza }}</td>
+    <td>{{ rel.nave.capienza }}</td>
+    <td>{{ rel.nave.numero_banchina }}</td>
+    <td>{{ rel.nave.settore_banchina }}</td>
+    <td>{{ rel.nave.id_itinerario }}</td>
+    <td>
+        <a href="/crociera/modifica/{{ rel.nave.imo }}">Modifica</a> |
+        <a href="/crociera/elimina/{{ rel.nave.imo }}">Elimina</a>
+    </td>
+    </tr>
+    {% endfor %}
+    </table>
     <a href="/logout"><button>Logout</button></a>
 </body>
 </html>

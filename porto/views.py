@@ -1,5 +1,5 @@
 from django.contrib import messages
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import Group
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
@@ -77,10 +77,8 @@ def cargo(request):
 @login_required
 @group_required('gestore_navi_crociera')
 def crociera(request):
-    role = get_user_role(request.user)
-    if role == 'gestore_navi_crociera' or role == 'admin':
-        return render(request, 'crociera.html')
-    return redirect('error')
+    user_nave=UserNave.objects.filter(user=request.user).select_related('nave')
+    return render(request, 'crociera.html', {'navi': user_nave})
 @login_required
 @group_required('gestore_magazzino')
 def magazzino(request):
@@ -158,3 +156,78 @@ def cliente_visualizza(request):
         messages.error(request, "Non hai un cliente associato")
         return redirect("cliente")
     return render(request, 'cliente_visualizza.html', {'cliente': user_cliente})
+@login_required
+@group_required('gestore_navi_crociera')
+def crociera_aggiungi(request):
+    itinerari=Itinerario.objects.all()
+    if request.method == 'POST':
+        try:
+            itinerario_id = request.POST.get('id_itinerario')
+            if itinerario_id:
+                itinerarioOB = Itinerario.objects.get(pk=int(itinerario_id))
+            else:
+                itinerarioOB = None
+
+            nave = Nave.objects.create(
+                imo=request.POST.get('imo'),
+                nome=request.POST.get('nome'),
+                nazionalita=request.POST.get('nazionalita'),
+                compagnia=request.POST.get('compagnia'),
+                altezza=float(request.POST.get('altezza') or 0),
+                lunghezza=float(request.POST.get('lunghezza') or 0),
+                larghezza=float(request.POST.get('larghezza') or 0),
+                capienza=int(request.POST.get('capienza') or 0),
+                tipo="Crociera",
+                peso_massimo=None,
+                capacita=None,
+                peso_occupato=0,
+                volume_occupato=0,
+                id_itinerario=itinerarioOB
+            )
+        except IntegrityError:
+            return render(request, "crociera_aggiungi.html",{'error':"Vincolo non rispettato"})
+        except DataError:
+            return render(request, "crociera_aggiungi.html",{'error':"Dati non validi"})
+        UserNave.objects.create(
+            user=request.user,
+            nave=nave
+        )
+        messages.success(request, 'Nave aggiunta con successo')
+        return redirect('crociera')
+    return render(request, 'crociera_aggiungi.html',{'itinerari':itinerari})
+@login_required
+@group_required('gestore_navi_crociera')
+def crociera_modifica(request,imo):
+    nave=get_object_or_404(Nave, imo=imo, usernave__user=request.user)
+    itinerari=Itinerario.objects.all()
+    if request.method == 'POST':
+        nave.nome = request.POST.get('nome')
+        nave.nazionalita = request.POST.get('nazionalita')
+        nave.compagnia = request.POST.get('compagnia')
+        nave.altezza = float(request.POST.get('altezza') or 0)
+        nave.lunghezza = float(request.POST.get('lunghezza') or 0)
+        nave.larghezza = float(request.POST.get('larghezza') or 0)
+        nave.capienza = int(request.POST.get('capienza') or 0)
+        itinerario_id = request.POST.get('id_itinerario')
+        if itinerario_id:
+            nave.id_itinerario = Itinerario.objects.get(pk=int(itinerario_id))
+        else:
+            nave.id_itinerario = None
+        try:
+            nave.save()
+        except IntegrityError:
+            return render(request, "crociera_modifica.html",{'error':"Vincolo non rispettato"})
+        except DataError:
+            return render(request, "crociera_modifica.html",{'error':"Dati non validi"})
+        messages.success(request, 'Nave modificata con successo')
+        return redirect('crociera')
+    return render(request, 'crociera_modifica.html', {'nave': nave, 'itinerari':itinerari})
+@login_required
+@group_required('gestore_navi_crociera')
+def crociera_elimina(request,imo):
+    nave=get_object_or_404(Nave, imo=imo, usernave__user=request.user)
+    if request.method == 'POST':
+        nave.delete()
+        messages.success(request, 'Nave eliminata con successo')
+        return redirect('crociera')
+    return render(request, 'crociera_elimina.html', {'nave': nave})

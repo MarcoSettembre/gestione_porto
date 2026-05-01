@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifica Nave Crociera</title>
+</head>
+<body>
+        <h1>Modifica nave con IMO {{nave.imo}}</h1>
+        <br><br>
+        <form method="POST" action="/crociera/modifica/{{nave.imo}}">
+            {% csrf_token %}
+            <br><br>
+            <label for="nome">Nome: </label>
+            <label for="nome">Nome: </label>
+            <input type="text" name="nome" id="nome" value="{{nave.nome}}" required>
+            <br><br>
+            <label for="nazionalita">Nazionalità: </label>
+            <input type="text" name="nazionalita" id="nazionalita" value="{{nave.nazionalita}}" required>
+            <br><br>
+            <label for="compagnia">Compagnia: </label>
+            <input type="text" name="compagnia" id="compagnia" value="{{nave.compagnia}}" required>
+            <br><br>
+            <label for="altezza">Altezza: </label>
+            <input type="number" name="altezza" id="altezza" value="{{nave.altezza}}" required>
+            <br><br>
+            <label for="lunghezza">Lunghezza: </label>
+            <input type="number" name="lunghezza" id="lunghezza" value="{{nave.lunghezza}}" required>
+            <br><br>
+            <label for="larghezza">Larghezza: </label>
+            <input type="number" name="larghezza" id="larghezza" value="{{nave.larghezza}}" required>
+            <br><br>
+            <label for="capienza">Capienza: </label>
+            <input type="number" name="capienza" id="capienza" value="{{nave.capienza}}" required>
+            <br><br>
+            <label for="id_itinerario">Itinerario: </label>
+            <select name="id_itinerario" id="id_itinerario">
+                <option value="">Nessuno</option>
+                {% for i in itinerari %}
+                     <option value="{{ i.id }}">
+                        {{ i.nome }}
+                     </option>
+                {% endfor %}
+            </select>
+            <br><br>
+            <button type="submit">Modifica</button> <button type="reset">Reset</button>
+            <br><br>
+        </form>
+    <br><br>
+    {% if error %}
+        Errore: {{ error }}
+    {% endif %}
+</body>
+</html>

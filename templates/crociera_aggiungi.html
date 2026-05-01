@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Aggiunta Nave Crociera</title>
+</head>
+<body>
+    <h1>Aggiunta Nave Crociera</h1>
+    <br><br>
+    <form method="POST" action="/crociera/aggiungi">
+    {% csrf_token %}
+    <br><br>
+        <label for="imo">IMO: </label>
+        <input type="text" name="imo" id="imo" required>
+        <br><br>
+        <label for="nome">Nome: </label>
+        <input type="text" name="nome" id="nome" required>
+        <br><br>
+        <label for="nazionalita">Nazionalità: </label>
+        <input type="text" name="nazionalita" id="nazionalita" required>
+        <br><br>
+        <label for="compagnia">Compagnia: </label>
+        <input type="text" name="compagnia" id="compagnia" required>
+        <br><br>
+        <label for="altezza">Altezza: </label>
+        <input type="number" name="altezza" id="altezza" required>
+        <br><br>
+        <label for="lunghezza">Lunghezza: </label>
+        <input type="number" name="lunghezza" id="lunghezza" required>
+        <br><br>
+        <label for="larghezza">Larghezza: </label>
+        <input type="number" name="larghezza" id="larghezza" required>
+        <br><br>
+        <label for="capienza">Capienza: </label>
+        <input type="number" name="capienza" id="capienza" required>
+        <br><br>
+        <label for="id_itinerario">Itinerario: </label>
+        <select name="id_itinerario" id="id_itinerario">
+            <option value="">Nessuno</option>
+            {% for i in itinerari %}
+                <option value="{{ i.id }}">
+                    {{ i.nome }}
+                </option>
+            {% endfor %}
+        </select>
+        <br><br>
+        <button type="submit">Aggiungi</button> <button type="reset">Reset</button>
+        <br><br>
+    </form>
+    <br><br>
+    {% if error %}
+        Errore: {{ error }}
+    {% endif %}
+</body>
+</html>
