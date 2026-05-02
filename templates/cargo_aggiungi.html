@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Aggiunta Nave Cargo</title>
+</head>
+<body>
+    <h1>Aggiunta Nave Cargo</h1>
+    <form method="POST" action="/cargo/aggiungi">
+        {% csrf_token %}
+        <br><br>
+        <label for="imo">IMO: </label>
+        <input type="text" name="imo" id="imo" required>
+        <br><br>
+        <label for="nome">Nome: </label>
+        <input type="text" name="nome" id="nome" required>
+        <br><br>
+        <label for="nazionalita">Nazionalità: </label>
+        <input type="text" name="nazionalita" id="nazionalita" required>
+        <br><br>
+        <label for="compagnia">Compagnia: </label>
+        <input type="text" name="compagnia" id="compagnia" required>
+        <br><br>
+        <label for="altezza">Altezza: </label>
+        <input type="number" name="altezza" id="altezza" required>
+        <br><br>
+        <label for="lunghezza">Lunghezza: </label>
+        <input type="number" name="lunghezza" id="lunghezza" required>
+        <br><br>
+        <label for="larghezza">Larghezza: </label>
+        <input type="number" name="larghezza" id="larghezza" required>
+        <br><br>
+        <label for="peso_massimo">Peso Massimo: </label>
+        <input type="number" name="peso_massimo" id="peso_massimo" required>
+        <br><br>
+        <label for="capacita">Capacità (in TEU): </label>
+        <input type="number" name="capacita" id="capacita" required>
+        <br><br>
+        <button type="submit">Aggiungi</button> <button type="reset">Reset</button>
+    </form>
+    <br><br>
+    {% if error %}
+    Errore: {{ error }}
+    {% endif %}
+</body>
+</html>

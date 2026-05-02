@@ -73,7 +73,8 @@ def attracco(request):
 @login_required
 @group_required('gestore_navi_cargo')
 def cargo(request):
-    return render(request, 'cargo.html')
+    user_nave=UserNave.objects.filter(user=request.user).select_related('nave')
+    return render(request, 'cargo.html', {'navi': user_nave})
 @login_required
 @group_required('gestore_navi_crociera')
 def crociera(request):
@@ -231,3 +232,65 @@ def crociera_elimina(request,imo):
         messages.success(request, 'Nave eliminata con successo')
         return redirect('crociera')
     return render(request, 'crociera_elimina.html', {'nave': nave})
+@login_required
+@group_required('gestore_navi_cargo')
+def cargo_aggiungi(request):
+    if request.method == 'POST':
+        try:
+            nave=Nave.objects.create(
+                imo=request.POST.get('imo'),
+                nome=request.POST.get('nome'),
+                nazionalita=request.POST.get('nazionalita'),
+                compagnia=request.POST.get('compagnia'),
+                altezza=float(request.POST.get('altezza') or 0),
+                lunghezza=float(request.POST.get('lunghezza') or 0),
+                larghezza=float(request.POST.get('larghezza') or 0),
+                peso_massimo=float(request.POST.get('peso_massimo') or 0),
+                capacita=int(request.POST.get('capacita') or 0),
+                peso_occupato=0,
+                volume_occupato=0,
+                capienza=None,
+                tipo="Cargo",
+            )
+        except IntegrityError:
+            return render(request, "cargo_aggiungi.html",{'error':"Vincolo non rispettato"})
+        except DataError:
+            return render(request, "cargo_aggiungi.html",{'error':"Dati non validi"})
+        UserNave.objects.create(
+            user=request.user,
+            nave=nave
+        )
+        messages.success(request, 'Nave aggiunta con successo')
+        return redirect('cargo')
+    return render(request, 'cargo_aggiungi.html')
+@login_required
+@group_required('gestore_navi_cargo')
+def cargo_modifica(request,imo):
+    nave=get_object_or_404(Nave, imo=imo, usernave__user=request.user)
+    if request.method == 'POST':
+        nave.nome = request.POST.get('nome')
+        nave.nazionalita = request.POST.get('nazionalita')
+        nave.compagnia = request.POST.get('compagnia')
+        nave.altezza = float(request.POST.get('altezza') or 0)
+        nave.lunghezza = float(request.POST.get('lunghezza') or 0)
+        nave.larghezza = float(request.POST.get('larghezza') or 0)
+        nave.peso_massimo = float(request.POST.get('peso_massimo') or 0)
+        nave.capacita = int(request.POST.get('capacita') or 0)
+        try:
+            nave.save()
+        except IntegrityError:
+            return render(request, "cargo_modifica.html",{'error':"Vincolo non rispettato"})
+        except DataError:
+            return render(request, "cargo_modifica.html",{'error':"Dati non validi"})
+        messages.success(request, 'Nave modificata con successo')
+        return redirect('cargo')
+    return render(request, 'cargo_modifica.html',{'nave':nave})
+@login_required
+@group_required('gestore_navi_cargo')
+def cargo_elimina(request,imo):
+    nave=get_object_or_404(Nave, imo=imo, usernave__user=request.user)
+    if request.method == 'POST':
+        nave.delete()
+        messages.success(request, 'Nave eliminata con successo')
+        return redirect('cargo')
+    return render(request, 'cargo_elimina.html', {'nave': nave})

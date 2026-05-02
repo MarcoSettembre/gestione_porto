@@ -6,6 +6,53 @@
 </head>
 <body>
 <h1> Benvenuto/a nell'area gestione navi cargo, {{request.user.username}} </h1>
+    <br><br>
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+        <br><br>
+    {% endif %}
+    <a href="/cargo/aggiungi"><button>Aggiungi Nave</button></a>
+     <table>
+        <tr>
+            <th>IMO</th>
+            <th>Nome</th>
+            <th>Nazionalità</th>
+            <th>Compagnia</th>
+            <th>Altezza</th>
+            <th>Lunghezza</th>
+            <th>Larghezza</th>
+            <th>Peso Massimo</th>
+            <th>Capacità</th>
+            <th>Peso Occupato</th>
+            <th>Volume Occupato</th>
+            <th>Numero Banchina</th>
+            <th>Settore Banchina</th>
+            <th>Azioni</th>
+        </tr>
+        {% for rel in navi %}
+        <tr>
+            <td>{{ rel.nave.imo }}</td>
+            <td>{{ rel.nave.nome }}</td>
+            <td>{{ rel.nave.nazionalita }}</td>
+            <td>{{ rel.nave.compagnia }}</td>
+            <td>{{ rel.nave.altezza }}</td>
+            <td>{{ rel.nave.lunghezza }}</td>
+            <td>{{ rel.nave.larghezza }}</td>
+            <td>{{ rel.nave.peso_massimo }}</td>
+            <td>{{ rel.nave.capacita }}</td>
+            <td>{{ rel.nave.peso_occupato }}</td>
+            <td>{{ rel.nave.volume_occupato }}</td>
+            <td>{{ rel.nave.numero_banchina }}</td>
+            <td>{{ rel.nave.settore_banchina }}</td>
+            <td>
+        <a href="/cargo/modifica/{{ rel.nave.imo }}">Modifica</a> |
+        <a href="/cargo/elimina/{{ rel.nave.imo }}">Elimina</a>
+    </td>
+    </tr>
+    {% endfor %}
+    </table>
     <a href="/logout"><button>Logout</button></a>
 </body>
 </html>

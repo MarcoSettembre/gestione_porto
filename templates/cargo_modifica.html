@@ -2,14 +2,14 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Modifica Nave Crociera</title>
+    <title>Modifica Nave Cargo</title>
 </head>
 <body>
-        <h1>Modifica nave con IMO {{nave.imo}}</h1>
+    <h1>Modifica nave con IMO {{nave.imo}}</h1>
+    <br><br>
+    <form method="POST" action="/cargo/modifica/{{nave.imo}}">
+        {% csrf_token %}
         <br><br>
-        <form method="POST" action="/crociera/modifica/{{nave.imo}}">
-            {% csrf_token %}
-            <br><br>
             <label for="nome">Nome: </label>
             <input type="text" name="nome" id="nome" value="{{nave.nome}}" required>
             <br><br>
@@ -28,25 +28,17 @@
             <label for="larghezza">Larghezza: </label>
             <input type="number" name="larghezza" id="larghezza" value="{{nave.larghezza}}" required>
             <br><br>
-            <label for="capienza">Capienza: </label>
-            <input type="number" name="capienza" id="capienza" value="{{nave.capienza}}" required>
+            <label for="peso_massimo">Peso Massimo: </label>
+            <input type="number" name="peso_massimo" id="peso_massimo" value="{{nave.peso_massimo}}" required>
             <br><br>
-            <label for="id_itinerario">Itinerario: </label>
-            <select name="id_itinerario" id="id_itinerario">
-                <option value="">Nessuno</option>
-                {% for i in itinerari %}
-                     <option value="{{ i.id }}">
-                        {{ i.nome }}
-                     </option>
-                {% endfor %}
-            </select>
+            <label for="capacita">Capacità: </label>
+            <input type="number" name="capacita" id="capacita" value="{{nave.capacita}}" required>
             <br><br>
             <button type="submit">Modifica</button> <button type="reset">Reset</button>
-            <br><br>
-        </form>
+    </form>
     <br><br>
     {% if error %}
-        Errore: {{ error }}
+    Errore: {{ error }}
     {% endif %}
 </body>
 </html>

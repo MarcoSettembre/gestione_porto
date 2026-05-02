@@ -37,4 +37,7 @@ urlpatterns = [
     path('crociera/aggiungi', views.crociera_aggiungi, name='crociera_aggiungi'),
     path('crociera/modifica/<str:imo>', views.crociera_modifica, name='crociera_modifica'),
     path('crociera/elimina/<str:imo>', views.crociera_elimina, name='crociera_elimina'),
+    path('cargo/aggiungi', views.cargo_aggiungi, name='cargo_aggiungi'),
+    path('cargo/modifica/<str:imo>', views.cargo_modifica, name='cargo_modifica'),
+    path('cargo/elimina/<str:imo>', views.cargo_elimina, name='cargo_elimina'),
 ]

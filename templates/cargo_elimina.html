@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Eliminazione Nave Cargo</title>
+</head>
+<body>
+    <h1>Eliminazione Nave Cargo</h1>
+    <p>Sei sicuro di voler eliminare la nave con IMO {{nave.imo}}?</p>
+    <form method="POST" action="/cargo/elimina/{{nave.imo}}">
+    {% csrf_token %}
+    <button type="submit">Elimina</button>
+    </form>
+    <a href="/cargo"><button>Annulla</button></a>
+</body>
+</html>
