@@ -14,6 +14,8 @@
         <br><br>
     {% endif %}
     <a href="/cargo/aggiungi"><button>Aggiungi Nave</button></a>
+    {{% if navi %}
+    <br><br>
      <table>
         <tr>
             <th>IMO</th>
@@ -53,6 +55,7 @@
     </tr>
     {% endfor %}
     </table>
+    {% endif %}
     <a href="/logout"><button>Logout</button></a>
 </body>
 </html>

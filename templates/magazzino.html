@@ -6,6 +6,35 @@
 </head>
 <body>
 <h1> Benvenuto/a nell'area gestione magazzino, {{request.user.username}} </h1>
+    <br><br>
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+        <br><br>
+    {% endif %}
+    <a href="/magazzino/aggiungi"><button>Aggiungi Magazzino</button></a>
+    <br><br>
+    {% if magazzini %}
+    <table>
+        <tr>
+            <th>Nome</th>
+            <th>Località</th>
+            <th>Tipo</th>
+            <th>Capacita</th>
+            <th>Azioni</th>
+        </tr>
+        {% for magazzino in magazzini%}
+        <tr>
+            <td>{{magazzino.nome}}</td>
+            <td>{{magazzino.localita}}</td>
+            <td>{{magazzino.tipo}}</td>
+            <td>{{magazzino.capacita}}</td>
+            <td><a href="/magazzino/modifica/{{magazzino.nome}}/{{magazzino.localita}}"><button>Modifica</button></a> <a href="/magazzino/elimina/{{magazzino.nome}}/{{magazzino.localita}}"><button>Elimina</button></a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    {% endif %}
     <a href="/logout"><button>Logout</button></a>
 </body>
 </html>

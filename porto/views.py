@@ -4,8 +4,8 @@ from django.contrib.auth.models import Group
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from core.models import *
-from django.db import IntegrityError, DataError
-
+from django.db import IntegrityError, DataError, connection
+from django.db.models import Q
 from porto.decorators import group_required
 
 
@@ -83,7 +83,22 @@ def crociera(request):
 @login_required
 @group_required('gestore_magazzino')
 def magazzino(request):
-    return render(request, 'magazzino.html')
+    sql = """
+         SELECT 
+        m.Nome,
+        m.Localita,
+        m.Tipo,
+        m.Capacita,
+        CONCAT(m.Nome, '-', m.Localita) AS id
+    FROM Magazzino m
+    JOIN core_usermagazzino um
+      ON m.Nome = um.nome_magazzino
+     AND m.Localita = um.localita_magazzino
+    WHERE um.user_id = %s
+          """
+    magazzini = Magazzino.objects.raw(sql, [request.user.id])
+
+    return render(request, 'magazzino.html', {'magazzini': magazzini})
 def error(request):
     return render(request, 'error.html')
 @login_required
@@ -294,3 +309,87 @@ def cargo_elimina(request,imo):
         messages.success(request, 'Nave eliminata con successo')
         return redirect('cargo')
     return render(request, 'cargo_elimina.html', {'nave': nave})
+@login_required
+@group_required('gestore_magazzino')
+def magazzino_aggiungi(request):
+    if request.method == 'POST':
+        try:
+            mag = Magazzino.objects.create(
+                nome=request.POST.get('nome'),
+                localita=request.POST.get('localita'),
+                tipo=request.POST.get('tipo'),
+                capacita=float(request.POST.get('capacita') or 0),
+            )
+        except IntegrityError:
+            return render(request, "magazzino_aggiungi.html",{'error':"Vincolo non rispettato"})
+        except DataError:
+            return render(request, "magazzino_aggiungi.html",{'error':"Dati non validi"})
+        UserMagazzino.objects.create(
+            user=request.user,
+            nome_magazzino=mag.nome,
+            localita_magazzino=mag.localita,
+        )
+        messages.success(request, 'Magazzino aggiunto con successo')
+        return redirect('magazzino')
+    return render(request, 'magazzino_aggiungi.html')
+@login_required
+@group_required('gestore_magazzino')
+def magazzino_modifica(request,nome,localita):
+    if not UserMagazzino.objects.filter(user=request.user, nome_magazzino=nome, localita_magazzino=localita).exists():
+        messages.error(request, "Non sei autorizzato a modificare questo magazzino")
+        return redirect('magazzino')
+    sql = """
+          SELECT  m.Nome, m.Localita, m.Tipo, m.Capacita, 1 AS id
+          FROM Magazzino m
+          WHERE m.Nome = %s
+            AND m.Localita = %s 
+          """
+    mag = Magazzino.objects.raw(sql, [nome, localita])[0]
+    if request.method == 'POST':
+        tipo=request.POST.get('tipo')
+        capacita=float(request.POST.get('capacita') or 0)
+        with connection.cursor() as cursor:
+                cursor.execute("""
+                               UPDATE Magazzino
+                               SET Tipo     = %s,
+                                   Capacita = %s
+                               WHERE Nome = %s
+                                 AND Localita = %s
+                               """, [
+                                   tipo,
+                                   capacita,
+                                   nome,
+                                   localita
+                               ])
+        if cursor.rowcount == 0:
+            messages.error(request,'Magazzino non trovato')
+            return redirect('magazzino')
+        messages.success(request, 'Magazzino modificato con successo')
+        return redirect('magazzino')
+    return render(request, 'magazzino_modifica.html',{'magazzino':mag})
+@login_required
+@group_required('gestore_magazzino')
+def magazzino_elimina(request,nome,localita):
+    if not UserMagazzino.objects.filter(user=request.user, nome_magazzino=nome, localita_magazzino=localita).exists():
+        messages.error(request, "Non sei autorizzato a eliminare questo magazzino")
+        return redirect('magazzino')
+    sql = """
+          SELECT m.Nome, m.Localita, m.Tipo, m.Capacita, CONCAT(Nome, '', Localita) AS id
+          FROM Magazzino m
+          WHERE m.Nome = %s
+            AND m.Localita = %s
+          """
+    mag = Magazzino.objects.raw(sql, [nome, localita])[0]
+    if request.method == 'POST':
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                           DELETE FROM Magazzino
+                           WHERE Nome = %s
+                             AND Localita = %s
+                           """, [nome, localita])
+        if cursor.rowcount == 0:
+            messages.error(request,'Magazzino non trovato')
+            return redirect('magazzino')
+        messages.success(request, 'Magazzino eliminato con successo')
+        return redirect('magazzino')
+    return render(request, 'magazzino_elimina.html',{'magazzino':mag})

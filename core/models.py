@@ -15,9 +15,12 @@ class Banchina(models.Model):
     lunghezza = models.FloatField(db_column='Lunghezza')
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'Banchina'
         unique_together = (('numero', 'settore'),)
+    @property
+    def pk(self):
+         return (self.numero, self.settore)
 
 class Cliente(models.Model):
     codice_fiscale = models.CharField(db_column='Codice_fiscale', primary_key=True, max_length=16)  # Field name made lowercase.
@@ -77,10 +80,12 @@ class LingueGuida(models.Model):
     livello = models.CharField(db_column='Livello', max_length=6)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'Lingue_guida'
         unique_together = (('codice_fiscale', 'lingua'),)
-
+    @property
+    def pk(self):
+        return (self.codice_fiscale, self.lingua)
 
 class Magazzino(models.Model):
     nome = models.CharField(db_column='Nome', max_length=100)
@@ -89,10 +94,13 @@ class Magazzino(models.Model):
     capacita = models.FloatField(db_column='Capacita')
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'Magazzino'
         unique_together = (('nome', 'localita'),)
 
+    @property
+    def pk(self):
+        return (self.nome, self.localita)
 
 class Merce(models.Model):
     sscc = models.CharField(db_column='SSCC', primary_key=True, max_length=18)  # Field name made lowercase.
@@ -150,10 +158,12 @@ class Stanza(models.Model):
     tipo = models.CharField(db_column='Tipo', max_length=12)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'Stanza'
         unique_together = (('imo', 'numero'),)
-
+    @property
+    def pk(self):
+        return (self.imo, self.numero)
 
 class Stoccaggio(models.Model):
     sscc = models.OneToOneField(Merce, models.DO_NOTHING, db_column='SSCC', primary_key=True)  # Field name made lowercase.
@@ -170,9 +180,13 @@ class TappeItinerario(models.Model):
     tappa = models.CharField(db_column='Tappa', max_length=100)
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'Tappe_itinerario'
         unique_together = (('id_itinerario', 'tappa'),)
+    @property
+    def pk(self):
+        return (self.id_itinerario, self.tappa)
+
 class UserCliente(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     cliente = models.OneToOneField(Cliente, on_delete=models.CASCADE)
@@ -187,16 +201,19 @@ class UserNave(models.Model):
         return f"{self.user.username} -> Nave {self.nave.imo} {self.nave.nome}"
 class UserMagazzino(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
-    magazzino = models.ForeignKey(Magazzino, on_delete=models.CASCADE)
+    nome_magazzino = models.CharField(max_length=100, default="Magazzino")
+    localita_magazzino = models.CharField(max_length=100, default="Localita")
     class Meta:
-        unique_together = (('user', 'magazzino'),)
+        unique_together = (('user', 'nome_magazzino', 'localita_magazzino'),)
+        db_table = 'core_usermagazzino'
     def __str__(self):
-        return f"{self.user.username} -> Magazzino {self.magazzino.nome} {self.magazzino.localita}"
+        return f"{self.user.username} -> Magazzino {self.nome_magazzino} {self.localita_magazzino}"
 class UserBanchina(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     numero_banchina = models.IntegerField(default=0)
     settore_banchina = models.IntegerField(default=0)
     class Meta:
         unique_together = (('user', 'numero_banchina', 'settore_banchina'),)
+        db_table = 'core_userbanchina'
     def __str__(self):
         return f"{self.user.username} -> Banchina {self.numero_banchina} {self.settore_banchina}"

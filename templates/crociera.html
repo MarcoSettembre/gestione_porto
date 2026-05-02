@@ -15,6 +15,7 @@
     {% endif %}
     <a href="/crociera/aggiungi"><button>Aggiungi Nave</button></a>
     <br><br>
+    {% if navi %}
     <table>
         <tr>
             <th>IMO</th>
@@ -50,6 +51,7 @@
     </tr>
     {% endfor %}
     </table>
+    {% endif %}
     <a href="/logout"><button>Logout</button></a>
 </body>
 </html>

@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Eliminazione Magazzino</title>
+</head>
+<body>
+    <h1>Eliminazione Magazzino</h1>
+    <p>Sei sicuro di voler eliminare il magazzino {{magazzino.nome}} in {{magazzino.localita}}?</p>
+    <form method="POST" action="/magazzino/elimina/{{magazzino.nome}}/{{magazzino.localita}}">
+        {% csrf_token %}
+        <button type="submit">Elimina</button>
+    </form>
+    <a href="/magazzino"><button>Annulla</button></a>
+</body>
+</html>

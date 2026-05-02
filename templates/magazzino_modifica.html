@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifica Magazzino</title>
+</head>
+<body>
+    <h1>Modifica Magazzino {{magazzino.nome}} in {{magazzino.localita}}</h1>
+    <br><br>
+    <form method="POST" action="/magazzino/modifica/{{magazzino.nome}}/{{magazzino.localita}}">
+        {% csrf_token %}
+        <br><br>
+        <label for="tipo">Tipo: </label>
+        <input type="text" name="tipo" id="tipo" value="{{magazzino.tipo}}" required>
+        <label for="capacita">Capacità: </label>
+        <input type="number" name="capacita" id="capacita" value="{{magazzino.capacita}}" required>
+        <br><br>
+        <button type="submit">Modifica</button> <button type="reset">Reset</button>
+    </form>
+    <br><br>
+    {% if error %}
+    Errore: {{ error }}
+    {% endif %}
+</body>
+</html>

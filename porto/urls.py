@@ -40,4 +40,7 @@ urlpatterns = [
     path('cargo/aggiungi', views.cargo_aggiungi, name='cargo_aggiungi'),
     path('cargo/modifica/<str:imo>', views.cargo_modifica, name='cargo_modifica'),
     path('cargo/elimina/<str:imo>', views.cargo_elimina, name='cargo_elimina'),
+    path('magazzino/aggiungi', views.magazzino_aggiungi, name='magazzino_aggiungi'),
+    path('magazzino/modifica/<str:nome>/<str:localita>', views.magazzino_modifica, name='magazzino_modifica'),
+    path('magazzino/elimina/<str:nome>/<str:localita>', views.magazzino_elimina, name='magazzino_elimina'),
 ]
