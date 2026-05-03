@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Attracco Navi</title>
+</head>
+<body>
+    <h1>Lista navi da attraccare</h1>
+    <br><br>
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+        <br><br>
+    {% endif %}
+    <a href="/banchina/attracco_visualizza"><button>Visualizza Navi Attraccate</button></a>
+    <br><br>
+    <form method="POST" action="/banchina/attracco">
+        {% csrf_token %}
+    <table>
+        <tr>
+            <th>IMO</th>
+            <th>Nome</th>
+            <th>Nazionalità</th>
+            <th>Compagnia</th>
+            <th>Altezza</th>
+            <th>Lunghezza</th>
+            <th>Larghezza</th>
+            <th>Banchina</th>
+            <th>Azioni</th>
+        </tr>
+        {% for item in navi_con_banchine %}
+        <tr>
+            <td>{{item.nave.imo}}</td>
+            <td>{{item.nave.nome}}</td>
+            <td>{{item.nave.nazionalita}}</td>
+            <td>{{item.nave.compagnia}}</td>
+            <td>{{item.nave.altezza}}</td>
+            <td>{{item.nave.lunghezza}}</td>
+            <td>{{item.nave.larghezza}}</td>
+            <td>
+                <select name="banchina_{{item.nave.imo}}" id="banchina_{{item.nave.imo}}">
+                    <option value="">Nessuna</option>
+                    {% for b in item.banchine %}
+                    <option value="{{b.numero}}|{{b.settore}}">
+                        {{b.numero}}/{{b.settore}}</option>
+                    {% endfor %}
+                </select>
+            </td>
+            <td><button type="submit" name="imo" value="{{item.nave.imo}}">Attracca</button></td>
+        </tr>
+        {% endfor %}
+    </table>
+    </form>
+</body>
+</html>

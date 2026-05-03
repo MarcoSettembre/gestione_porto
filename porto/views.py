@@ -1,3 +1,5 @@
+from collections import defaultdict
+
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import Group
@@ -481,3 +483,52 @@ def banchina_elimina(request,numero,settore):
             messages.success(request, 'Banchina eliminata con successo')
             return redirect('banchina')
     return render(request, 'banchina_elimina.html', {'banchina': ban})
+@login_required
+@group_required('gestore_attracco_navi')
+def attracco(request):
+    navi = Nave.objects.filter(numero_banchina__isnull=True, settore_banchina__isnull=True)
+    banchine_per_tipo=defaultdict(list)
+    banchine=Banchina.objects.raw("""SELECT Numero, Settore, Tipo, Lunghezza, CONCAT(Numero, Settore) AS id FROM Banchina""")
+    for b in banchine:
+        banchine_per_tipo[b.tipo].append(b)
+    navi_con_banchine = []
+    for nave in navi:
+        navi_con_banchine.append({
+            "nave": nave,
+            "banchine": banchine_per_tipo.get(nave.tipo, [])
+        })
+    if request.method == 'POST':
+        imo=request.POST.get('imo')
+        valore=request.POST.get(f"banchina_{imo}")
+        if valore:
+            numero, settore = valore.split('|')
+            try:
+                updated = Nave.objects.filter(imo=imo).update(numero_banchina=int(numero), settore_banchina=int(settore))
+                if updated == 0:
+                    messages.error(request, 'Nave non trovata')
+                    return redirect('attracco')
+            except IntegrityError:
+                messages.error(request, 'Vincolo non rispettato')
+                return redirect('attracco')
+            except DataError:
+                messages.error(request, 'Dati non validi')
+                return redirect('attracco')
+            messages.success(request, 'Nave attraccata con successo')
+            return redirect('attracco')
+    return render(request, 'attracco.html', {'navi_con_banchine': navi_con_banchine})
+@login_required
+@group_required('gestore_attracco_navi')
+def attracco_visualizza(request):
+    navi=Nave.objects.raw("""
+        SELECT DISTINCT n.*
+        FROM Nave n
+        JOIN core_userbanchina ub ON
+        n.numero_banchina = ub.numero_banchina AND n.settore_banchina = ub.settore_banchina
+        WHERE ub.user_id = %s
+    """,[request.user.id])
+    if request.method == 'POST':
+        imo=request.POST.get('imo')
+        Nave.objects.filter(imo=imo).update(numero_banchina=None, settore_banchina=None)
+        messages.success(request, 'Nave disattraccata con successo')
+        return redirect('attracco_visualizza')
+    return render(request, 'attracco_visualizza.html',{'navi': navi})

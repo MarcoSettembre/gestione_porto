@@ -128,12 +128,12 @@ class Nave(models.Model):
     volume_occupato = models.IntegerField(db_column='Volume_occupato', blank=True, null=True)  # Field name made lowercase.
     capienza = models.IntegerField(db_column='Capienza', blank=True, null=True)  # Field name made lowercase.
     tipo = models.CharField(db_column='Tipo', max_length=8)  # Field name made lowercase.
-    numero_banchina = models.ForeignKey(Banchina, models.DO_NOTHING, db_column='Numero_banchina', blank=True, null=True)  # Field name made lowercase.
-    settore_banchina = models.ForeignKey(Banchina, models.DO_NOTHING, db_column='Settore_banchina', related_name='nave_settore_banchina_set', blank=True, null=True)  # Field name made lowercase.
+    numero_banchina = models.IntegerField(db_column='Numero_banchina', blank=True, null=True)  # Field name made lowercase.
+    settore_banchina = models.IntegerField(db_column='Settore_banchina', blank=True, null=True)  # Field name made lowercase.
     id_itinerario = models.ForeignKey(Itinerario, models.DO_NOTHING, db_column='ID_itinerario', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'Nave'
 
 

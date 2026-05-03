@@ -46,4 +46,6 @@ urlpatterns = [
     path('banchina/aggiungi', views.banchina_aggiungi, name='banchina_aggiungi'),
     path('banchina/modifica/<int:numero>/<int:settore>', views.banchina_modifica, name='banchina_modifica'),
     path('banchina/elimina/<int:numero>/<int:settore>', views.banchina_elimina, name='banchina_elimina'),
+    path('banchina/attracco', views.attracco, name='attracco'),
+    path('banchina/attracco_visualizza', views.attracco_visualizza, name='attracco_visualizza')
 ]

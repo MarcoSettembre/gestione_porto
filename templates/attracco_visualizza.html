@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Visualizzazione Navi Attraccate</title>
+</head>
+<body>
+  <h1>Lista Navi Attraccate</h1>
+  {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+  <br><br>
+  <a href="/banchina/attracco"><button>Attracca Navi</button></a>
+  <br><br>
+  <form method="POST" action="/banchina/attracco_visualizza">
+    {% csrf_token %}
+  <table>
+    <tr>
+      <th>IMO</th>
+      <th>Nome</th>
+      <th>Nazionalità</th>
+      <th>Compagnia</th>
+      <th>Altezza</th>
+      <th>Lunghezza</th>
+      <th>Larghezza</th>
+      <th>Tipo</th>
+      <th>Numero Banchina</th>
+      <th>Settore Banchina</th>
+      <th>Azioni</th>
+    </tr>
+    {% for nave in navi %}
+      <tr>
+        <td>{{ nave.imo }}</td>
+        <td>{{ nave.nome }}</td>
+        <td>{{ nave.nazionalita }}</td>
+        <td>{{ nave.compagnia }}</td>
+        <td>{{ nave.altezza }}</td>
+        <td>{{ nave.lunghezza }}</td>
+        <td>{{ nave.larghezza }}</td>
+        <td>{{ nave.tipo }}</td>
+        <td>{{ nave.numero_banchina }}</td>
+        <td>{{ nave.settore_banchina }}</td>
+        <td><button type="submit" name="imo" value="{{nave.imo}}">Rimuovi</button></td>
+      </tr>
+    {% endfor %}
+  </table>
+  </form>
+</body>
+</html>
