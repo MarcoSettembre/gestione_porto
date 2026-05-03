@@ -25,7 +25,7 @@ urlpatterns = [
     path('homepage',views.homepage, name='homepage'),
     path('logout',views.logout_view, name='logout'),
     path('cliente',views.cliente, name='cliente'),
-    path('attracco', views.attracco, name='attracco'),
+    path('banchina', views.banchina, name='banchina'),
     path('cargo', views.cargo, name='cargo'),
     path('crociera', views.crociera, name='crociera'),
     path('magazzino', views.magazzino, name='magazzino'),
@@ -43,4 +43,7 @@ urlpatterns = [
     path('magazzino/aggiungi', views.magazzino_aggiungi, name='magazzino_aggiungi'),
     path('magazzino/modifica/<str:nome>/<str:localita>', views.magazzino_modifica, name='magazzino_modifica'),
     path('magazzino/elimina/<str:nome>/<str:localita>', views.magazzino_elimina, name='magazzino_elimina'),
+    path('banchina/aggiungi', views.banchina_aggiungi, name='banchina_aggiungi'),
+    path('banchina/modifica/<int:numero>/<int:settore>', views.banchina_modifica, name='banchina_modifica'),
+    path('banchina/elimina/<int:numero>/<int:settore>', views.banchina_elimina, name='banchina_elimina'),
 ]

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestione Attracco Navi</title>
+</head>
+<body>
+<h1> Benvenuto/a nell'area gestione attracco navi, {{request.user.username}} </h1>
+    <br><br>
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+        <br><br>
+    {% endif %}
+    <a href="/banchina/aggiungi"><button>Aggiungi Banchina</button></a>
+    <br><br>
+    <table>
+        <tr>
+            <th>Numero</th>
+            <th>Settore</th>
+            <th>Tipo</th>
+            <th>Lunghezza</th>
+            <th>Azioni</th>
+        </tr>
+        {% for banchina in banchine %}
+        <tr>
+            <td>{{banchina.numero}}</td>
+            <td>{{banchina.settore}}</td>
+            <td>{{banchina.tipo}}</td>
+            <td>{{banchina.lunghezza}}</td>
+            <td><a href="/banchina/modifica/{{banchina.numero}}/{{banchina.settore}}">Modifica</a> <a href="/banchina/elimina/{{banchina.numero}}/{{banchina.settore}}">Elimina</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <a href="/logout"><button>Logout</button></a>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Eliminazione Banchina</title>
+</head>
+<body>
+    <h1>Eliminazione Banchina</h1>
+    <br><br>
+    <p>Sei sicuro di voler eliminare la banchina {{banchina.numero}} nel settore {{banchina.settore}}?</p>
+    <br><br>
+    <form method="POST" action="/banchina/elimina/{{banchina.numero}}/{{banchina.settore}}">
+        {% csrf_token %}
+        <button type="submit">Elimina</button>
+    </form>
+    <a href="/banchina"><button>Annulla</button></a>
+</body>
+</html>

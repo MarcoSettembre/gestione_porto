@@ -5,7 +5,6 @@ from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
 from core.models import *
 from django.db import IntegrityError, DataError, connection
-from django.db.models import Q
 from porto.decorators import group_required
 
 
@@ -16,7 +15,7 @@ def redirect_by_role(request):
     if role == 'cliente':
         return redirect('cliente')
     elif role == 'gestore_attracco_navi':
-        return redirect('attracco')
+        return redirect('banchina')
     elif role == 'gestore_navi_cargo':
         return redirect('cargo')
     elif role == 'gestore_navi_crociera':
@@ -68,8 +67,17 @@ def cliente(request):
     return render(request, 'cliente.html')
 @login_required
 @group_required('gestore_attracco_navi')
-def attracco(request):
-    return render(request, 'attracco.html')
+def banchina(request):
+    sql = """
+            SELECT b.Numero, b.Settore, b.Tipo, b.Lunghezza, CONCAT(b.Numero, b.Settore) AS id
+            FROM Banchina b 
+            JOIN core_userbanchina ub 
+            ON b.Numero = ub.numero_banchina
+            AND b.Settore = ub.settore_banchina
+            WHERE ub.user_id = %s
+    """
+    banchine=Banchina.objects.raw(sql, [request.user.id])
+    return render(request, 'banchina.html', {'banchine': banchine})
 @login_required
 @group_required('gestore_navi_cargo')
 def cargo(request):
@@ -393,3 +401,83 @@ def magazzino_elimina(request,nome,localita):
         messages.success(request, 'Magazzino eliminato con successo')
         return redirect('magazzino')
     return render(request, 'magazzino_elimina.html',{'magazzino':mag})
+@login_required
+@group_required('gestore_attracco_navi')
+def banchina_aggiungi(request):
+    if request.method == 'POST':
+        try:
+            ban = Banchina.objects.create(
+                numero=int(request.POST.get('numero') or 0),
+                settore=int(request.POST.get('settore') or 0),
+                tipo=request.POST.get('tipo'),
+                lunghezza=float(request.POST.get('lunghezza') or 0),
+            )
+        except IntegrityError:
+            return render(request, "banchina_aggiungi.html",{'error':"Vincolo non rispettato"})
+        except DataError:
+            return render(request, "banchina_aggiungi.html",{'error':"Dati non validi"})
+        UserBanchina.objects.create(
+            user=request.user,
+            numero_banchina=ban.numero,
+            settore_banchina=ban.settore,
+        )
+        messages.success(request, 'Banchina aggiunta con successo')
+        return redirect('banchina')
+    return render(request, 'banchina_aggiungi.html')
+@login_required
+@group_required('gestore_attracco_navi')
+def banchina_modifica(request,numero,settore):
+    if not UserBanchina.objects.filter(user=request.user, numero_banchina=numero, settore_banchina=settore).exists():
+        messages.error(request, "Non sei autorizzato a modificare questa banchina")
+        return redirect('banchina')
+    sql= """
+        SELECT b.Numero, b.Settore, b.Tipo, b.Lunghezza, CONCAT(b.Numero, b.Settore) AS id
+        FROM Banchina b
+        WHERE b.Numero = %s
+        AND b.Settore = %s
+    """
+    ban = Banchina.objects.raw(sql, [numero, settore])[0]
+    if request.method == 'POST':
+        tipo=request.POST.get('tipo')
+        lunghezza=float(request.POST.get('lunghezza') or 0)
+        with connection.cursor() as cursor:
+                cursor.execute("""
+                               UPDATE Banchina
+                               SET Tipo     = %s,
+                                   Lunghezza = %s
+                               WHERE Numero = %s
+                                 AND Settore = %s
+                               """, [tipo, lunghezza, numero, settore]
+                )
+                if cursor.rowcount == 0:
+                    messages.error(request,'Banchina non trovata')
+                    return redirect('banchina')
+                messages.success(request, 'Banchina modificata con successo')
+                return redirect('banchina')
+    return render(request, 'banchina_modifica.html', {'banchina': ban})
+@login_required
+@group_required('gestore_attracco_navi')
+def banchina_elimina(request,numero,settore):
+    if not UserBanchina.objects.filter(user=request.user, numero_banchina=numero, settore_banchina=settore).exists():
+        messages.error(request, "Non sei autorizzato a eliminare questa banchina")
+        return redirect('banchina')
+    sql = """
+          SELECT b.Numero, b.Settore, b.Tipo, b.Lunghezza, CONCAT(b.Numero, b.Settore) AS id 
+          FROM Banchina b 
+          WHERE b.Numero = %s 
+            AND b.Settore = %s 
+         """
+    ban = Banchina.objects.raw(sql, [numero, settore])[0]
+    if request.method == 'POST':
+        with connection.cursor() as cursor:
+            cursor.execute("""
+                            DELETE FROM Banchina
+                            WHERE Numero = %s
+                            AND Settore = %s
+                            """, [numero, settore])
+            if cursor.rowcount == 0:
+                messages.error(request,'Banchina non trovata')
+                return redirect('banchina')
+            messages.success(request, 'Banchina eliminata con successo')
+            return redirect('banchina')
+    return render(request, 'banchina_elimina.html', {'banchina': ban})
