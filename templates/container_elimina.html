@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Eliminazione Container</title>
+</head>
+<body>
+    <h1>Eliminazione container</h1>
+    <br><br>
+    Sei sicuro di voler eliminare il container con ID {{container.id}}?
+    <br><br>
+    <form method="POST" action="/cargo/container/elimina/{{container.id}}">
+        {% csrf_token %}
+        <button type="submit">Elimina</button>
+    </form>
+    <a href="/cargo/container/{{container.imo_id}}"><button>Annulla</button></a>
+</body>
+</html>

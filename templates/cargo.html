@@ -14,7 +14,6 @@
         <br><br>
     {% endif %}
     <a href="/cargo/aggiungi"><button>Aggiungi Nave</button></a>
-    {{% if navi %}
     <br><br>
      <table>
         <tr>
@@ -50,12 +49,12 @@
             <td>{{ rel.nave.settore_banchina }}</td>
             <td>
         <a href="/cargo/modifica/{{ rel.nave.imo }}">Modifica</a> |
-        <a href="/cargo/elimina/{{ rel.nave.imo }}">Elimina</a>
+        <a href="/cargo/elimina/{{ rel.nave.imo }}">Elimina</a> |
+        <a href="/cargo/container/{{ rel.nave.imo }}">Visualizza Container</a>
     </td>
     </tr>
     {% endfor %}
     </table>
-    {% endif %}
     <a href="/logout"><button>Logout</button></a>
 </body>
 </html>

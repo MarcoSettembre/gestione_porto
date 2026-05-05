@@ -47,5 +47,9 @@ urlpatterns = [
     path('banchina/modifica/<int:numero>/<int:settore>', views.banchina_modifica, name='banchina_modifica'),
     path('banchina/elimina/<int:numero>/<int:settore>', views.banchina_elimina, name='banchina_elimina'),
     path('banchina/attracco', views.attracco, name='attracco'),
-    path('banchina/attracco_visualizza', views.attracco_visualizza, name='attracco_visualizza')
+    path('banchina/attracco_visualizza', views.attracco_visualizza, name='attracco_visualizza'),
+    path('cargo/container/<str:imo>', views.container, name='container'),
+    path('cargo/container/aggiungi/<str:imo>', views.container_aggiungi, name='container_aggiungi'),
+    path('cargo/container/modifica/<str:container_id>', views.container_modifica, name='container_modifica'),
+    path('cargo/container/elimina/<str:container_id>', views.container_elimina, name='container_elimina'),
 ]

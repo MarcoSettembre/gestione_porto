@@ -532,3 +532,65 @@ def attracco_visualizza(request):
         messages.success(request, 'Nave disattraccata con successo')
         return redirect('attracco_visualizza')
     return render(request, 'attracco_visualizza.html',{'navi': navi})
+@login_required
+@group_required('gestore_navi_cargo')
+def container(request, imo):
+    if not UserNave.objects.filter(user=request.user, nave__imo=imo).exists():
+        messages.error(request, "Non sei autorizzato a visualizzare i container su questa nave")
+        return redirect('cargo')
+    container_navi = Container.objects.filter(imo_id=imo)
+    return render(request, 'container.html', {'imo': imo, 'container_navi': container_navi})
+@login_required
+@group_required('gestore_navi_cargo')
+def container_aggiungi(request, imo):
+    if not UserNave.objects.filter(user=request.user, nave__imo=imo).exists():
+        messages.error(request, "Non sei autorizzato ad aggiungere container su questa nave")
+        return redirect('cargo')
+    if request.method == 'POST':
+        try:
+            Container.objects.create(
+                id=request.POST.get('id'),
+                dimensione=int(request.POST.get('dimensione') or 0),
+                peso=0,
+                marchio=request.POST.get('marchio'),
+                imo_id=imo,
+            )
+        except IntegrityError:
+            return render(request, "container_aggiungi.html",{'error':"Vincolo non rispettato"})
+        except DataError:
+            return render(request, "container_aggiungi.html",{'error':"Dati non validi"})
+        messages.success(request, 'Container aggiunto con successo')
+        return redirect('container', imo=imo)
+    return render(request, 'container_aggiungi.html', {'imo': imo})
+@login_required
+@group_required('gestore_navi_cargo')
+def container_modifica(request, container_id):
+    if not Container.objects.filter(id=container_id, imo__usernave__user=request.user).exists():
+        messages.error(request, "Non sei autorizzato a modificare questo container")
+        return redirect('cargo')
+    c = Container.objects.get(id=container_id)
+    if request.method == 'POST':
+        try:
+            c.dimensione = int(request.POST.get('dimensione') or 0)
+            c.marchio = request.POST.get('marchio')
+            c.save()
+        except IntegrityError:
+            return render(request, "container_modifica.html",{'error':"Vincolo non rispettato"})
+        except DataError:
+            return render(request, "container_modifica.html",{'error':"Dati non validi"})
+        messages.success(request, 'Container modificato con successo')
+        return redirect('container', imo=c.imo_id)
+    return render(request, 'container_modifica.html', {'container': c})
+@login_required
+@group_required('gestore_navi_cargo')
+def container_elimina(request, container_id):
+    if not Container.objects.filter(id=container_id, imo__usernave__user=request.user).exists():
+        messages.error(request, "Non sei autorizzato ad eliminare questo container")
+        return redirect('cargo')
+    c = Container.objects.get(id=container_id)
+    if request.method == 'POST':
+        imo = c.imo_id
+        c.delete()
+        messages.success(request, 'Container eliminato con successo')
+        return redirect('container', imo=imo)
+    return render(request, 'container_elimina.html', {'container': c})

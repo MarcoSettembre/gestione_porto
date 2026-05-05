@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Gestione Container</title>
+</head>
+<body>
+    <h1>Gestione container su nave con IMO {{imo}}</h1>
+    <br><br>
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+    <a href="/cargo/container/aggiungi/{{imo}}"><button>Aggiungi container</button></a>
+    <br><br>
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Dimensione</th>
+            <th>Peso</th>
+            <th>Marchio</th>
+            <th>Azioni</th>
+        </tr>
+        {% for container in container_navi %}
+        <tr>
+            <td>{{ container.id }}</td>
+            <td>{{ container.dimensione }}</td>
+            <td>{{ container.peso }}</td>
+            <td>{{ container.marchio}}</td>
+            <td><a href="/cargo/container/modifica/{{container.id}}">Modifica</a> |
+                <a href="/cargo/container/elimina/{{container.id}}">Elimina</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
