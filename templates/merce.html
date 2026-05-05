@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Merce</title>
+</head>
+<body>
+    <h1>Gestione merce in container {{container_id}}</h1>
+    <br><br>
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+    {% endif %}
+    <br><br>
+    <a href="/cargo/merce/aggiungi/{{container_id}}"><button>Aggiungi Merce</button></a>
+    <br><br>
+    <table>
+        <tr>
+            <th>SSCC</th>
+            <th>Peso</th>
+            <th>Paese</th>
+            <th>Genere</th>
+            <th>Azioni</th>
+        </tr>
+        {% for m in merce %}
+            <tr>
+                <td>{{m.sscc}}</td>
+                <td>{{m.peso}}</td>
+                <td>{{m.paese}}</td>
+                <td>{{m.genere}}</td>
+                <td><a href="/cargo/merce/modifica/{{m.sscc}}">Modifica</a> |
+                    <a href="/cargo/merce/elimina/{{m.sscc}}">Elimina</a></td>
+            </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

@@ -107,10 +107,10 @@ class Merce(models.Model):
     peso = models.FloatField(db_column='Peso')  # Field name made lowercase.
     paese = models.CharField(db_column='Paese', max_length=50)  # Field name made lowercase.
     genere = models.CharField(db_column='Genere', max_length=100)  # Field name made lowercase.
-    id_container = models.CharField(db_column='ID_container', max_length=11, blank=True, null=True)  # Field name made lowercase.
+    id_container = models.ForeignKey(Container, on_delete=models.SET_NULL, db_column='ID_container', max_length=11, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'Merce'
 
 

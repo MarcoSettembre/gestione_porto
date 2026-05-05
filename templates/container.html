@@ -29,7 +29,8 @@
             <td>{{ container.peso }}</td>
             <td>{{ container.marchio}}</td>
             <td><a href="/cargo/container/modifica/{{container.id}}">Modifica</a> |
-                <a href="/cargo/container/elimina/{{container.id}}">Elimina</a></td>
+                <a href="/cargo/container/elimina/{{container.id}}">Elimina</a>|
+                <a href="/cargo/merce/{{container.id}}">Visualizza Merci</a> </td> 
         </tr>
         {% endfor %}
     </table>

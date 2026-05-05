@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Aggiunta Merce</title>
+</head>
+<body>
+    <h1>Aggiunta merce nel container {{container_id}}</h1>
+    <br><br>
+    {% if error %}
+        <p>Errore: {{ error }}</p>
+        <br><br>
+    {% endif %}
+    <form method="POST" action="/cargo/merce/aggiungi/{{container_id}}">
+        {% csrf_token %}
+        <label for="sscc">SSCC: </label>
+        <input type="text" name="sscc" id="sscc" required>
+        <br><br>
+        <label for="peso">Peso: </label>
+        <input type="number" name="peso" id="peso" required>
+        <br><br>
+        <label for="paese">Paese: </label>
+        <input type="text" name="paese" id="paese" required>
+        <br><br>
+        <label for="genere">Genere: </label>
+        <input type="text" name="genere" id="genere" required>
+        <br><br>
+        <button type="submit">Aggiungi</button> <button type="reset">Reset</button>
+    </form>
+</body>
+</html>

@@ -19,6 +19,13 @@
         <label for="marchio">Marchio: </label>
         <input type="text" name="marchio" id="marchio" value="{{container.marchio}}" required>
         <br><br>
+        <label for="imo">IMO Nave: </label>
+        <select name="imo" id="imo">
+            {% for n in navi %}
+                <option value="{{n.imo}}"{% if n.imo == container.imo_id %}selected{% endif %}>{{n.imo}}</option>
+            {% endfor %}
+        </select>
+        <br><br>
         <button type="submit">Modifica</button> <button type="reset">Reset</button>
     </form>
 </body>
