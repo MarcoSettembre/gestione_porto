@@ -56,4 +56,8 @@ urlpatterns = [
     path('cargo/merce/aggiungi/<str:container_id>', views.merce_aggiungi, name='merce_aggiungi'),
     path('cargo/merce/modifica/<str:sscc>', views.merce_modifica, name='merce_modifica'),
     path('cargo/merce/elimina/<str:sscc>', views.merce_elimina, name='merce_elimina'),
+    path('magazzino/stoccaggio/modifica/<str:sscc>', views.stoccaggio_modifica, name='stoccaggio_modifica'),
+    path('magazzino/stoccaggio/elimina/<str:sscc>', views.stoccaggio_elimina, name='stoccaggio_elimina'),
+    path('magazzino/stoccaggio/<str:nome>/<str:localita>', views.stoccaggio, name='stoccaggio'),
+    path('magazzino/stoccaggio/aggiungi/<str:nome>/<str:localita>', views.stoccaggio_aggiungi, name='stoccaggio_aggiungi'),
 ]

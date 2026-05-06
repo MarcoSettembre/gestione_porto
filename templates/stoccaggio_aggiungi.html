@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Aggiunta Merce</title>
+</head>
+<body>
+    <h1>Elenco merci stoccabili in magazzino {{nome}} in {{localita}}</h1>
+    <br><br>
+    {% if error %}
+        <p>Errore: {{ error }}</p>
+        <br><br>
+    {% endif %}
+    <form method="POST" action="/magazzino/stoccaggio/aggiungi/{{nome}}/{{localita}}">
+        {% csrf_token %}
+        <table>
+            <tr>
+                <th>SSCC</th>
+                <th>Peso</th>
+                <th>Paese</th>
+                <th>Azione</th>
+            </tr>
+            {% for m in merce %}
+            <tr>
+                <td>{{m.sscc}}</td>
+                <td>{{m.peso}}</td>
+                <td>{{m.paese}}</td>
+                <td><label for="m_{{m.sscc}}">Stocca: </label>
+                    <input type="checkbox" name="merci" id="m_{{m.sscc}}" value="{{m.sscc}}"></td>
+            </tr>
+            {% endfor %}
+        </table>
+        <br><br>
+        <button type="submit">Aggiungi</button>
+    </form>
+</body>
+</html>

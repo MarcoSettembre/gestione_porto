@@ -167,11 +167,11 @@ class Stanza(models.Model):
 
 class Stoccaggio(models.Model):
     sscc = models.OneToOneField(Merce, models.DO_NOTHING, db_column='SSCC', primary_key=True)  # Field name made lowercase.
-    nome_magazzino = models.ForeignKey(Magazzino, models.DO_NOTHING, db_column='Nome_magazzino')  # Field name made lowercase.
-    localita_magazzino = models.ForeignKey(Magazzino, models.DO_NOTHING, db_column='Localita_magazzino', related_name='stoccaggio_localita_magazzino_set')  # Field name made lowercase.
+    nome_magazzino = models.CharField(db_column='Nome_magazzino', max_length=100)  # Field name made lowercase.
+    localita_magazzino = models.CharField(db_column='Localita_magazzino', max_length=100)  # Field name made lowercase.
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'Stoccaggio'
 
 

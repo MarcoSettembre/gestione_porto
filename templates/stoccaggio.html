@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Stoccaggio Merci</title>
+</head>
+<body>
+    <h1>Merci stoccate nel magazzino {{nome}} in {{localita}}</h1>
+    <br><br>
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+        <br><br>
+    {% endif %}
+    <a href="/magazzino/stoccaggio/aggiungi/{{nome}}/{{localita}}"><button>Aggiungi Merce</button></a>
+    <br><br>
+    <table>
+        <tr>
+            <th>SSCC</th>
+            <th>Peso</th>
+            <th>Paese</th>
+            <th>Azioni</th>
+        </tr>
+        {% for m in merce %}
+        <tr>
+            <td>{{m.sscc}}</td>
+            <td>{{m.peso}}</td>
+            <td>{{m.paese}}</td>
+            <td> <a href="/magazzino/stoccaggio/modifica/{{m.sscc}}">Sposta</a> |
+                 <a href="/magazzino/stoccaggio/elimina/{{m.sscc}}">Rimuovi</a>
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

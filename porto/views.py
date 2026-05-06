@@ -400,6 +400,7 @@ def magazzino_elimina(request,nome,localita):
         if cursor.rowcount == 0:
             messages.error(request,'Magazzino non trovato')
             return redirect('magazzino')
+        UserMagazzino.objects.filter(user=request.user, nome_magazzino=nome, localita_magazzino=localita).delete()
         messages.success(request, 'Magazzino eliminato con successo')
         return redirect('magazzino')
     return render(request, 'magazzino_elimina.html',{'magazzino':mag})
@@ -661,3 +662,99 @@ def merce_elimina(request, sscc):
         messages.success(request, 'Merce eliminata con successo')
         return redirect('merce', container_id=container_id)
     return render(request, 'merce_elimina.html', {'merce': m})
+@login_required
+@group_required('gestore_magazzino')
+def stoccaggio(request, nome, localita):
+    if not UserMagazzino.objects.filter(nome_magazzino=nome, localita_magazzino=localita, user=request.user).exists():
+        messages.error(request, "Non sei autorizzato ad accedere a questo magazzino")
+        return redirect('magazzino')
+    m=Merce.objects.filter(stoccaggio__nome_magazzino=nome, stoccaggio__localita_magazzino=localita)
+    return render(request, 'stoccaggio.html', {'nome': nome, 'localita': localita, 'merce': m})
+@login_required
+@group_required('gestore_magazzino')
+def stoccaggio_aggiungi(request, nome, localita):
+    if not UserMagazzino.objects.filter(nome_magazzino=nome, localita_magazzino=localita, user=request.user).exists():
+        messages.error(request, "Non sei autorizzato ad aggiungere merce a questo magazzino")
+        return redirect('magazzino')
+    mag = Magazzino.objects.raw("""SELECT m.Nome, m.Localita, m.Tipo, 1 AS id  FROM Magazzino m WHERE Nome = %s AND Localita = %s""", [nome, localita])[0]
+    m = Merce.objects.filter(stoccaggio__isnull = True, genere=mag.tipo)
+    if request.method == 'POST':
+        selezionate = request.POST.getlist('merci')
+        if not selezionate:
+            return render(request, 'stoccaggio_aggiungi.html', {'nome': nome, 'localita': localita, 'merce': m, 'error': 'Nessuna merce selezionata'})
+        for sscc in selezionate:
+            try:
+                Stoccaggio.objects.create(
+                    sscc_id=sscc,
+                    nome_magazzino=nome,
+                    localita_magazzino=localita,
+                )
+            except IntegrityError:
+                continue
+        messages.success(request, 'Merci aggiunte con successo')
+        return redirect('stoccaggio', nome=nome, localita=localita)
+    return render(request, 'stoccaggio_aggiungi.html', {'nome': nome, 'localita': localita, 'merce': m})
+@login_required
+@group_required('gestore_magazzino')
+def stoccaggio_modifica(request, sscc):
+    query = """
+            SELECT s.SSCC, s.Nome_magazzino, s.Localita_magazzino, 1 AS id
+            FROM Stoccaggio s
+                     JOIN core_usermagazzino um
+                          ON s.Nome_magazzino = um.nome_magazzino
+                              AND s.Localita_magazzino = um.localita_magazzino
+            WHERE s.SSCC = %s
+              AND um.user_id = %s
+            """
+    res = list(Stoccaggio.objects.raw(query,[sscc, request.user.id]))
+    if not res:
+        messages.error(request, "Non sei autorizzato a modificare questa merce")
+        return redirect('magazzino')
+    me = Merce.objects.get(sscc=sscc)
+    query = """ 
+        SELECT m.Nome, m.Localita, 1 AS id
+        FROM Magazzino m
+        JOIN core_usermagazzino um ON m.Nome = um.nome_magazzino AND m.Localita = um.localita_magazzino
+        WHERE um.user_id = %s AND m.Tipo = %s
+    """
+    mag = list(Magazzino.objects.raw(query, [request.user.id, me.genere]))
+    if request.method == 'POST':
+        selezionata = request.POST.get('magazzino')
+        if not selezionata:
+            return render(request, 'stoccaggio_modifica.html', {'sscc': sscc, 'magazzini': mag, 'error': 'Nessun magazzino selezionato'})
+        nome, localita = selezionata.split('|')
+        valid = any(
+            m.nome == nome and m.localita == localita
+            for m in mag
+        )
+        if not valid:
+            messages.error(request, "Magazzino non valido")
+            return redirect('magazzino')
+        try:
+            Stoccaggio.objects.filter(sscc_id=sscc).update(nome_magazzino=nome, localita_magazzino=localita)
+        except IntegrityError:
+            return render(request, 'stoccaggio_modifica.html', {'sscc': sscc, 'magazzini': mag, 'error': 'Vincolo non rispettato'})
+        messages.success(request, 'Merce modificata con successo')
+        return redirect('stoccaggio', nome=nome, localita=localita)
+    return render(request, 'stoccaggio_modifica.html', {'sscc': sscc, 'magazzini': mag})
+@login_required
+@group_required('gestore_magazzino')
+def stoccaggio_elimina(request, sscc):
+    query = """
+            SELECT s.SSCC, s.Nome_magazzino, s.Localita_magazzino, 1 AS id
+            FROM Stoccaggio s
+                     JOIN core_usermagazzino um
+                          ON s.Nome_magazzino = um.nome_magazzino
+                              AND s.Localita_magazzino = um.localita_magazzino
+            WHERE s.SSCC = %s AND um.user_id = %s
+    """
+    res = list(Stoccaggio.objects.raw(query, [sscc, request.user.id]))
+    if not res:
+        messages.error(request, "Non sei autorizzato a rimuovere questa merce")
+        return redirect('magazzino')
+    s = Stoccaggio.objects.get(sscc_id=sscc)
+    if request.method == 'POST':
+        s.delete()
+        messages.success(request, 'Merce eliminata con successo')
+        return redirect('stoccaggio', nome=s.nome_magazzino, localita=s.localita_magazzino)
+    return render(request, 'stoccaggio_elimina.html', {'sscc': sscc, 'nome': s.nome_magazzino, 'localita': s.localita_magazzino})

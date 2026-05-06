@@ -30,7 +30,10 @@
             <td>{{magazzino.localita}}</td>
             <td>{{magazzino.tipo}}</td>
             <td>{{magazzino.capacita}}</td>
-            <td><a href="/magazzino/modifica/{{magazzino.nome}}/{{magazzino.localita}}"><button>Modifica</button></a> <a href="/magazzino/elimina/{{magazzino.nome}}/{{magazzino.localita}}"><button>Elimina</button></a></td>
+            <td><a href="/magazzino/modifica/{{magazzino.nome}}/{{magazzino.localita}}">Modifica</a> |
+                <a href="/magazzino/elimina/{{magazzino.nome}}/{{magazzino.localita}}">Elimina</a> |
+                <a href="/magazzino/stoccaggio/{{magazzino.nome}}/{{magazzino.localita}}">Visualizza Merce</a>
+            </td>
         </tr>
         {% endfor %}
     </table>

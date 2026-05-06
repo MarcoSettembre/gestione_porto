@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Rimozione Merce</title>
+</head>
+<body>
+    <h1>Rimozione Merce</h1>
+    <br><br>
+    Sei sicuro di voler rimuovere la merce con SSCC {{sscc}}?
+    <br><br>
+    <form method="POST" action="/magazzino/stoccaggio/elimina/{{sscc}}">
+        {% csrf_token %}
+        <button type="submit">Rimuovi</button>
+    </form>
+    <a href="/magazzino/stoccaggio/{{nome}}/{{localita}}"><button>Annulla</button></a>
+</body>
+</html>
