@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Guide</title>
+</head>
+<body>
+
+    <h1>Elenco guide</h1>
+
+    <br><br>
+
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+        <br><br>
+    {% endif %}
+
+    <a href="/crociera/guida/aggiungi">
+        <button>Aggiungi Guida</button>
+    </a>
+
+    <br><br>
+
+    <table>
+
+        <tr>
+            <th>CF</th>
+            <th>Nome</th>
+            <th>Cognome</th>
+            <th>Data Nascita</th>
+            <th>Numero Licenza</th>
+            <th>Stipendio</th>
+            <th>Data Assunzione</th>
+            <th>Valutazione</th>
+            <th>ID Itinerario</th>
+            <th>Lingue</th>
+            <th>Azioni</th>
+        </tr>
+
+        {% for item in guide_mod %}
+
+        <tr>
+            <td>{{ item.guida.codice_fiscale }}</td>
+            <td>{{ item.guida.nome }}</td>
+            <td>{{ item.guida.cognome }}</td>
+            <td>{{ item.guida.data_nascita}}</td>
+            <td>{{ item.guida.numero_licensa}}</td>
+            <td>{{ item.guida.stipendio}}</td>
+            <td>{{ item.guida.data_assunzione}}</td>
+            <td>{{ item.guida.valutazione}}</td>
+            <td>{{ item.guida.id_itinerario_id}}</td>
+            <td>
+                {% for l in item.lingue %}
+                    {{ l.0 }}:{{ l.1 }}<br>
+                {% endfor %}
+            </td>
+
+            <td>
+                <a href="/crociera/guida/modifica/{{item.guida.codice_fiscale}}">Modifica</a> |
+                <a href="/crociera/guida/elimina/{{item.guida.codice_fiscale}}">Elimina</a>
+            </td>
+        </tr>
+
+        {% endfor %}
+
+        {% for item in guide_non_mod %}
+
+        <tr>
+            <td>{{ item.guida.codice_fiscale }}</td>
+            <td>{{ item.guida.nome }}</td>
+            <td>{{ item.guida.cognome }}</td>
+            <td>{{ item.guida.data_nascita}}</td>
+            <td>{{ item.guida.numero_licensa}}</td>
+            <td>{{ item.guida.stipendio}}</td>
+            <td>{{ item.guida.data_assunzione}}</td>
+            <td>{{ item.guida.valutazione}}</td>
+            <td>{{ item.guida.id_itinerario_id}}</td>
+            <td>
+                {% for l in item.lingue %}
+                    {{ l.0 }}:{{ l.1 }}<br>
+                {% endfor %}
+            </td>
+
+            <td>
+                <!-- nessuna azione -->
+            </td>
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+</body>
+</html>

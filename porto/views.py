@@ -853,7 +853,7 @@ def itinerario_aggiungi(request):
                 nome=request.POST.get('nome'),
                 data_inizio=request.POST.get('data_inizio'),
                 data_fine=request.POST.get('data_fine'),
-                prezzo=request.POST.get('prezzo'),
+                prezzo=float(request.POST.get('prezzo') or 0),
             )
 
             tappe_raw = request.POST.get('tappe', '')
@@ -917,7 +917,7 @@ def itinerario_modifica(request, itinerario_id):
             it.nome = request.POST.get('nome')
             it.data_inizio = request.POST.get('data_inizio')
             it.data_fine = request.POST.get('data_fine')
-            it.prezzo = request.POST.get('prezzo')
+            it.prezzo = float(request.POST.get('prezzo') or 0)
 
             it.save()
 
@@ -994,4 +994,234 @@ def itinerario_elimina(request, itinerario_id):
 
     return render(request, 'itinerario_elimina.html', {
         'itinerario': it
+    })
+@login_required
+@group_required('gestore_navi_crociera')
+def guida(request):
+
+    guide_modificabili = UserGuida.objects.filter(user=request.user)
+    guide_non_modificabili = UserGuida.objects.exclude(user=request.user)
+
+    # arricchisco ogni guida con le lingue
+    guide_mod = []
+    guide_non_mod = []
+
+    with connection.cursor() as cursor:
+
+        for ug in guide_modificabili:
+            guida = ug.guida
+
+            cursor.execute("""
+                SELECT Lingua, Livello
+                FROM Lingue_guida
+                WHERE Codice_fiscale = %s
+            """, [guida.codice_fiscale])
+
+            lingue = cursor.fetchall()
+
+            guide_mod.append({
+                'guida': guida,
+                'lingue': lingue
+            })
+
+        for ug in guide_non_modificabili:
+            guida = ug.guida
+
+            cursor.execute("""
+                SELECT Lingua, Livello
+                FROM Lingue_guida
+                WHERE Codice_fiscale = %s
+            """, [guida.codice_fiscale])
+
+            lingue = cursor.fetchall()
+
+            guide_non_mod.append({
+                'guida': guida,
+                'lingue': lingue
+            })
+
+    return render(request, 'guida.html', {
+        'guide_mod': guide_mod,
+        'guide_non_mod': guide_non_mod
+    })
+@login_required
+@group_required('gestore_navi_crociera')
+def guida_aggiungi(request):
+
+    itinerari = UserItinerario.objects.filter(user=request.user)
+
+    if request.method == 'POST':
+
+        try:
+            g = Guida.objects.create(
+                codice_fiscale=request.POST.get('codice_fiscale'),
+                nome=request.POST.get('nome'),
+                cognome=request.POST.get('cognome'),
+                data_nascita=request.POST.get('data_nascita'),
+                numero_licensa=int(request.POST.get('numero_licensa') or 0),
+                stipendio=float(request.POST.get('stipendio') or 0),
+                data_assunzione=request.POST.get('data_assunzione'),
+                valutazione=float(request.POST.get('valutazione') or 0),
+                id_itinerario_id=request.POST.get('id_itinerario') or None
+            )
+
+            lingue_raw = request.POST.get('lingue', '')
+
+            lingue_list = [
+                x.strip()
+                for x in lingue_raw.split(',')
+                if x.strip()
+            ]
+
+            with connection.cursor() as cursor:
+                for item in lingue_list:
+
+                    if ':' not in item:
+                        continue
+
+                    lingua, livello = item.split(':', 1)
+
+                    cursor.execute("""
+                        INSERT INTO Lingue_guida(Codice_fiscale, Lingua, Livello)
+                        VALUES (%s, %s, %s)
+                    """, [g.codice_fiscale, lingua.strip(), livello.strip()])
+
+        except IntegrityError:
+            return render(request, 'guida_aggiungi.html', {
+                'error': 'Vincolo non rispettato',
+                'itinerari': itinerari
+            })
+
+        except DataError:
+            return render(request, 'guida_aggiungi.html', {
+                'error': 'Dati non validi',
+                'itinerari': itinerari
+            })
+        UserGuida.objects.create(user=request.user, guida=g)
+        messages.success(request, 'Guida aggiunta con successo')
+        return redirect('guida')
+
+    return render(request, 'guida_aggiungi.html', {
+        'itinerari': itinerari
+    })
+@login_required
+@group_required('gestore_navi_crociera')
+def guida_modifica(request, codice_fiscale):
+
+    # controllo autorizzazione (stesso pattern degli altri moduli)
+    if not UserGuida.objects.filter(
+        user=request.user,
+        guida_id=codice_fiscale
+    ).exists():
+        messages.error(request, "Non sei autorizzato a modificare questa guida")
+        return redirect('guida')
+
+    g = Guida.objects.get(codice_fiscale=codice_fiscale)
+
+    itinerari = UserItinerario.objects.filter(user=request.user)
+
+    # recupero lingue attuali
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT Lingua, Livello
+            FROM Lingue_guida
+            WHERE Codice_fiscale = %s
+        """, [codice_fiscale])
+        lingue_db = cursor.fetchall()
+
+    lingue_str = ", ".join([f"{l[0]}:{l[1]}" for l in lingue_db])
+
+    if request.method == 'POST':
+
+        try:
+            g.nome = request.POST.get('nome')
+            g.cognome = request.POST.get('cognome')
+            g.data_nascita = request.POST.get('data_nascita')
+            g.numero_licensa = int(request.POST.get('numero_licensa') or 0)
+            g.stipendio = float(request.POST.get('stipendio') or 0)
+            g.data_assunzione = request.POST.get('data_assunzione')
+            g.valutazione = float(request.POST.get('valutazione') or 0)
+            g.id_itinerario_id = request.POST.get('id_itinerario') or None
+
+            g.save()
+
+            # aggiorno lingue (strategia semplice: delete + insert)
+            with connection.cursor() as cursor:
+                cursor.execute("""
+                    DELETE FROM Lingue_guida
+                    WHERE Codice_fiscale = %s
+                """, [codice_fiscale])
+
+                lingue_raw = request.POST.get('lingue', '')
+
+                lingue_list = [
+                    x.strip()
+                    for x in lingue_raw.split(',')
+                    if x.strip()
+                ]
+
+                for item in lingue_list:
+
+                    if ':' not in item:
+                        continue
+
+                    lingua, livello = item.split(':', 1)
+
+                    cursor.execute("""
+                        INSERT INTO Lingue_guida(Codice_fiscale, Lingua, Livello)
+                        VALUES (%s, %s, %s)
+                    """, [codice_fiscale, lingua.strip(), livello.strip()])
+
+        except IntegrityError:
+            return render(request, 'guida_modifica.html', {
+                'guida': g,
+                'itinerari': itinerari,
+                'lingue': lingue_str,
+                'error': 'Vincolo non rispettato'
+            })
+
+        except DataError:
+            return render(request, 'guida_modifica.html', {
+                'guida': g,
+                'itinerari': itinerari,
+                'lingue': lingue_str,
+                'error': 'Dati non validi'
+            })
+
+        messages.success(request, 'Guida modificata con successo')
+        return redirect('guida')
+
+    return render(request, 'guida_modifica.html', {
+        'guida': g,
+        'itinerari': itinerari,
+        'lingue': lingue_str
+    })
+@login_required
+@group_required('gestore_navi_crociera')
+def guida_elimina(request, codice_fiscale):
+
+    if not UserGuida.objects.filter(
+        user=request.user,
+        guida_id=codice_fiscale
+    ).exists():
+        messages.error(request, "Non sei autorizzato a eliminare questa guida")
+        return redirect('guida')
+
+    g = Guida.objects.get(codice_fiscale=codice_fiscale)
+
+    if request.method == 'POST':
+        try:
+            UserGuida.objects.filter(guida_id=codice_fiscale).delete()
+            g.delete()  # CASCADE gestisce tutto nel DB
+        except IntegrityError:
+            return render(request, 'guida_elimina.html', {
+                'guida': g,
+                'error': 'Vincolo non rispettato'
+            })
+
+        messages.success(request, 'Guida eliminata con successo')
+        return redirect('guida')
+
+    return render(request, 'guida_elimina.html', {
+        'guida': g
     })

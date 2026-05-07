@@ -15,6 +15,7 @@
     {% endif %}
     <a href="/crociera/aggiungi"><button>Aggiungi Nave</button></a>
     <a href="/crociera/itinerario"><button>Visualizza Itinerari</button></a>
+    <a href="/crociera/guida"><button>Visualizza Guide</button></a>
     <br><br>
     {% if navi %}
     <table>
@@ -29,7 +30,7 @@
             <th>Capienza</th>
             <th>Numero Banchina</th>
             <th>Settore Banchina</th>
-            <th>Itinerario</th>
+            <th>ID Itinerario</th>
             <th>Azioni</th>
         </tr>
         {% for rel in navi %}
@@ -44,7 +45,7 @@
     <td>{{ rel.nave.capienza }}</td>
     <td>{{ rel.nave.numero_banchina }}</td>
     <td>{{ rel.nave.settore_banchina }}</td>
-    <td>{{ rel.nave.id_itinerario }}</td>
+    <td>{{ rel.nave.id_itinerario_id }}</td>
     <td>
         <a href="/crociera/modifica/{{ rel.nave.imo }}">Modifica</a> |
         <a href="/crociera/elimina/{{ rel.nave.imo }}">Elimina</a> |

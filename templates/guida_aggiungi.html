@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Aggiunta Guida</title>
+</head>
+<body>
+
+    <h1>Aggiunta guida</h1>
+
+    <br><br>
+
+    {% if error %}
+        <p>{{ error }}</p>
+        <br><br>
+    {% endif %}
+
+    <form method="POST" action="/crociera/guida/aggiungi">
+
+        {% csrf_token %}
+
+        <label>Codice fiscale:</label>
+        <input type="text" name="codice_fiscale" required>
+
+        <br><br>
+
+        <label>Nome:</label>
+        <input type="text" name="nome" required>
+
+        <br><br>
+
+        <label>Cognome:</label>
+        <input type="text" name="cognome" required>
+
+        <br><br>
+
+        <label>Data nascita:</label>
+        <input type="date" name="data_nascita" required>
+
+        <br><br>
+
+        <label>Numero licenza:</label>
+        <input type="number" name="numero_licensa" required>
+
+        <br><br>
+
+        <label>Stipendio:</label>
+        <input type="number" step="0.01" name="stipendio" required>
+
+        <br><br>
+
+        <label>Data assunzione:</label>
+        <input type="date" name="data_assunzione" required>
+
+        <br><br>
+
+        <label>Valutazione:</label>
+        <input type="number" step="0.1" name="valutazione" required>
+
+        <br><br>
+
+        <label>Itinerario:</label>
+        <select name="id_itinerario">
+            <option value="">---</option>
+            {% for ui in itinerari %}
+                <option value="{{ ui.itinerario.id }}">
+                    {{ ui.itinerario.nome }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <br><br>
+
+        <label>Lingue (lingua:livello, separati da virgola):</label>
+        <input type="text" name="lingue" size="60">
+
+        <br><br>
+
+        <button type="submit">Aggiungi</button>
+
+    </form>
+
+</body>
+</html>

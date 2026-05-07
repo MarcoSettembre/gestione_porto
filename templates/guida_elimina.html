@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Eliminazione Guida</title>
+</head>
+<body>
+
+    <h1>Eliminazione guida</h1>
+
+    <br><br>
+
+    {% if error %}
+        <p>{{ error }}</p>
+        <br><br>
+    {% endif %}
+
+    <p>
+        Sei sicuro di voler eliminare la guida
+        <strong>{{guida.nome}} {{guida.cognome}}</strong>
+        ({{guida.codice_fiscale}})?
+    </p>
+
+    <br><br>
+
+    <form method="POST" action="/crociera/guida/elimina/{{guida.codice_fiscale}}">
+        {% csrf_token %}
+        <button type="submit">Elimina</button>
+    </form>
+
+    <br>
+
+    <a href="/crociera/guida">
+        <button>Annulla</button>
+    </a>
+
+</body>
+</html>

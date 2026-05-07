@@ -68,4 +68,8 @@ urlpatterns = [
     path('crociera/itinerario/aggiungi', views.itinerario_aggiungi, name='itinerario_aggiungi'),
     path('crociera/itinerario/modifica/<int:itinerario_id>', views.itinerario_modifica, name='itinerario_modifica'),
     path('crociera/itinerario/elimina/<int:itinerario_id>', views.itinerario_elimina, name='itinerario_elimina'),
+    path('crociera/guida', views.guida, name='guida'),
+    path('crociera/guida/aggiungi', views.guida_aggiungi, name='guida_aggiungi'),
+    path('crociera/guida/modifica/<str:codice_fiscale>', views.guida_modifica, name='guida_modifica'),
+    path('crociera/guida/elimina/<str:codice_fiscale>', views.guida_elimina, name='guida_elimina'),
 ]

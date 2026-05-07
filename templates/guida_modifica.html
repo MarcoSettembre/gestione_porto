@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifica Guida</title>
+</head>
+<body>
+
+    <h1>Modifica guida {{guida.codice_fiscale}}</h1>
+
+    <br><br>
+
+    {% if error %}
+        <p>{{ error }}</p>
+        <br><br>
+    {% endif %}
+
+    <form method="POST" action="/crociera/guida/modifica/{{guida.codice_fiscale}}">
+
+        {% csrf_token %}
+
+        <label>Nome:</label>
+        <input type="text" name="nome" value="{{guida.nome}}" required>
+
+        <br><br>
+
+        <label>Cognome:</label>
+        <input type="text" name="cognome" value="{{guida.cognome}}" required>
+
+        <br><br>
+
+        <label>Data nascita:</label>
+        <input type="date" name="data_nascita" value="{{guida.data_nascita|date:'Y-m-d'}}" required>
+
+        <br><br>
+
+        <label>Numero licenza:</label>
+        <input type="number" name="numero_licensa" value="{{guida.numero_licensa}}" required>
+
+        <br><br>
+
+        <label>Stipendio:</label>
+        <input type="number" step="0.01" name="stipendio" value="{{guida.stipendio}}" required>
+
+        <br><br>
+
+        <label>Data assunzione:</label>
+        <input type="date" name="data_assunzione" value="{{guida.data_assunzione|date:'Y-m-d'}}" required>
+
+        <br><br>
+
+        <label>Valutazione:</label>
+        <input type="number" step="0.1" name="valutazione" value="{{guida.valutazione}}" required>
+
+        <br><br>
+
+        <label>ID Itinerario:</label>
+        <select name="id_itinerario">
+            <option value="">---</option>
+            {% for ui in itinerari %}
+                <option value="{{ ui.itinerario.id }}"
+                    {% if guida.id_itinerario_id == ui.itinerario.id %}selected{% endif %}>
+                    {{ ui.itinerario.nome }}
+                </option>
+            {% endfor %}
+        </select>
+
+        <br><br>
+
+        <label>Lingue (lingua:livello, separate da virgola):</label>
+        <input type="text" name="lingue" value="{{lingue}}" size="60">
+
+        <br><br>
+
+        <button type="submit">Modifica</button>
+        <button type="reset">Reset</button>
+
+    </form>
+
+</body>
+</html>
