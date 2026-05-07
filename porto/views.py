@@ -758,3 +758,58 @@ def stoccaggio_elimina(request, sscc):
         messages.success(request, 'Merce eliminata con successo')
         return redirect('stoccaggio', nome=s.nome_magazzino, localita=s.localita_magazzino)
     return render(request, 'stoccaggio_elimina.html', {'sscc': sscc, 'nome': s.nome_magazzino, 'localita': s.localita_magazzino})
+@login_required
+@group_required('gestore_navi_crociera')
+def stanza(request, imo):
+    if not UserNave.objects.filter(user=request.user, nave__imo=imo).exists():
+        messages.error(request, "Non sei autorizzato ad accedere a questa nave")
+        return redirect('crociera')
+    stanze = Stanza.objects.raw("""SELECT s.IMO, s.Numero, s.Classe, s.Tipo, 1 AS id FROM Stanza s WHERE s.IMO = %s""", [imo])
+    return render(request, 'stanza.html', {'imo': imo, 'stanze': stanze})
+@login_required
+@group_required('gestore_navi_crociera')
+def stanza_aggiungi(request, imo):
+    if not UserNave.objects.filter(user=request.user, nave__imo=imo).exists():
+        messages.error(request, "Non sei autorizzato ad aggiungere stanza a questa nave")
+        return redirect('crociera')
+    if request.method == 'POST':
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute("""INSERT INTO Stanza (IMO, Numero, Classe, Tipo) VALUES (%s, %s, %s, %s)""", [imo, request.POST.get('numero'), request.POST.get('classe'), request.POST.get('tipo')])
+        except IntegrityError:
+            return render(request, "stanza_aggiungi.html",{'imo': imo, 'error':"Vincolo non rispettato"})
+        except DataError:
+            return render(request, "stanza_aggiungi.html",{'imo': imo, 'error':"Dati non validi"})
+        messages.success(request, 'Stanza aggiunta con successo')
+        return redirect('stanza', imo=imo)
+    return render(request, 'stanza_aggiungi.html', {'imo': imo})
+@login_required
+@group_required('gestore_navi_crociera')
+def stanza_modifica(request,imo,numero):
+    if not UserNave.objects.filter(user=request.user, nave__imo=imo).exists():
+        messages.error(request, "Non sei autorizzato a modificare questa stanza")
+        return redirect('crociera')
+    s = Stanza.objects.raw("""SELECT s.IMO, s.Numero, s.Classe, s.Tipo, 1 AS id FROM Stanza s WHERE IMO = %s AND Numero = %s""", [imo, numero])[0]
+    if request.method == 'POST':
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute("""UPDATE Stanza SET Classe = %s, Tipo = %s WHERE IMO = %s AND Numero = %s""", [request.POST.get('classe'), request.POST.get('tipo'), imo, numero])
+        except IntegrityError:
+                return render(request, "stanza_modifica.html",{'stanza' : s, 'error':"Vincolo non rispettato"})
+        except DataError:
+                return render(request, "stanza_modifica.html",{'stanza' : s, 'error':"Dati non validi"})
+        messages.success(request, 'Stanza modificata con successo')
+        return redirect('stanza', imo=imo)
+    return render(request, 'stanza_modifica.html', {'stanza':s})
+@login_required
+@group_required('gestore_navi_crociera')
+def stanza_elimina(request, imo, numero):
+    if not UserNave.objects.filter(user=request.user, nave__imo=imo).exists():
+        messages.error(request, "Non sei autorizzato ad eliminare questa stanza")
+        return redirect('crociera')
+    if request.method == 'POST':
+        with connection.cursor() as cursor:
+            cursor.execute("""DELETE FROM Stanza WHERE IMO = %s AND Numero = %s""", [imo, numero])
+        messages.success(request, 'Stanza eliminata con successo')
+        return redirect('stanza', imo=imo)
+    return render(request, 'stanza_elimina.html', {'imo': imo, 'numero': numero})

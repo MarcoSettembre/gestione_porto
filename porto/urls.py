@@ -60,4 +60,8 @@ urlpatterns = [
     path('magazzino/stoccaggio/elimina/<str:sscc>', views.stoccaggio_elimina, name='stoccaggio_elimina'),
     path('magazzino/stoccaggio/<str:nome>/<str:localita>', views.stoccaggio, name='stoccaggio'),
     path('magazzino/stoccaggio/aggiungi/<str:nome>/<str:localita>', views.stoccaggio_aggiungi, name='stoccaggio_aggiungi'),
+    path('crociera/stanza/<str:imo>', views.stanza, name='stanza'),
+    path('crociera/stanza/aggiungi/<str:imo>', views.stanza_aggiungi, name='stanza_aggiungi'),
+    path('crociera/stanza/modifica/<str:imo>/<int:numero>', views.stanza_modifica, name='stanza_modifica'),
+    path('crociera/stanza/elimina/<str:imo>/<int:numero>', views.stanza_elimina, name='stanza_elimina'),
 ]

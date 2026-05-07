@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifica Stanza</title>
+</head>
+<body>
+    <h1>Modifica stanza {{stanza.numero}} su nave con IMO {{stanza.imo_id}}</h1>
+    <br><br>
+    {% if error %}
+        <p>Errore: {{ error }}</p>
+        <br><br>
+    {% endif %}
+    <form method="POST" action="/crociera/stanza/modifica/{{stanza.imo_id}}/{{stanza.numero}}">
+        {% csrf_token %}
+        <label for="classe">Classe: </label>
+        <select name="classe" id="classe" required>
+            <option value="Interna" {% if stanza.classe == "Interna" %} selected {% endif %}>Interna</option>
+            <option value="Esterna" {% if stanza.classe == "Esterna" %} selected {% endif %}>Esterna</option>
+            <option value="Suite" {% if stanza.classe == "Suite" %} selected {% endif %}>Suite</option>
+        </select>
+        <br><br>
+        <label for="tipo">Tipo: </label>
+        <select name="tipo" id="tipo" required>
+            <option value="Singola" {% if stanza.tipo == "Singola" %} selected {% endif %}>Singola</option>
+            <option value="Doppia" {% if stanza.tipo == "Doppia" %} selected {% endif %}>Doppia</option>
+            <option value="Matrimoniale" {% if stanza.tipo == "Matrimoniale" %} selected {% endif %}>Matrimoniale</option>
+        </select>
+        <br><br>
+        <button type="submit">Modifica</button> <button type="reset">Reset</button>
+    </form>
+</body>
+</html>

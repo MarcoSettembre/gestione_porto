@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Aggiunta Stanza</title>
+</head>
+<body>
+    <h1>Aggiunta stanza a nave con IMO {{imo}}</h1>
+    <br><br>
+    {% if error %}
+        <p>Errore: {{ error }}</p>
+        <br><br>
+    {% endif %}
+    <form method="POST" action="/crociera/stanza/aggiungi/{{imo}}">
+        {% csrf_token %}
+        <label for="numero">Numero: </label>
+        <input type="number" name="numero" id="numero" required>
+        <br><br>
+        <label for="classe">Classe: </label>
+        <select name="classe" id="classe" required>
+            <option disabled selected value> --- </option>
+            <option value="Interna">Interna</option>
+            <option value="Esterna">Esterna</option>
+            <option value="Suite">Suite</option>
+        </select>
+        <br><br>
+        <label for="tipo">Tipo: </label>
+        <select name="tipo" id="tipo" required>
+            <option disabled selected value> --- </option>
+            <option value="Singola">Singola</option>
+            <option value="Doppia">Doppia</option>
+            <option value="Matrimoniale">Matrimoniale</option>
+        </select>
+        <br><br>
+        <button type="submit">Aggiungi</button>
+    </form>
+</body>
+</html>

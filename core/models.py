@@ -217,3 +217,19 @@ class UserBanchina(models.Model):
         db_table = 'core_userbanchina'
     def __str__(self):
         return f"{self.user.username} -> Banchina {self.numero_banchina} {self.settore_banchina}"
+class UserItinerario(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    itinerario = models.ForeignKey(Itinerario, on_delete=models.CASCADE)
+    class Meta:
+        unique_together = (('user', 'itinerario'),)
+        db_table = 'core_useritinerario'
+    def __str__(self):
+        return f"{self.user.username} -> Itinerario {self.itinerario.nome}"
+class UserGuida(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    guida = models.ForeignKey(Guida, on_delete=models.CASCADE)
+    class Meta:
+        unique_together = (('user', 'guida'),)
+        db_table = 'core_userguida'
+    def __str__(self):
+        return f"{self.user.username} -> Guida {self.guida.codice_fiscale} {self.guida.nome} {self.guida.cognome}"

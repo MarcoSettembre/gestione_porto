@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Eliminazione stanza</title>
+</head>
+<body>
+    <h1>Eliminazione stanza</h1>
+    Sei sicuro di voler eliminare la stanza {{numero}} dalla nave con IMO {{imo}}?
+    <br><br>
+    <form method="POST" action="/crociera/stanza/elimina/{{imo}}/{{numero}}">
+        {% csrf_token %}
+        <button type="submit">Elimina</button>
+    </form>
+    <a href="/crociera/stanza/{{imo}}"><button>Annulla</button></a>
+</body>
+</html>

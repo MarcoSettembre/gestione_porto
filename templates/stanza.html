@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Visualizzazione Stanze</title>
+</head>
+<body>
+    <h1>Stanze su nave con IMO {{imo}}</h1>
+    <br><br>
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+        <br><br>
+    {% endif %}
+    <a href="/crociera/stanza/aggiungi/{{imo}}">
+    <button>Aggiungi Stanza</button></a>
+    <table>
+        <tr>
+            <th>Numero</th>
+            <th>Classe</th>
+            <th>Tipo</th>
+            <th>Azioni</th>
+        </tr>
+        {% for stanza in stanze %}
+        <tr>
+            <td>{{stanza.numero}}</td>
+            <td>{{stanza.classe}}</td>
+            <td>{{stanza.tipo}}</td>
+            <td><a href="/crociera/stanza/modifica/{{stanza.imo_id}}/{{stanza.numero}}">Modifica</a> | <a href="/crociera/stanza/elimina/{{stanza.imo_id}}/{{stanza.numero}}">Elimina</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
