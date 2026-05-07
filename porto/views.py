@@ -813,3 +813,185 @@ def stanza_elimina(request, imo, numero):
         messages.success(request, 'Stanza eliminata con successo')
         return redirect('stanza', imo=imo)
     return render(request, 'stanza_elimina.html', {'imo': imo, 'numero': numero})
+@login_required
+@group_required('gestore_navi_crociera')
+def itinerario(request):
+    itinerari_modificabili = (
+        Itinerario.objects
+        .filter(useritinerario__user=request.user)
+        .distinct()
+    )
+    itinerari_non_modificabili = (
+        Itinerario.objects
+        .exclude(useritinerario__user=request.user)
+        .distinct()
+    )
+    def aggiungi_tappe(lista_itinerari):
+        for it in lista_itinerari:
+            with connection.cursor() as cursor:
+                cursor.execute("""
+                    SELECT Tappa
+                    FROM Tappe_itinerario
+                    WHERE ID_itinerario = %s
+                """, [it.id])
+                rows = cursor.fetchall()
+            it.tappe = [r[0] for r in rows]
+    aggiungi_tappe(itinerari_modificabili)
+    aggiungi_tappe(itinerari_non_modificabili)
+    return render(request, 'itinerario.html', {
+        'itinerari_modificabili': itinerari_modificabili,
+        'itinerari_non_modificabili': itinerari_non_modificabili,
+    })
+@login_required
+@group_required('gestore_navi_crociera')
+def itinerario_aggiungi(request):
+
+    if request.method == 'POST':
+
+        try:
+            it = Itinerario.objects.create(
+                nome=request.POST.get('nome'),
+                data_inizio=request.POST.get('data_inizio'),
+                data_fine=request.POST.get('data_fine'),
+                prezzo=request.POST.get('prezzo'),
+            )
+
+            tappe_raw = request.POST.get('tappe', '')
+
+            lista_tappe = [
+                t.strip()
+                for t in tappe_raw.split(',')
+                if t.strip()
+            ]
+
+            with connection.cursor() as cursor:
+                for tappa in lista_tappe:
+                    cursor.execute("""
+                        INSERT INTO Tappe_itinerario(ID_itinerario, Tappa)
+                        VALUES (%s, %s)
+                    """, [it.id, tappa])
+
+        except IntegrityError:
+            return render(request, 'itinerario_aggiungi.html', {
+                'error': 'Vincolo non rispettato'
+            })
+
+        except DataError:
+            return render(request, 'itinerario_aggiungi.html', {
+                'error': 'Dati non validi'
+            })
+        UserItinerario.objects.create(user=request.user, itinerario=it)
+        messages.success(request, 'Itinerario aggiunto con successo')
+        return redirect('itinerario')
+
+    return render(request, 'itinerario_aggiungi.html')
+@login_required
+@group_required('gestore_navi_crociera')
+def itinerario_modifica(request, itinerario_id):
+
+    if not UserItinerario.objects.filter(
+        user=request.user,
+        itinerario_id=itinerario_id
+    ).exists():
+
+        messages.error(request, "Non sei autorizzato a modificare questo itinerario")
+        return redirect('itinerario')
+
+    it = Itinerario.objects.get(id=itinerario_id)
+
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT Tappa
+            FROM Tappe_itinerario
+            WHERE ID_itinerario = %s
+        """, [itinerario_id])
+
+        rows = cursor.fetchall()
+
+    tappe = [r[0] for r in rows]
+
+    if request.method == 'POST':
+
+        try:
+
+            it.nome = request.POST.get('nome')
+            it.data_inizio = request.POST.get('data_inizio')
+            it.data_fine = request.POST.get('data_fine')
+            it.prezzo = request.POST.get('prezzo')
+
+            it.save()
+
+            nuove_tappe = request.POST.get('tappe', '')
+
+            lista_tappe = [
+                t.strip()
+                for t in nuove_tappe.split(',')
+                if t.strip()
+            ]
+
+            with connection.cursor() as cursor:
+
+                cursor.execute("""
+                    DELETE FROM Tappe_itinerario
+                    WHERE ID_itinerario = %s
+                """, [itinerario_id])
+
+                for tappa in lista_tappe:
+
+                    cursor.execute("""
+                        INSERT INTO Tappe_itinerario(ID_itinerario, Tappa)
+                        VALUES (%s, %s)
+                    """, [itinerario_id, tappa])
+
+        except IntegrityError:
+            return render(request, 'itinerario_modifica.html', {
+                'itinerario': it,
+                'tappe': ", ".join(tappe),
+                'error': 'Vincolo non rispettato'
+            })
+
+        except DataError:
+            return render(request, 'itinerario_modifica.html', {
+                'itinerario': it,
+                'tappe': ", ".join(tappe),
+                'error': 'Dati non validi'
+            })
+
+        messages.success(request, 'Itinerario modificato con successo')
+
+        return redirect('itinerario')
+
+    return render(request, 'itinerario_modifica.html', {
+        'itinerario': it,
+        'tappe': ", ".join(tappe)
+    })
+@login_required
+@group_required('gestore_navi_crociera')
+def itinerario_elimina(request, itinerario_id):
+
+    if not UserItinerario.objects.filter(
+        user=request.user,
+        itinerario_id=itinerario_id
+    ).exists():
+        messages.error(request, "Non sei autorizzato a eliminare questo itinerario")
+        return redirect('itinerario')
+
+    it = Itinerario.objects.get(id=itinerario_id)
+
+    if request.method == 'POST':
+
+        try:
+            UserItinerario.objects.filter(itinerario_id=itinerario_id).delete()
+            it.delete()
+        except IntegrityError:
+            return render(request, 'itinerario_elimina.html', {
+                'itinerario': it,
+                'error': 'Vincolo non rispettato'
+            })
+
+        messages.success(request, 'Itinerario eliminato con successo')
+        return redirect('itinerario')
+
+    return render(request, 'itinerario_elimina.html', {
+        'itinerario': it
+    })

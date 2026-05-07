@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Eliminazione Itinerario</title>
+</head>
+<body>
+
+    <h1>Eliminazione itinerario</h1>
+
+    <br><br>
+
+    {% if error %}
+        <p>{{ error }}</p>
+        <br><br>
+    {% endif %}
+
+    <p>
+        Sei sicuro di voler eliminare l'itinerario
+        <strong>{{ itinerario.nome }}</strong>?
+    </p>
+
+    <br><br>
+
+    <form method="POST" action="/crociera/itinerario/elimina/{{itinerario.id}}">
+
+        {% csrf_token %}
+
+        <button type="submit">Elimina</button>
+
+    </form>
+
+    <br>
+
+    <a href="/crociera/itinerario">
+        <button>Annulla</button>
+    </a>
+
+</body>
+</html>

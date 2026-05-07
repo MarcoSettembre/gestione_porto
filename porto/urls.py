@@ -64,4 +64,8 @@ urlpatterns = [
     path('crociera/stanza/aggiungi/<str:imo>', views.stanza_aggiungi, name='stanza_aggiungi'),
     path('crociera/stanza/modifica/<str:imo>/<int:numero>', views.stanza_modifica, name='stanza_modifica'),
     path('crociera/stanza/elimina/<str:imo>/<int:numero>', views.stanza_elimina, name='stanza_elimina'),
+    path('crociera/itinerario', views.itinerario, name='itinerario'),
+    path('crociera/itinerario/aggiungi', views.itinerario_aggiungi, name='itinerario_aggiungi'),
+    path('crociera/itinerario/modifica/<int:itinerario_id>', views.itinerario_modifica, name='itinerario_modifica'),
+    path('crociera/itinerario/elimina/<int:itinerario_id>', views.itinerario_elimina, name='itinerario_elimina'),
 ]

@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Itinerari</title>
+</head>
+<body>
+
+    <h1>Elenco itinerari</h1>
+
+    <br><br>
+
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+        <br><br>
+    {% endif %}
+
+    <a href="/crociera/itinerario/aggiungi">
+        <button>Aggiungi Itinerario</button>
+    </a>
+
+    <br><br>
+
+    <table>
+
+        <tr>
+            <th>ID</th>
+            <th>Nome</th>
+            <th>Data Inizio</th>
+            <th>Data Fine</th>
+            <th>Prezzo</th>
+            <th>Tappe</th>
+            <th>Azioni</th>
+        </tr>
+
+        {% for i in itinerari_modificabili %}
+        <tr>
+            <td>{{i.id}}</td>
+            <td>{{ i.nome }}</td>
+            <td>{{ i.data_inizio }}</td>
+            <td>{{ i.data_fine }}</td>
+            <td>{{ i.prezzo }}</td>
+
+            <td>
+                {% for tappa in i.tappe %}
+                    {{ tappa }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </td>
+
+            <td>
+                <a href="/crociera/itinerario/modifica/{{i.id}}">
+                    Modifica
+                </a>
+                |
+                <a href="/crociera/itinerario/elimina/{{i.id}}">
+                    Elimina
+                </a>
+            </td>
+        </tr>
+        {% endfor %}
+
+        {% for i in itinerari_non_modificabili %}
+        <tr>
+            <td>{{i.id}}</td>
+            <td>{{ i.nome }}</td>
+            <td>{{ i.data_inizio }}</td>
+            <td>{{ i.data_fine }}</td>
+            <td>{{ i.prezzo }}</td>
+
+            <td>
+                {% for tappa in i.tappe %}
+                    {{ tappa }}{% if not forloop.last %}, {% endif %}
+                {% endfor %}
+            </td>
+
+            <td>
+                ---
+            </td>
+        </tr>
+        {% endfor %}
+
+    </table>
+
+</body>
+</html>
