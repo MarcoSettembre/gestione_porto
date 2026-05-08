@@ -1225,3 +1225,153 @@ def guida_elimina(request, codice_fiscale):
     return render(request, 'guida_elimina.html', {
         'guida': g
     })
+@login_required
+@group_required('cliente')
+def prenotazione(request):
+    if not UserCliente.objects.filter(user=request.user).exists():
+        messages.error(request, "Devi inserire i tuoi dati per poter effettuare una prenotazione")
+        return redirect('cliente')
+    itinerari = Itinerario.objects.all()
+
+    risultati = None
+
+    if request.method == 'POST':
+
+        itinerari_ids = request.POST.getlist('itinerari')
+        classi = request.POST.getlist('classe')
+        tipi = request.POST.getlist('tipo')
+        data_inizio = request.POST.get('data_inizio')
+        data_fine = request.POST.get('data_fine')
+
+        query = """
+            SELECT DISTINCT
+                s.IMO,
+                s.Numero,
+                s.Classe,
+                s.Tipo,
+                1 AS id
+
+            FROM Stanza s
+
+            JOIN Nave n ON s.IMO = n.IMO
+            JOIN Itinerario i ON n.ID_itinerario = i.ID
+
+            WHERE 1=1
+        """
+        params = []
+
+        # filtro itinerari
+        if itinerari_ids:
+            query += " AND i.ID IN ({})".format(','.join(['%s'] * len(itinerari_ids)))
+            params.extend(itinerari_ids)
+
+            # filtro classi
+        if classi:
+            query += " AND s.Classe IN ({})".format(','.join(['%s'] * len(classi)))
+            params.extend(classi)
+
+            # filtro tipi
+        if tipi:
+            query += " AND s.Tipo IN ({})".format(','.join(['%s'] * len(tipi)))
+            params.extend(tipi)
+
+        # esclusione stanze prenotate nel range richiesto
+        if data_inizio and data_fine:
+            query += """
+                       AND NOT EXISTS (
+                           SELECT 1
+                           FROM Prenotazione p
+                           WHERE p.IMO = s.IMO
+                             AND p.Numero = s.Numero
+                             AND (
+                                   p.Data_inizio <= %s
+                               AND p.Scadenza >= %s
+                             )
+                       )
+                   """
+
+            params.append(data_fine)
+            params.append(data_inizio)
+        with connection.cursor() as cursor:
+                cursor.execute(query, params)
+
+                colonne = [col[0] for col in cursor.description]
+
+                risultati = [
+                    dict(zip(colonne, row))
+                    for row in cursor.fetchall()
+                ]
+
+    return render(request, 'prenotazione.html', {
+            'itinerari': itinerari,
+            'risultati': risultati
+        })
+@login_required
+@group_required('cliente')
+def prenotazione_aggiungi(request, imo, numero):
+    if not UserCliente.objects.filter(user=request.user).exists():
+        messages.error(request, "Devi inserire i tuoi dati per poter effettuare una prenotazione")
+        return redirect('cliente')
+    i = Nave.objects.get(imo=imo).id_itinerario
+    s = list(Stanza.objects.raw("""SELECT s.IMO, s.Numero, s.Classe, s.Tipo, 1 AS id FROM Stanza s WHERE s.IMO = %s AND s.Numero = %s""", [imo, numero]))[0]
+    if s.tipo == "Singola" :
+        prezzo = i.prezzo
+    else:
+        prezzo = i.prezzo * 2
+    if request.method == 'POST':
+        try:
+            Prenotazione.objects.create(
+                imo=imo,
+                numero=numero,
+                codice_fiscale=UserCliente.objects.get(user=request.user).cliente,
+                data_inizio=request.POST.get('data_inizio'),
+                scadenza=request.POST.get('data_fine'),
+                servizio_guida=1 if request.POST.get('servizio_guida') else 0,
+            )
+        except IntegrityError:
+            return render(request, 'prenotazione_aggiungi.html', {'itinerario': i, 'stanza':s,'error': 'Vincolo non rispettato'})
+        except DataError:
+            return render(request, 'prenotazione_aggiungi.html', {'itinerario': i , 'stanza':s ,'error': 'Dati non validi'})
+        messages.success(request, 'Prenotazione effettuata con successo')
+        return redirect('prenotazione_visualizza')
+    return render(request, 'prenotazione_aggiungi.html', {'itinerario': i, 'stanza': s, 'prezzo': prezzo})
+@login_required
+@group_required('cliente')
+def prenotazione_visualizza(request):
+    if not UserCliente.objects.filter(user=request.user).exists():
+        messages.error(request, "Devi inserire i tuoi dati per poter effettuare una prenotazione")
+        return redirect('cliente')
+    prenotazioni = Prenotazione.objects.filter(codice_fiscale=UserCliente.objects.get(user=request.user).cliente)
+    return render(request, 'prenotazione_visualizza.html', {'prenotazioni': prenotazioni})
+@login_required
+@group_required('cliente')
+def prenotazione_modifica(request, id_prenotazione):
+    if not Prenotazione.objects.filter(id=id_prenotazione, codice_fiscale=UserCliente.objects.get(user=request.user).cliente).exists():
+        messages.error(request, "Non sei autorizzato a modificare questa prenotazione")
+        return redirect('prenotazione')
+    p = Prenotazione.objects.get(id=id_prenotazione)
+    if request.method == 'POST':
+        try:
+            p.data_inizio = request.POST.get('data_inizio')
+            p.scadenza = request.POST.get('data_fine')
+            p.servizio_guida = 1 if request.POST.get('servizio_guida') else 0
+            p.save()
+        except IntegrityError:
+            return render(request, 'prenotazione_modifica.html', {'prenotazione': p, 'error': 'Vincolo non rispettato'})
+        except DataError:
+            return render(request, 'prenotazione_modifica.html', {'prenotazione': p, 'error': 'Dati non validi'})
+        messages.success(request, 'Prenotazione modificata con successo')
+        return redirect('prenotazione_visualizza')
+    return render(request, 'prenotazione_modifica.html', {'prenotazione': p})
+@login_required
+@group_required('cliente')
+def prenotazione_elimina(request, id_prenotazione):
+    if not Prenotazione.objects.filter(id=id_prenotazione, codice_fiscale=UserCliente.objects.get(user=request.user).cliente).exists():
+        messages.error(request, "Non sei autorizzato a eliminare questa prenotazione")
+        return redirect('prenotazione')
+    p = Prenotazione.objects.get(id=id_prenotazione)
+    if request.method == 'POST':
+        p.delete()
+        messages.success(request, 'Prenotazione eliminata con successo')
+        return redirect('prenotazione_visualizza')
+    return render(request, 'prenotazione_elimina.html', {'prenotazione': p})

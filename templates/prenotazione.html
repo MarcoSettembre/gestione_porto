@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+   <!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Dashboard Prenotazioni</title>
+</head>
+<body>
+
+<h1>Ricerca Stanze Disponibili</h1>
+<br><br>
+{% if messages %}
+    {% for message in messages %}
+        <p>{{ message }}</p>
+    {% endfor %}
+    <br><br>
+{% endif %}
+<a href="/cliente/prenotazione/visualizza">Visualizza Prenotazioni</a>
+<br><br>
+Seleziona per filtrare, lascia vuoto per visualizzare tutte le stanze disponibili.
+<br><br>
+
+<form method="POST" action="/cliente/prenotazione">
+
+    {% csrf_token %}
+
+    <h3>Itinerari</h3>
+
+    {% for i in itinerari %}
+        <input type="checkbox"
+               name="itinerari"
+               value="{{i.id}}">
+
+        {{i.nome}}
+        ({{i.data_inizio}} - {{i.data_fine}})
+
+        <br>
+    {% endfor %}
+
+    <br><br>
+
+    <h3>Classe stanza</h3>
+
+    <input type="checkbox" name="classe" value="Interna"> Interna
+    <br>
+    <input type="checkbox" name="classe" value="Esterna"> Esterna
+    <br>
+    <input type="checkbox" name="classe" value="Suite"> Suite
+
+    <br><br>
+
+    <h3>Tipo stanza</h3>
+    <input type="checkbox" name="tipo" value="Singola"> Singola
+    <br>
+    <input type="checkbox" name="tipo" value="Doppia"> Doppia
+    <br>
+    <input type="checkbox" name="tipo" value="Matrimoniale"> Matrimoniale
+
+    <br><br>
+
+    <label for="data_inizio">Data inizio:</label>
+    <input type="date" name="data_inizio" id="data_inizio">
+
+    <br><br>
+
+    <label for="data_fine">Data fine:</label>
+    <input type="date" name="data_fine" id="data_fine">
+
+    <br><br>
+
+    <button type="submit">Cerca</button>
+
+</form>
+
+{% if risultati != None %}
+
+    <br><br>
+
+    <h2>Risultati</h2>
+
+    <table>
+
+        <tr>
+            <th>IMO</th>
+            <th>Numero</th>
+            <th>Classe</th>
+            <th>Tipo</th>
+            <th>Azione</th>
+        </tr>
+
+        {% for r in risultati %}
+
+        <tr>
+            <td>{{r.IMO}}</td>
+            <td>{{r.Numero}}</td>
+            <td>{{r.Classe}}</td>
+            <td>{{r.Tipo}}</td>
+            <td>
+                <a href="/cliente/prenotazione/aggiungi/{{r.IMO}}/{{r.Numero}}">
+                    Prenota
+                </a>
+            </td>
+        </tr>
+
+        {% endfor %}
+
+    </table>
+
+{% endif %}
+
+</body>
+</html>

@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Modifica Prenotazione</title>
+</head>
+<body>
+    <h1>Modifica prenotazione a stanza numero {{prenotazione.numero}} su nave {{prenotazione.imo_id}}</h1>
+    <br><br>
+    {% if error %}
+        <p>Errore: {{ error }}</p>
+        <br><br>
+    {% endif %}
+    <form method="POST" action="/cliente/prenotazione/modifica/{{prenotazione.id}}">
+      {% csrf_token %}
+      <label for="data_inizio">Data Inizio: </label>
+      <input type="date" name="data_inizio" id="data_inizio" value="{{prenotazione.data_inizio}}" required>
+        <br><br>
+        <label for="data_fine">Data Fine: </label>
+        <input type="date" name="data_fine" id="data_fine" value="{{prenotazione.scadenza}}" required>
+        <br><br>
+        <label for="servizio_guida">Servizio Guida: </label>
+        <input type="checkbox" name="servizio_guida" id="servizio_guida" value="1" {% if prenotazione.servizio_guida %} checked {% endif %}>
+        <button type="submit">Modifica</button> <button type="reset">Reset</button>
+    </form>
+</body>
+</html>

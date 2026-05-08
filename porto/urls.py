@@ -72,4 +72,9 @@ urlpatterns = [
     path('crociera/guida/aggiungi', views.guida_aggiungi, name='guida_aggiungi'),
     path('crociera/guida/modifica/<str:codice_fiscale>', views.guida_modifica, name='guida_modifica'),
     path('crociera/guida/elimina/<str:codice_fiscale>', views.guida_elimina, name='guida_elimina'),
+    path('cliente/prenotazione', views.prenotazione, name='prenotazione'),
+    path('cliente/prenotazione/aggiungi/<str:imo>/<int:numero>', views.prenotazione_aggiungi, name='prenotazione_aggiungi'),
+    path('cliente/prenotazione/visualizza', views.prenotazione_visualizza, name='prenotazione_visualizza'),
+    path('cliente/prenotazione/modifica/<int:id_prenotazione>', views.prenotazione_modifica, name='prenotazione_modifica'),
+    path('cliente/prenotazione/elimina/<int:id_prenotazione>', views.prenotazione_elimina, name='prenotazione_elimina'),
 ]

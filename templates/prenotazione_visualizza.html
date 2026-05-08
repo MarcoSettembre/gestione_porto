@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Visualizzazione Prenotazione</title>
+</head>
+<body>
+    <h1>Visualizzazione Prenotazioni</h1>
+    <br><br>
+    <a href="/cliente/prenotazione">Ricerca stanze disponibili</a>
+    <br><br>
+    {% if messages %}
+        {% for message in messages %}
+            <p>{{ message }}</p>
+        {% endfor %}
+        <br><br>
+    {% endif %}
+    <table>
+        <tr>
+            <th>IMO</th>
+            <th>Numero</th>
+            <th>Data Inizio</th>
+            <th>Data Fine</th>
+            <th>Servizio Guida</th>
+            <th>Azione</th>
+        </tr>
+        {% for prenotazione in prenotazioni %}
+        <tr>
+            <td>{{prenotazione.imo}}</td>
+            <td>{{prenotazione.numero}}</td>
+            <td>{{prenotazione.data_inizio}}</td>
+            <td>{{prenotazione.scadenza}}</td>
+            <td> {% if prenotazione.servizio_guida %} Sì {% else %} No {% endif %}</td>
+            <td><a href="/cliente/prenotazione/modifica/{{prenotazione.id}}">Modifica</a> | <a href="/cliente/prenotazione/elimina/{{prenotazione.id}}">Elimina</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

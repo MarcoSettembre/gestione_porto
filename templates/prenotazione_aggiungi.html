@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Aggiunta Prenotazione</title>
+</head>
+<body>
+    <h1>Aggiunta prenotazione stanza con numero {{stanza.numero}} su nave {{stanza.imo_id}}</h1>
+    <br><br>
+    {% if error %}
+        <p>Errore: {{ error }}</p>
+        <br><br>
+    {% endif %}
+    <form method="POST" action="/cliente/prenotazione/aggiungi/{{stanza.imo_id}}/{{stanza.numero}}">
+      {% csrf_token %}
+      Prezzo: {{prezzo}}
+        <br><br>
+        <label for="servizio_guida">Servizio guida: </label>
+        <input type="checkbox"
+       name="servizio_guida"
+       id="servizio_guida"
+       value="1">
+
+      <br><br>
+      <label for="data_inizio">Data inizio:</label>
+      <input type="date" name="data_inizio" id="data_inizio" value="{{itinerario.data_inizio}}" required>
+      <br><br>
+        <label for="data_fine">Data fine:</label>
+        <input type="date" name="data_fine" id="data_fine" value="{{itinerario.data_fine}}" required>
+        <br><br>
+        <button type="submit">Aggiungi</button>
+    </form>
+</body>
+</html>

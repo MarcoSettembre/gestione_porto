@@ -139,15 +139,15 @@ class Nave(models.Model):
 
 class Prenotazione(models.Model):
     id = models.AutoField(db_column='ID', primary_key=True)  # Field name made lowercase.
-    imo = models.ForeignKey('Stanza', models.DO_NOTHING, db_column='IMO')  # Field name made lowercase.
-    numero = models.ForeignKey('Stanza', models.DO_NOTHING, db_column='Numero', related_name='prenotazione_numero_set')  # Field name made lowercase.
+    imo = models.CharField(db_column='IMO', max_length=7)  # Field name made lowercase.
+    numero = models.IntegerField(db_column='Numero')  # Field name made lowercase.
     codice_fiscale = models.ForeignKey(Cliente, models.DO_NOTHING, db_column='Codice_fiscale')  # Field name made lowercase.
     data_inizio = models.DateField(db_column='Data_inizio')  # Field name made lowercase.
     scadenza = models.DateField(db_column='Scadenza')  # Field name made lowercase.
     servizio_guida = models.IntegerField(db_column='Servizio_guida')  # Field name made lowercase.
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'Prenotazione'
 
 

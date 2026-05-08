@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Eliminazione prenotazione</title>
+</head>
+<body>
+    <h1>Eliminazione prenotazione</h1>
+    Sei sicuro di voler eliminare la prenotazione con ID {{prenotazione.id}}?
+    <br><br>
+    <form method="POST" action="/cliente/prenotazione/elimina/{{prenotazione.id}}">
+        {% csrf_token %}
+        <button type="submit">Elimina</button>
+    </form>
+    <a href="/cliente/prenotazione/visualizza"><button>Annulla</button></a>
+</body>
+</html>
