@@ -5,7 +5,7 @@
     <title>Modifica Magazzino Merce</title>
 </head>
 <body>
-    <h1>Modifica magazzino merce con SSCC {{sscc}}</h1>
+    <h1>Modifica magazzino merce con SSCC {{stoccaggio.sscc_id}}</h1>
     <br><br>
     {% if error %}
         <p>Errore: {{ error }}</p>
@@ -26,5 +26,6 @@
         <br><br>
         <button type="submit">Modifica</button> <button type="reset">Reset</button>
     </form>
+<a href="/magazzino/stoccaggio/{{stoccaggio.nome_magazzino}}/{{stoccaggio.localita_magazzino}}"><button>Annulla</button></a>
 </body>
 </html>

@@ -3,7 +3,7 @@ from collections import defaultdict
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.models import Group
-from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from core.models import *
 from django.db import IntegrityError, DataError, connection
@@ -56,13 +56,25 @@ def login_view(request):
         return redirect_by_role(request)
     return render(request, 'login.html', {'error': "Credenziali non valide"})
 @login_required
-def homepage(request):
-    return render(request, 'homepage.html')
-@login_required
 def logout_view(request):
     logout(request)
     messages.success(request, 'Logout effettuato con successo')
     return redirect('login')
+@login_required
+def modifica_password(request):
+    if request.method == 'POST':
+        user=request.user
+        if user.check_password(request.POST.get('password_vecchia')):
+            if request.POST.get('password_nuova') != request.POST.get('password_nuova_conferma'):
+                return render(request, 'modifica_password.html', {'error': "Le password non coincidono"})
+            user.set_password(request.POST.get('password_nuova'))
+            user.save()
+            update_session_auth_hash(request, user)
+            messages.success(request, 'Password modificata con successo')
+            return redirect('login')
+        else:
+            return render(request, 'modifica_password.html', {'error': "Password attuale non corretta"})
+    return render(request, 'modifica_password.html')
 @login_required
 @group_required('cliente')
 def cliente(request):
@@ -711,6 +723,7 @@ def stoccaggio_modifica(request, sscc):
         messages.error(request, "Non sei autorizzato a modificare questa merce")
         return redirect('magazzino')
     me = Merce.objects.get(sscc=sscc)
+    s = Stoccaggio.objects.get(sscc_id=sscc)
     query = """ 
         SELECT m.Nome, m.Localita, 1 AS id
         FROM Magazzino m
@@ -721,7 +734,7 @@ def stoccaggio_modifica(request, sscc):
     if request.method == 'POST':
         selezionata = request.POST.get('magazzino')
         if not selezionata:
-            return render(request, 'stoccaggio_modifica.html', {'sscc': sscc, 'magazzini': mag, 'error': 'Nessun magazzino selezionato'})
+            return render(request, 'stoccaggio_modifica.html', {'stoccaggio': s, 'magazzini': mag, 'error': 'Nessun magazzino selezionato'})
         nome, localita = selezionata.split('|')
         valid = any(
             m.nome == nome and m.localita == localita
