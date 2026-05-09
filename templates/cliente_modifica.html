@@ -3,33 +3,219 @@
 <head>
     <meta charset="UTF-8">
     <title>Modifica Dati</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+            min-height:100vh;
+
+            background:
+                linear-gradient(rgba(0,0,0,0.60), rgba(0,0,0,0.60)),
+                url('https://www.sno.com/media/gjrptyvw/port-of-san-miguel-de-cozumel.jpeg?crop=0,0.19508869056939074,0,0.29659048860978843&cropmode=percentage&width=1920&height=650&rnd=132939034260200000');
+
+            background-size:cover;
+            background-position:center;
+            background-attachment:fixed;
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            color:white;
+        }
+
+        .card{
+            width:450px;
+            padding:35px;
+
+            background:rgba(255,255,255,0.12);
+            backdrop-filter:blur(10px);
+
+            border-radius:20px;
+            border:1px solid rgba(255,255,255,0.18);
+
+            box-shadow:0 8px 32px rgba(0,0,0,0.35);
+        }
+
+        h1{
+            text-align:center;
+            margin-bottom:25px;
+            font-size:26px;
+        }
+
+        label{
+            display:block;
+            margin-bottom:6px;
+            font-weight:bold;
+        }
+
+        input{
+            width:100%;
+            padding:10px;
+
+            margin-bottom:16px;
+
+            border:none;
+            border-radius:10px;
+
+            background:rgba(255,255,255,0.92);
+            color:#222;
+
+            font-size:14px;
+        }
+
+        input:focus{
+            outline:none;
+            box-shadow:0 0 0 3px rgba(0,180,255,0.4);
+        }
+
+        .btn-group{
+            display:flex;
+            gap:10px;
+            margin-top:10px;
+        }
+
+        button{
+            flex:1;
+            padding:10px;
+
+            border:none;
+            border-radius:10px;
+
+            font-weight:bold;
+            cursor:pointer;
+
+            transition:0.2s;
+        }
+
+        .submit{
+            background:#0077b6;
+            color:white;
+        }
+
+        .submit:hover{
+            background:#0096c7;
+            transform:translateY(-2px);
+        }
+
+        .reset{
+            background:#adb5bd;
+            color:#222;
+        }
+
+        .reset:hover{
+            background:#ced4da;
+        }
+
+        .cancel{
+            background:#023e8a;
+            color:white;
+        }
+
+        .cancel:hover{
+            background:#0353a4;
+            transform:translateY(-2px);
+        }
+
+        .error{
+            margin-top:15px;
+            padding:10px;
+
+            background:rgba(255,0,0,0.18);
+            border:1px solid rgba(255,0,0,0.35);
+            border-radius:10px;
+
+            text-align:center;
+        }
+
+        a{
+            text-decoration:none;
+            flex:1;
+        }
+
+        .port-label{
+            position:fixed;
+            bottom:15px;
+            right:20px;
+
+            font-size:13px;
+            opacity:0.75;
+
+            background:rgba(0,0,0,0.3);
+            padding:6px 10px;
+            border-radius:8px;
+
+            backdrop-filter:blur(6px);
+        }
+
+    </style>
 </head>
+
 <body>
+
+<div class="card">
+
     <h1>Modifica Dati</h1>
-<form method="POST" action="/cliente/modifica">
-    {% csrf_token %}
-    <br><br>
-    <label for="codice_fiscale">Codice Fiscale: </label>
-    <input type="text" name="codice_fiscale" id="codice_fiscale" value="{{cliente.codice_fiscale}}" required>
-    <br><br>
-    <label for="nome">Nome: </label>
-    <input type="text" name="nome" id="nome" value="{{cliente.nome}}" required>
-    <br><br>
-    <label for="cognome">Cognome: </label>
-    <input type="text" name="cognome" id="cognome" value="{{cliente.cognome}}" required>
-    <br><br>
-    <label for="data_nascita">Data Nascita: </label>
-    <input type="date" name="data_nascita" id="data_nascita" value="{{cliente.data_nascita}}" required>
-    <br><br>
-    <label for="telefono">Telefono: </label>
-    <input type="text" name="telefono" id="telefono" value="{{cliente.telefono}}">
-    <br><br>
-    <button type="submit">Modifica</button> <button type="reset">Reset</button>
-    <a href="/cliente"><button>Annulla</button></a>
-    <br><br>
+
+    <form method="POST" action="/cliente/modifica">
+
+        {% csrf_token %}
+
+        <label for="codice_fiscale">Codice Fiscale</label>
+        <input type="text" name="codice_fiscale" id="codice_fiscale"
+               value="{{cliente.codice_fiscale}}" required>
+
+        <label for="nome">Nome</label>
+        <input type="text" name="nome" id="nome"
+               value="{{cliente.nome}}" required>
+
+        <label for="cognome">Cognome</label>
+        <input type="text" name="cognome" id="cognome"
+               value="{{cliente.cognome}}" required>
+
+        <label for="data_nascita">Data Nascita</label>
+        <input type="date" name="data_nascita" id="data_nascita"
+               value="{{cliente.data_nascita|date:'Y-m-d'}}" required>
+
+        <label for="telefono">Telefono</label>
+        <input type="text" name="telefono" id="telefono"
+               value="{{cliente.telefono}}">
+
+        <div class="btn-group">
+
+            <button type="submit" class="submit">Modifica</button>
+            <button type="reset" class="reset">Reset</button>
+
+        </div>
+
+    </form>
+
+    <div class="btn-group" style="margin-top:10px;">
+
+        <a href="/cliente">
+            <button type="button" class="cancel">Annulla</button>
+        </a>
+
+    </div>
+
     {% if error %}
-    Errore: {{ error }}
+        <div class="error">
+            Errore: {{ error }}
+        </div>
     {% endif %}
-</form>
+
+</div>
+
+<div class="port-label">
+    Porto di San Miguel de Cozumel
+</div>
+
 </body>
 </html>

@@ -1241,15 +1241,32 @@ def guida_elimina(request, codice_fiscale):
 @login_required
 @group_required('cliente')
 def prenotazione(request):
+
     if not UserCliente.objects.filter(user=request.user).exists():
         messages.error(request, "Devi inserire i tuoi dati per poter effettuare una prenotazione")
         return redirect('cliente')
-    itinerari = Itinerario.objects.all()
+
+    itinerari = list(Itinerario.objects.all())
+
+    #  prendo tutte le tappe in una sola query
+    with connection.cursor() as cursor:
+        cursor.execute("""
+            SELECT ID_itinerario, Tappa
+            FROM Tappe_itinerario
+        """)
+        rows = cursor.fetchall()
+
+    tappe_map = {}
+    for id_itin, tappa in rows:
+        tappe_map.setdefault(id_itin, []).append(tappa)
+
+    # attacco le tappe agli oggetti itinerario
+    for i in itinerari:
+        i.tappe = tappe_map.get(i.id, [])
 
     risultati = None
 
     if request.method == 'POST':
-
         itinerari_ids = request.POST.getlist('itinerari')
         classi = request.POST.getlist('classe')
         tipi = request.POST.getlist('tipo')
@@ -1258,67 +1275,57 @@ def prenotazione(request):
 
         query = """
             SELECT DISTINCT
-                s.IMO,
-                s.Numero,
-                s.Classe,
-                s.Tipo,
-                1 AS id
-
+            s.IMO,
+            n.Nome AS NomeNave,
+            s.Numero,
+            s.Classe,
+            s.Tipo,
+            1 AS id
             FROM Stanza s
-
             JOIN Nave n ON s.IMO = n.IMO
             JOIN Itinerario i ON n.ID_itinerario = i.ID
-
             WHERE 1=1
         """
+
         params = []
 
-        # filtro itinerari
         if itinerari_ids:
             query += " AND i.ID IN ({})".format(','.join(['%s'] * len(itinerari_ids)))
             params.extend(itinerari_ids)
 
-            # filtro classi
         if classi:
             query += " AND s.Classe IN ({})".format(','.join(['%s'] * len(classi)))
             params.extend(classi)
 
-            # filtro tipi
         if tipi:
             query += " AND s.Tipo IN ({})".format(','.join(['%s'] * len(tipi)))
             params.extend(tipi)
 
-        # esclusione stanze prenotate nel range richiesto
         if data_inizio and data_fine:
             query += """
-                       AND NOT EXISTS (
-                           SELECT 1
-                           FROM Prenotazione p
-                           WHERE p.IMO = s.IMO
-                             AND p.Numero = s.Numero
-                             AND (
-                                   p.Data_inizio <= %s
-                               AND p.Scadenza >= %s
-                             )
-                       )
-                   """
-
+                AND NOT EXISTS (
+                    SELECT 1
+                    FROM Prenotazione p
+                    WHERE p.IMO = s.IMO
+                      AND p.Numero = s.Numero
+                      AND (
+                            p.Data_inizio <= %s
+                        AND p.Scadenza >= %s
+                      )
+                )
+            """
             params.append(data_fine)
             params.append(data_inizio)
+
         with connection.cursor() as cursor:
-                cursor.execute(query, params)
-
-                colonne = [col[0] for col in cursor.description]
-
-                risultati = [
-                    dict(zip(colonne, row))
-                    for row in cursor.fetchall()
-                ]
+            cursor.execute(query, params)
+            columns = [col[0] for col in cursor.description]
+            risultati = [dict(zip(columns, row)) for row in cursor.fetchall()]
 
     return render(request, 'prenotazione.html', {
-            'itinerari': itinerari,
-            'risultati': risultati
-        })
+        'itinerari': itinerari,
+        'risultati': risultati
+    })
 @login_required
 @group_required('cliente')
 def prenotazione_aggiungi(request, imo, numero):
@@ -1351,11 +1358,36 @@ def prenotazione_aggiungi(request, imo, numero):
 @login_required
 @group_required('cliente')
 def prenotazione_visualizza(request):
+
     if not UserCliente.objects.filter(user=request.user).exists():
         messages.error(request, "Devi inserire i tuoi dati per poter effettuare una prenotazione")
         return redirect('cliente')
-    prenotazioni = Prenotazione.objects.filter(codice_fiscale=UserCliente.objects.get(user=request.user).cliente)
-    return render(request, 'prenotazione_visualizza.html', {'prenotazioni': prenotazioni})
+
+    query = """
+        SELECT 
+            p.ID,
+            p.IMO AS imo,
+            n.Nome AS NomeNave,
+            p.Numero AS numero,
+            p.Data_inizio AS data_inizio,
+            p.Scadenza AS scadenza,
+            p.Servizio_guida AS servizio_guida
+        FROM Prenotazione p
+        JOIN Nave n ON p.IMO = n.IMO
+        WHERE p.Codice_fiscale = %s
+    """
+
+    with connection.cursor() as cursor:
+        cursor.execute(query, [UserCliente.objects.get(user=request.user).cliente.codice_fiscale])
+        columns = [col[0] for col in cursor.description]
+        prenotazioni = [
+            dict(zip(columns, row))
+            for row in cursor.fetchall()
+        ]
+
+    return render(request, 'prenotazione_visualizza.html', {
+        'prenotazioni': prenotazioni
+    })
 @login_required
 @group_required('cliente')
 def prenotazione_modifica(request, id_prenotazione):

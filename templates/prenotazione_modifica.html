@@ -3,26 +3,224 @@
 <head>
     <meta charset="UTF-8">
     <title>Modifica Prenotazione</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+
+            min-height:100vh;
+
+            background:
+                linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+                url('https://www.celebritycruises.com/blog/content/uploads/2022/01/valletta-malta-harbor-hero-cta-1920x890.jpg');
+
+            background-size:cover;
+            background-position:center;
+            background-attachment:fixed;
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            color:white;
+        }
+
+        .card{
+            width:520px;
+            padding:30px;
+
+            background:rgba(255,255,255,0.12);
+            backdrop-filter:blur(12px);
+
+            border-radius:20px;
+            border:1px solid rgba(255,255,255,0.18);
+
+            box-shadow:0 8px 32px rgba(0,0,0,0.35);
+        }
+
+        h1{
+            font-size:18px;
+            text-align:center;
+            margin-bottom:15px;
+        }
+
+        p{
+            margin-bottom:15px;
+        }
+
+        form{
+            display:flex;
+            flex-direction:column;
+        }
+
+        label{
+            margin-top:10px;
+            margin-bottom:5px;
+            font-weight:bold;
+        }
+
+        input{
+            padding:8px;
+            border-radius:8px;
+            border:none;
+        }
+
+        .checkbox{
+            display:flex;
+            align-items:center;
+            gap:8px;
+            margin-top:12px;
+        }
+
+        button{
+            padding:10px;
+
+            border:none;
+            border-radius:10px;
+
+            font-weight:bold;
+            cursor:pointer;
+
+            margin-top:10px;
+
+            transition:0.2s;
+        }
+
+        .primary{
+            background:#0077b6;
+            color:white;
+        }
+
+        .primary:hover{
+            background:#0096c7;
+            transform:translateY(-2px);
+        }
+
+        .reset{
+            background:#023e8a;
+            color:white;
+        }
+
+        .reset:hover{
+            background:#0353a4;
+            transform:translateY(-2px);
+        }
+
+        .cancel{
+            margin-top:15px;
+            text-align:center;
+        }
+
+        .cancel a button{
+            background:rgba(255,255,255,0.15);
+            color:white;
+        }
+
+        .cancel a button:hover{
+            background:rgba(255,255,255,0.25);
+        }
+
+        .error{
+            color:#ffb4b4;
+            margin-bottom:10px;
+            font-weight:bold;
+        }
+
+        .meta{
+            margin-bottom:10px;
+            padding:10px;
+
+            background:rgba(0,0,0,0.25);
+            border-radius:10px;
+        }
+
+        .port-label{
+            position:fixed;
+            bottom:15px;
+            right:20px;
+
+            font-size:13px;
+            opacity:0.75;
+
+            background:rgba(0,0,0,0.3);
+            padding:6px 10px;
+            border-radius:8px;
+
+            backdrop-filter:blur(6px);
+        }
+
+    </style>
 </head>
+
 <body>
-    <h1>Modifica prenotazione a stanza numero {{prenotazione.numero}} su nave {{prenotazione.imo_id}}</h1>
-    <br><br>
+
+<div class="card">
+
+    <h1>
+        Modifica Prenotazione <br>
+        Stanza {{prenotazione.numero}} - Nave {{prenotazione.imo}}
+    </h1>
+
     {% if error %}
-        <p>Errore: {{ error }}</p>
-        <br><br>
+        <div class="error">
+            Errore: {{ error }}
+        </div>
     {% endif %}
+
     <form method="POST" action="/cliente/prenotazione/modifica/{{prenotazione.id}}">
-      {% csrf_token %}
-      <label for="data_inizio">Data Inizio: </label>
-      <input type="date" name="data_inizio" id="data_inizio" value="{{prenotazione.data_inizio}}" required>
-        <br><br>
-        <label for="data_fine">Data Fine: </label>
-        <input type="date" name="data_fine" id="data_fine" value="{{prenotazione.scadenza}}" required>
-        <br><br>
-        <label for="servizio_guida">Servizio Guida: </label>
-        <input type="checkbox" name="servizio_guida" id="servizio_guida" value="1" {% if prenotazione.servizio_guida %} checked {% endif %}>
-        <button type="submit">Modifica</button> <button type="reset">Reset</button>
+
+        {% csrf_token %}
+
+        <div class="meta">
+            Modifica i dati della tua prenotazione
+        </div>
+
+        <label for="data_inizio">Data Inizio:</label>
+        <input type="date"
+               name="data_inizio"
+               id="data_inizio"
+               value="{{prenotazione.data_inizio|date:'Y-m-d'}}"
+               required>
+
+        <label for="data_fine">Data Fine:</label>
+        <input type="date"
+               name="data_fine"
+               id="data_fine"
+               value="{{prenotazione.scadenza|date:'Y-m-d'}}"
+               required>
+
+        <div class="checkbox">
+            <input type="checkbox"
+                   name="servizio_guida"
+                   id="servizio_guida"
+                   value="1"
+                   {% if prenotazione.servizio_guida %} checked {% endif %}>
+            <label for="servizio_guida">Servizio Guida</label>
+        </div>
+
+        <button type="submit" class="primary">Modifica</button>
+        <button type="reset" class="reset">Reset</button>
+
     </form>
-    <a href="/cliente/prenotazione/visualizza"><button>Annulla</button></a>
+
+    <div class="cancel">
+        <a href="/cliente/prenotazione/visualizza">
+            <button type="button">Annulla</button>
+        </a>
+    </div>
+
+</div>
+
+<div class="port-label">
+    Porto di Valletta
+</div>
+
 </body>
 </html>

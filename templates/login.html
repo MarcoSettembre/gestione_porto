@@ -3,32 +3,213 @@
 <head>
     <meta charset="UTF-8">
     <title>Login</title>
+
+    <style>
+
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, Helvetica, sans-serif;
+        }
+
+        body{
+            min-height: 100vh;
+
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+            background:
+                linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+                url('https://d19pvifay893wx.cloudfront.net/storage/2018/08/01152337/RMCOE_Port-and-Logistics.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+
+            color: white;
+        }
+
+        .login-container{
+            width: 420px;
+            padding: 40px;
+
+            background: rgba(255,255,255,0.12);
+            backdrop-filter: blur(10px);
+
+            border-radius: 20px;
+            border: 1px solid rgba(255,255,255,0.18);
+
+            box-shadow: 0 8px 32px rgba(0,0,0,0.35);
+        }
+
+        h1{
+            text-align: center;
+            margin-bottom: 30px;
+
+            font-size: 36px;
+            letter-spacing: 1px;
+        }
+
+        form label{
+            display: block;
+            margin-bottom: 8px;
+
+            font-weight: bold;
+        }
+
+        form input{
+            width: 100%;
+            padding: 12px;
+
+            margin-bottom: 22px;
+
+            border: none;
+            border-radius: 10px;
+
+            background: rgba(255,255,255,0.92);
+            color: #222;
+
+            font-size: 15px;
+        }
+
+        form input:focus{
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(0,180,255,0.4);
+        }
+
+        button{
+            width: 100%;
+            padding: 13px;
+
+            border: none;
+            border-radius: 10px;
+
+            font-size: 15px;
+            font-weight: bold;
+
+            cursor: pointer;
+            transition: 0.25s;
+        }
+
+        button[type="submit"]{
+            background: #0077b6;
+            color: white;
+        }
+
+        button[type="submit"]:hover{
+            background: #0096c7;
+            transform: translateY(-2px);
+        }
+
+        .message{
+            margin-bottom: 20px;
+            padding: 12px;
+
+            border-radius: 10px;
+
+            background: rgba(0,180,255,0.18);
+            border: 1px solid rgba(0,180,255,0.35);
+
+            text-align: center;
+        }
+
+        .error{
+            margin-top: 25px;
+            padding: 12px;
+
+            border-radius: 10px;
+
+            background: rgba(255,0,0,0.18);
+            border: 1px solid rgba(255,0,0,0.35);
+
+            text-align: center;
+        }
+
+        .register-section{
+            margin-top: 30px;
+            text-align: center;
+        }
+
+        .register-section a{
+            text-decoration: none;
+        }
+
+        .register-btn{
+            margin-top: 15px;
+
+            background: #023e8a;
+            color: white;
+        }
+
+        .register-btn:hover{
+            background: #0353a4;
+            transform: translateY(-2px);
+        }
+
+        .port-label{
+            position: absolute;
+            bottom: 15px;
+            right: 20px;
+
+            font-size: 13px;
+            opacity: 0.75;
+        }
+
+    </style>
 </head>
+
 <body>
-    <h1>Login</h1>
-    {% if messages %}
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-    {% endif %}
-    <form method="POST" action="/login">
-        {% csrf_token %}
-        <br><br>
-        <label for="username">Username: </label>
-        <input type="text" name="username" id="username">
-        <br><br>
-        <label for="password">Password: </label>
-        <input type="password" name="password" id="password">
-        <br><br>
-        <button type="submit">Login</button>
-    </form>
-    {% if error %}
-    <br><br>
-    {{ error }}
-    {% endif %}
-    <br><br>
-    Non hai un account?
-    <br>
-    <a href="/"><button>Registrati</button></a>
+
+    <div class="login-container">
+
+        <h1>Login</h1>
+
+        {% if messages %}
+            {% for message in messages %}
+                <div class="message">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        {% endif %}
+
+        <form method="POST" action="/login">
+
+            {% csrf_token %}
+
+            <label for="username">Username</label>
+            <input type="text" name="username" id="username">
+
+            <label for="password">Password</label>
+            <input type="password" name="password" id="password">
+
+            <button type="submit">Login</button>
+
+        </form>
+
+        {% if error %}
+            <div class="error">
+                {{ error }}
+            </div>
+        {% endif %}
+
+        <div class="register-section">
+
+            <p>Non hai un account?</p>
+
+            <a href="/">
+                <button class="register-btn">
+                    Registrati
+                </button>
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="port-label">
+        Porto di Rotterdam
+    </div>
+
 </body>
 </html>

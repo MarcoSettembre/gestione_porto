@@ -1,23 +1,206 @@
 <!DOCTYPE html>
-   <!DOCTYPE html>
 <html lang="it">
 <head>
     <meta charset="UTF-8">
     <title>Dashboard Prenotazioni</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+            min-height:100vh;
+
+            background:
+                linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+                url('https://www.medcruise.com/wp-content/uploads/2024/07/DJI_20240505095144_0263_D_M3PROCINE-scaled.jpg');
+
+            background-size:cover;
+            background-position:center;
+            background-attachment:fixed;
+
+            color:white;
+        }
+
+        /* NAVBAR */
+        .navbar{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+
+            padding:15px 25px;
+
+            background:rgba(0,0,0,0.55);
+            backdrop-filter:blur(10px);
+
+            border-bottom:1px solid rgba(255,255,255,0.15);
+        }
+
+        .navbar h2{
+            font-size:18px;
+        }
+
+        .nav-btn a{
+            text-decoration:none;
+        }
+
+        .nav-btn button{
+            padding:8px 12px;
+
+            border:none;
+            border-radius:8px;
+
+            cursor:pointer;
+            font-weight:bold;
+
+            background:#0077b6;
+            color:white;
+
+            transition:0.2s;
+        }
+
+        .nav-btn button:hover{
+            background:#0096c7;
+        }
+
+        /* CONTENT spacing senza toccare logica */
+        body > h1,
+        body > form,
+        body > table,
+        body > h2,
+        body > p,
+        body > a,
+        body > br{
+            margin-left:25px;
+            margin-right:25px;
+        }
+
+        h1{
+            margin-top:25px;
+        }
+
+        h3{
+            margin-top:10px;
+        }
+
+        form{
+            margin-top:15px;
+            padding:15px;
+
+            background:rgba(255,255,255,0.08);
+            border-radius:12px;
+
+            backdrop-filter:blur(6px);
+        }
+
+        input{
+            margin:5px 0;
+        }
+
+        button{
+            padding:8px 12px;
+            border:none;
+            border-radius:8px;
+
+            background:#023e8a;
+            color:white;
+
+            font-weight:bold;
+            cursor:pointer;
+
+            margin-top:10px;
+        }
+
+        button:hover{
+            background:#0353a4;
+        }
+
+        table{
+            width:calc(100% - 50px);
+            margin-top:20px;
+
+            border-collapse:collapse;
+
+            background:rgba(255,255,255,0.08);
+            border-radius:12px;
+            overflow:hidden;
+        }
+
+        th, td{
+            padding:10px;
+            text-align:center;
+        }
+
+        th{
+            background:rgba(0,119,182,0.6);
+        }
+
+        tr:nth-child(even){
+            background:rgba(255,255,255,0.12);
+        }
+
+        /* PORT LABEL */
+   .port-label{
+    margin-top:20px;
+
+    display:flex;
+    justify-content:flex-end;
+
+    font-size:13px;
+    opacity:0.75;
+
+    background:rgba(0,0,0,0.25);
+    padding:6px 10px;
+    border-radius:8px;
+
+    backdrop-filter:blur(6px);
+    -webkit-backdrop-filter:blur(6px);
+
+    width:100%;
+    color:white;
+}
+.helper-text{
+    margin-left:25px;
+    margin-top:10px;
+    margin-bottom:10px;
+
+    opacity:0.85;
+}
+    </style>
 </head>
+
 <body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+
+    <h2>Dashboard Prenotazioni · {{request.user.username}}</h2>
+
+    <div class="nav-btn">
+        <a href="/cliente/prenotazione/visualizza">
+            <button>Visualizza Prenotazioni</button>
+        </a>
+    </div>
+
+</div>
 
 <h1>Ricerca Stanze Disponibili</h1>
 <br><br>
+<p class="helper-text">
+    Seleziona per filtrare, lascia vuoto per visualizzare tutte le stanze disponibili.
+</p>
 {% if messages %}
     {% for message in messages %}
         <p>{{ message }}</p>
     {% endfor %}
     <br><br>
 {% endif %}
-<a href="/cliente/prenotazione/visualizza">Visualizza Prenotazioni</a>
-<br><br>
-Seleziona per filtrare, lascia vuoto per visualizzare tutte le stanze disponibili.
+
 <br><br>
 
 <form method="POST" action="/cliente/prenotazione">
@@ -27,13 +210,17 @@ Seleziona per filtrare, lascia vuoto per visualizzare tutte le stanze disponibil
     <h3>Itinerari</h3>
 
     {% for i in itinerari %}
-        <input type="checkbox"
-               name="itinerari"
-               value="{{i.id}}">
+        <label>
+            <input type="checkbox" name="itinerari" value="{{i.id}}">
+            <strong>{{i.nome}}</strong>
+            ({{i.data_inizio}} - {{i.data_fine}})
+        </label>
 
-        {{i.nome}}
-        ({{i.data_inizio}} - {{i.data_fine}})
-
+        {% if i.tappe %}
+                — Tappe: {{ i.tappe|join:", " }}
+        {% else %}
+            — Nessuna tappa
+        {% endif %}
         <br>
     {% endfor %}
 
@@ -82,6 +269,7 @@ Seleziona per filtrare, lascia vuoto per visualizzare tutte le stanze disponibil
 
         <tr>
             <th>IMO</th>
+            <th>Nome Nave</th>
             <th>Numero</th>
             <th>Classe</th>
             <th>Tipo</th>
@@ -92,12 +280,13 @@ Seleziona per filtrare, lascia vuoto per visualizzare tutte le stanze disponibil
 
         <tr>
             <td>{{r.IMO}}</td>
+            <td>{{r.NomeNave}}</td>
             <td>{{r.Numero}}</td>
             <td>{{r.Classe}}</td>
             <td>{{r.Tipo}}</td>
             <td>
                 <a href="/cliente/prenotazione/aggiungi/{{r.IMO}}/{{r.Numero}}">
-                    Prenota
+                    <button>Prenota</button>
                 </a>
             </td>
         </tr>
@@ -107,6 +296,10 @@ Seleziona per filtrare, lascia vuoto per visualizzare tutte le stanze disponibil
     </table>
 
 {% endif %}
+
+<div class="port-label">
+    Porto di Las Palmas
+</div>
 
 </body>
 </html>

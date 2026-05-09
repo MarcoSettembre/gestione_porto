@@ -3,14 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <title>Eliminazione Dati</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+            min-height:100vh;
+
+            background:
+                linear-gradient(rgba(0,0,0,0.70), rgba(0,0,0,0.70)),
+                url('https://upload.wikimedia.org/wikipedia/commons/2/2a/South_Harbour_from_air.jpg');
+
+            background-size:cover;
+            background-position:center;
+            background-attachment:fixed;
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            color:white;
+        }
+
+        .card{
+            width:420px;
+            padding:35px;
+
+            background:rgba(255,255,255,0.12);
+            backdrop-filter:blur(10px);
+
+            border-radius:20px;
+            border:1px solid rgba(255,255,255,0.18);
+
+            box-shadow:0 8px 32px rgba(0,0,0,0.4);
+            text-align:center;
+        }
+
+        h1{
+            margin-bottom:20px;
+            font-size:26px;
+        }
+
+        .warning{
+            background:rgba(255,0,0,0.15);
+            border:1px solid rgba(255,0,0,0.35);
+
+            padding:15px;
+            border-radius:10px;
+
+            margin-bottom:20px;
+        }
+
+        .warning strong{
+            color:#ff6b6b;
+        }
+
+        form{
+            margin-bottom:15px;
+        }
+
+        button{
+            width:100%;
+            padding:12px;
+
+            border:none;
+            border-radius:10px;
+
+            font-weight:bold;
+            cursor:pointer;
+
+            transition:0.2s;
+        }
+
+        .delete{
+            background:#d00000;
+            color:white;
+        }
+
+        .delete:hover{
+            background:#e5383b;
+            transform:translateY(-2px);
+        }
+
+        .cancel{
+            background:#023e8a;
+            color:white;
+        }
+
+        .cancel:hover{
+            background:#0353a4;
+            transform:translateY(-2px);
+        }
+
+        a{
+            text-decoration:none;
+        }
+
+        .port-label{
+            position:fixed;
+            bottom:15px;
+            right:20px;
+
+            font-size:13px;
+            opacity:0.75;
+
+            background:rgba(0,0,0,0.3);
+            padding:6px 10px;
+            border-radius:8px;
+
+            backdrop-filter:blur(6px);
+        }
+
+    </style>
 </head>
+
 <body>
+
+<div class="card">
+
     <h1>Eliminazione Dati</h1>
-    <p>Sei sicuro di voler eliminare il cliente {{cliente.nome}} {{cliente.cognome}}?</p>
+
+    <div class="warning">
+        Sei sicuro di voler eliminare il cliente
+        <br>
+        <strong>{{cliente.nome}} {{cliente.cognome}}</strong>?
+    </div>
+
     <form method="POST" action="/cliente/elimina">
         {% csrf_token %}
-        <button type="submit">Elimina</button>
+        <button type="submit" class="delete">Elimina</button>
     </form>
-    <a href="/cliente"><button>Annulla</button></a>
+
+    <a href="/cliente">
+        <button type="button" class="cancel">Annulla</button>
+    </a>
+
+</div>
+
+<div class="port-label">
+    Porto di Helsinki
+</div>
+
 </body>
 </html>

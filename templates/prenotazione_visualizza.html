@@ -2,38 +2,210 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Visualizzazione Prenotazione</title>
+    <title>Visualizzazione Prenotazioni</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+
+            min-height:100vh;
+
+            background:
+                linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+                url('https://upload.wikimedia.org/wikipedia/commons/7/74/Marseille_Old_Port.jpg');
+
+            background-size:cover;
+            background-position:center;
+            background-attachment:fixed;
+
+            color:white;
+        }
+
+        /* HEADER AREA */
+        h1{
+            margin:25px;
+        }
+
+        a{
+            margin-left:25px;
+            color:#90e0ef;
+            text-decoration:none;
+            font-weight:bold;
+        }
+
+        a:hover{
+            text-decoration:underline;
+        }
+
+        /* MESSAGES */
+        p{
+            margin-left:25px;
+        }
+
+        /* TABLE */
+        table{
+            width:calc(100% - 50px);
+            margin:20px 25px;
+
+            border-collapse:collapse;
+
+            background:rgba(255,255,255,0.08);
+            border-radius:12px;
+            overflow:hidden;
+        }
+
+        th, td{
+            padding:12px;
+            text-align:center;
+        }
+
+        th{
+            background:rgba(0,119,182,0.6);
+        }
+
+        tr:nth-child(even){
+            background:rgba(255,255,255,0.12);
+        }
+
+        /* ACTION LINKS */
+        td a{
+            margin:0 5px;
+            color:#90e0ef;
+            font-weight:bold;
+        }
+
+        td a:hover{
+            text-decoration:underline;
+        }
+
+        /* PORT LABEL */
+        .port-label{
+            position:fixed;
+            bottom:15px;
+            right:20px;
+
+            font-size:13px;
+            opacity:0.75;
+
+            background:rgba(0,0,0,0.3);
+            padding:6px 10px;
+            border-radius:8px;
+
+            backdrop-filter:blur(6px);
+        }
+    .navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:15px 25px;
+
+    background:rgba(0,0,0,0.55);
+    backdrop-filter:blur(10px);
+
+    border-bottom:1px solid rgba(255,255,255,0.15);
+}
+
+.navbar h2{
+    font-size:18px;
+    margin:0;
+}
+
+.nav-btn a{
+    margin:0;
+    text-decoration:none;
+}
+
+.nav-btn button{
+    padding:8px 12px;
+
+    border:none;
+    border-radius:8px;
+
+    cursor:pointer;
+    font-weight:bold;
+
+    background:#0077b6;
+    color:white;
+
+    transition:0.2s;
+}
+
+.nav-btn button:hover{
+    background:#0096c7;
+}
+    </style>
 </head>
+
 <body>
+
+    <div class="navbar">
+
+    <h2>Visualizzazione Prenotazioni · {{request.user.username}}</h2>
+
+    <div class="nav-btn">
+        <a href="/cliente/prenotazione">
+            <button>Ricerca Stanze</button>
+        </a>
+    </div>
+
+</div>
     <h1>Visualizzazione Prenotazioni</h1>
+
     <br><br>
-    <a href="/cliente/prenotazione">Ricerca stanze disponibili</a>
-    <br><br>
+
     {% if messages %}
         {% for message in messages %}
             <p>{{ message }}</p>
         {% endfor %}
         <br><br>
     {% endif %}
+
     <table>
+
         <tr>
             <th>IMO</th>
+            <th>Nome Nave</th>
             <th>Numero</th>
             <th>Data Inizio</th>
             <th>Data Fine</th>
             <th>Servizio Guida</th>
             <th>Azione</th>
         </tr>
+
         {% for prenotazione in prenotazioni %}
         <tr>
             <td>{{prenotazione.imo}}</td>
+            <td>{{prenotazione.NomeNave}}</td>
             <td>{{prenotazione.numero}}</td>
             <td>{{prenotazione.data_inizio}}</td>
             <td>{{prenotazione.scadenza}}</td>
-            <td> {% if prenotazione.servizio_guida %} Sì {% else %} No {% endif %}</td>
-            <td><a href="/cliente/prenotazione/modifica/{{prenotazione.id}}">Modifica</a> | <a href="/cliente/prenotazione/elimina/{{prenotazione.id}}">Elimina</a></td>
+            <td>
+                {% if prenotazione.servizio_guida %}
+                    Sì
+                {% else %}
+                    No
+                {% endif %}
+            </td>
+            <td>
+                <a href="/cliente/prenotazione/modifica/{{prenotazione.ID}}">Modifica</a> |
+                <a href="/cliente/prenotazione/elimina/{{prenotazione.ID}}">Elimina</a>
+            </td>
         </tr>
         {% endfor %}
+
     </table>
+
+    <div class="port-label">
+        Porto di Marsiglia
+    </div>
+
 </body>
 </html>

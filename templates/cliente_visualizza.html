@@ -3,14 +3,156 @@
 <head>
     <meta charset="UTF-8">
     <title>Visualizzazione Dati</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+            min-height:100vh;
+
+            background:
+                linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+                url('https://port.today/wp-content/uploads/2018/01/Barcelona.jpg');
+
+            background-size:cover;
+            background-position:center;
+            background-attachment:fixed;
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            color:white;
+        }
+
+        .card{
+            width:420px;
+            padding:35px;
+
+            background:rgba(255,255,255,0.12);
+            backdrop-filter:blur(10px);
+
+            border-radius:20px;
+            border:1px solid rgba(255,255,255,0.18);
+
+            box-shadow:0 8px 32px rgba(0,0,0,0.35);
+        }
+
+        h1{
+            text-align:center;
+            margin-bottom:25px;
+            font-size:26px;
+        }
+
+        .info{
+            margin-bottom:12px;
+            padding:10px;
+
+            background:rgba(255,255,255,0.08);
+            border-radius:10px;
+        }
+
+        .label{
+            font-weight:bold;
+            color:#90e0ef;
+        }
+
+        .value{
+            margin-top:3px;
+        }
+
+        .btn{
+            margin-top:25px;
+            width:100%;
+        }
+
+        button{
+            width:100%;
+            padding:12px;
+
+            border:none;
+            border-radius:10px;
+
+            background:#0077b6;
+            color:white;
+
+            font-weight:bold;
+            cursor:pointer;
+
+            transition:0.2s;
+        }
+
+        button:hover{
+            background:#0096c7;
+            transform:translateY(-2px);
+        }
+
+        .port-label{
+            position:fixed;
+            bottom:15px;
+            right:20px;
+
+            font-size:13px;
+            opacity:0.75;
+
+            background:rgba(0,0,0,0.3);
+            padding:6px 10px;
+            border-radius:8px;
+
+            backdrop-filter:blur(6px);
+        }
+
+    </style>
 </head>
+
 <body>
+
+<div class="card">
+
     <h1>Visualizzazione Dati</h1>
-    <p>Codice Fiscale: {{cliente.codice_fiscale}}</p>
-    <p>Nome: {{cliente.nome}}</p>
-    <p>Cognome: {{cliente.cognome}}</p>
-    <p>Data Nascita: {{cliente.data_nascita}}</p>
-    <p>Telefono: {{cliente.telefono}}</p>
-    <a href="/cliente"><button>OK</button></a>
+
+    <div class="info">
+        <div class="label">Codice Fiscale</div>
+        <div class="value">{{cliente.codice_fiscale}}</div>
+    </div>
+
+    <div class="info">
+        <div class="label">Nome</div>
+        <div class="value">{{cliente.nome}}</div>
+    </div>
+
+    <div class="info">
+        <div class="label">Cognome</div>
+        <div class="value">{{cliente.cognome}}</div>
+    </div>
+
+    <div class="info">
+        <div class="label">Data Nascita</div>
+        <div class="value">{{cliente.data_nascita}}</div>
+    </div>
+
+    <div class="info">
+        <div class="label">Telefono</div>
+        <div class="value">{{cliente.telefono}}</div>
+    </div>
+
+    <div class="btn">
+        <a href="/cliente">
+            <button>OK</button>
+        </a>
+    </div>
+
+</div>
+
+<div class="port-label">
+    Porto di Barcellona
+</div>
+
 </body>
 </html>

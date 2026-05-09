@@ -3,23 +3,211 @@
 <head>
     <meta charset="UTF-8">
     <title>Cliente</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+            min-height:100vh;
+
+            background:
+                linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+                url('https://www.acquatecno.it/web/wp-content/uploads/2016/07/napoli-veduta-aerea.jpg');
+
+            background-size:cover;
+            background-position:center;
+            background-attachment:fixed;
+
+            color:white;
+        }
+
+        /* NAVBAR */
+        .navbar{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+
+            padding:15px 25px;
+
+            background:rgba(0,0,0,0.5);
+            backdrop-filter:blur(10px);
+
+            border-bottom:1px solid rgba(255,255,255,0.15);
+        }
+
+        .title{
+            font-weight:bold;
+        }
+
+        /* MENU */
+        .menu{
+            display:flex;
+            gap:20px;
+        }
+
+        .dropdown{
+            position:relative;
+            display:inline-block;
+        }
+
+        .dropbtn{
+            background:transparent;
+            border:none;
+            color:white;
+            font-weight:bold;
+            cursor:pointer;
+            padding:10px 12px;
+            transition:0.2s;
+        }
+
+        .dropbtn:hover{
+            color:#90e0ef;
+        }
+
+        .dropdown-content{
+            display:none;
+            position:absolute;
+
+            top:40px;
+            left:0;
+
+            background:rgba(0,0,0,0.85);
+            min-width:200px;
+
+            border-radius:10px;
+            overflow:hidden;
+
+            box-shadow:0 8px 16px rgba(0,0,0,0.4);
+            z-index:10;
+        }
+
+        .dropdown-content a{
+            display:block;
+            padding:10px;
+
+            text-decoration:none;
+            color:white;
+
+            transition:0.2s;
+        }
+
+        .dropdown-content a:hover{
+            background:rgba(0,180,255,0.2);
+        }
+
+        .dropdown:hover .dropdown-content{
+            display:block;
+        }
+
+        /* CONTENT */
+        .container{
+            padding:60px 20px;
+            text-align:center;
+        }
+
+        h1{
+            margin-bottom:20px;
+        }
+
+        .messages{
+            margin:20px auto;
+            width:60%;
+
+            background:rgba(0,180,255,0.18);
+            border:1px solid rgba(0,180,255,0.3);
+
+            padding:12px;
+            border-radius:10px;
+        }
+
+        .port-label{
+            position:fixed;
+            bottom:15px;
+            right:20px;
+
+            font-size:13px;
+            opacity:0.75;
+
+            background:rgba(0,0,0,0.3);
+            padding:6px 10px;
+            border-radius:8px;
+
+            backdrop-filter:blur(6px);
+        }
+
+    </style>
 </head>
+
 <body>
-   <h1> Benvenuto/a nell'area clienti, {{request.user.username}} </h1>
-   {% if messages %}
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
+
+<!-- NAVBAR -->
+<div class="navbar">
+
+    <div class="title">
+        Cliente · {{request.user.username}}
+    </div>
+
+    <div class="menu">
+
+        <!-- PRENOTAZIONI -->
+        <div class="dropdown">
+            <button class="dropbtn">Gestione Prenotazioni ▾</button>
+            <div class="dropdown-content">
+                <a href="/cliente/prenotazione">Prenota</a>
+                <a href="/cliente/prenotazione/visualizza">Visualizza Prenotazioni</a>
+            </div>
+        </div>
+
+        <!-- DATI -->
+        <div class="dropdown">
+            <button class="dropbtn">Gestione Dati ▾</button>
+            <div class="dropdown-content">
+                <a href="/cliente/visualizza">Visualizza Dati</a>
+                <a href="/cliente/aggiungi">Aggiungi Dati</a>
+                <a href="/cliente/modifica">Modifica Dati</a>
+                <a href="/cliente/elimina">Elimina Dati</a>
+            </div>
+        </div>
+
+        <!-- ACCOUNT -->
+        <div class="dropdown">
+            <button class="dropbtn">Gestione Account ▾</button>
+            <div class="dropdown-content">
+                <a href="/modifica_password">Modifica Password</a>
+                <a href="/logout">Logout</a>
+            </div>
+        </div>
+
+    </div>
+
+</div>
+
+<!-- CONTENUTO -->
+<div class="container">
+
+    <h1>Benvenuto nell'area clienti</h1>
+
+    {% if messages %}
+        <div class="messages">
+            {% for message in messages %}
+                {{ message }}
+            {% endfor %}
+        </div>
     {% endif %}
-   <br><br>
-   Seleziona l'operazione da effettuare: <br><br>
-   <a href="/cliente/prenotazione"><button>Prenota</button></a> <br><br>
-   <a href="/cliente/prenotazione/visualizza"><button>Visualizza Prenotazioni</button></a> <br><br>
-   <a href="/cliente/aggiungi"><button>Aggiungi Dati</button></a> <br><br>
-   <a href="/cliente/visualizza"><button>Visualizza Dati</button></a> <br><br>
-   <a href="/cliente/modifica"><button>Modifica Dati</button></a> <br><br>
-   <a href="/cliente/elimina"><button>Elimina Dati</button></a> <br><br>
-   <a href="/modifica_password"><button>Modifica Password</button></a> <br><br>
-   <a href="/logout"><button>Logout</button></a>
+
+    <p>Seleziona un’operazione dalla barra in alto.</p>
+
+</div>
+
+<div class="port-label">
+    Porto di Napoli
+</div>
+
 </body>
 </html>

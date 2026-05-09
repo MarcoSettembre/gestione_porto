@@ -3,33 +3,223 @@
 <head>
     <meta charset="UTF-8">
     <title>Aggiunta Prenotazione</title>
-</head>
-<body>
-    <h1>Aggiunta prenotazione stanza con numero {{stanza.numero}} su nave {{stanza.imo_id}}</h1>
-    <br><br>
-    {% if error %}
-        <p>Errore: {{ error }}</p>
-        <br><br>
-    {% endif %}
-    <form method="POST" action="/cliente/prenotazione/aggiungi/{{stanza.imo_id}}/{{stanza.numero}}">
-      {% csrf_token %}
-      Prezzo: {{prezzo}}
-        <br><br>
-        <label for="servizio_guida">Servizio guida: </label>
-        <input type="checkbox"
-       name="servizio_guida"
-       id="servizio_guida"
-       value="1">
 
-      <br><br>
-      <label for="data_inizio">Data inizio:</label>
-      <input type="date" name="data_inizio" id="data_inizio" value="{{itinerario.data_inizio}}" required>
-      <br><br>
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+
+            min-height:100vh;
+
+            background:
+                linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+                url('https://images.ferryhopper.com/images/articles/2020/mykonos-port-cover-2020.jpg');
+
+            background-size:cover;
+            background-position:center;
+            background-attachment:fixed;
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            color:white;
+        }
+
+        .card{
+            width:520px;
+            padding:30px;
+
+            background:rgba(255,255,255,0.12);
+            backdrop-filter:blur(12px);
+
+            border-radius:20px;
+            border:1px solid rgba(255,255,255,0.18);
+
+            box-shadow:0 8px 32px rgba(0,0,0,0.35);
+        }
+
+        h1{
+            font-size:20px;
+            text-align:center;
+            margin-bottom:15px;
+        }
+
+        p{
+            margin-bottom:15px;
+        }
+
+        form{
+            display:flex;
+            flex-direction:column;
+        }
+
+        label{
+            margin-top:10px;
+            margin-bottom:5px;
+            font-weight:bold;
+        }
+
+        input{
+            padding:8px;
+            border-radius:8px;
+            border:none;
+        }
+
+        .price{
+            margin:10px 0;
+            padding:10px;
+
+            background:rgba(0,0,0,0.25);
+            border-radius:10px;
+        }
+
+        .checkbox{
+            display:flex;
+            align-items:center;
+            gap:8px;
+            margin-top:10px;
+        }
+
+        button{
+            padding:10px;
+
+            border:none;
+            border-radius:10px;
+
+            font-weight:bold;
+            cursor:pointer;
+
+            margin-top:10px;
+
+            transition:0.2s;
+        }
+
+        .primary{
+            background:#0077b6;
+            color:white;
+        }
+
+        .primary:hover{
+            background:#0096c7;
+            transform:translateY(-2px);
+        }
+
+        .reset{
+            background:#023e8a;
+            color:white;
+        }
+
+        .reset:hover{
+            background:#0353a4;
+            transform:translateY(-2px);
+        }
+
+        .cancel{
+            margin-top:15px;
+            text-align:center;
+        }
+
+        .cancel a button{
+            background:rgba(255,255,255,0.15);
+            color:white;
+        }
+
+        .cancel a button:hover{
+            background:rgba(255,255,255,0.25);
+        }
+
+        .error{
+            color:#ffb4b4;
+            margin-bottom:10px;
+            font-weight:bold;
+        }
+
+        .port-label{
+            position:fixed;
+            bottom:15px;
+            right:20px;
+
+            font-size:13px;
+            opacity:0.75;
+
+            background:rgba(0,0,0,0.3);
+            padding:6px 10px;
+            border-radius:8px;
+
+            backdrop-filter:blur(6px);
+        }
+
+    </style>
+</head>
+
+<body>
+
+<div class="card">
+
+    <h1>
+        Prenotazione stanza {{stanza.numero}} <br>
+        Nave {{stanza.imo_id}}
+    </h1>
+
+    {% if error %}
+        <div class="error">
+            Errore: {{ error }}
+        </div>
+    {% endif %}
+
+    <form method="POST" action="/cliente/prenotazione/aggiungi/{{stanza.imo_id}}/{{stanza.numero}}">
+
+        {% csrf_token %}
+
+        <div class="price">
+            Prezzo: {{prezzo}}
+        </div>
+
+        <div class="checkbox">
+            <input type="checkbox"
+                   name="servizio_guida"
+                   id="servizio_guida"
+                   value="1">
+            <label for="servizio_guida">Servizio guida</label>
+        </div>
+
+        <label for="data_inizio">Data inizio:</label>
+        <input type="date"
+               name="data_inizio"
+               id="data_inizio"
+               value="{{itinerario.data_inizio|date:'Y-m-d'}}"
+               required>
+
         <label for="data_fine">Data fine:</label>
-        <input type="date" name="data_fine" id="data_fine" value="{{itinerario.data_fine}}" required>
-        <br><br>
-        <button type="submit">Aggiungi</button> <button type="reset">Reset</button>
+        <input type="date"
+               name="data_fine"
+               id="data_fine"
+               value="{{itinerario.data_fine|date:'Y-m-d'}}"
+               required>
+
+        <button type="submit" class="primary">Aggiungi</button>
+        <button type="reset" class="reset">Reset</button>
+
     </form>
-    <a href="/cliente/prenotazione"><button>Annulla</button></a>
+
+    <div class="cancel">
+        <a href="/cliente/prenotazione">
+            <button type="button">Annulla</button>
+        </a>
+    </div>
+
+</div>
+
+<div class="port-label">
+    Porto di Mykonos
+</div>
+
 </body>
 </html>

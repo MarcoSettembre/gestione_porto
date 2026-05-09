@@ -3,15 +3,153 @@
 <head>
     <meta charset="UTF-8">
     <title>Eliminazione prenotazione</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+
+            min-height:100vh;
+
+            background:
+                linear-gradient(rgba(0,0,0,0.75), rgba(0,0,0,0.75)),
+                url('https://upload.wikimedia.org/wikipedia/commons/5/5c/Port_of_Saint_John_in_New_Brunswick%2C_Canada.jpg');
+
+            background-size:cover;
+            background-position:center;
+            background-attachment:fixed;
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            color:white;
+        }
+
+        .card{
+            width:450px;
+            padding:30px;
+
+            background:rgba(255,255,255,0.12);
+            backdrop-filter:blur(12px);
+
+            border-radius:20px;
+            border:1px solid rgba(255,255,255,0.18);
+
+            box-shadow:0 8px 32px rgba(0,0,0,0.35);
+
+            text-align:center;
+        }
+
+        h1{
+            font-size:20px;
+            margin-bottom:15px;
+        }
+
+        .warning{
+            margin:15px 0;
+            padding:10px;
+
+            background:rgba(255, 80, 80, 0.2);
+            border:1px solid rgba(255, 80, 80, 0.4);
+
+            border-radius:10px;
+        }
+
+        button{
+            padding:10px;
+
+            border:none;
+            border-radius:10px;
+
+            font-weight:bold;
+            cursor:pointer;
+
+            margin-top:10px;
+
+            transition:0.2s;
+        }
+
+        .danger{
+            background:#d00000;
+            color:white;
+        }
+
+        .danger:hover{
+            background:#ff0000;
+            transform:translateY(-2px);
+        }
+
+        .cancel{
+            background:rgba(255,255,255,0.15);
+            color:white;
+        }
+
+        .cancel:hover{
+            background:rgba(255,255,255,0.25);
+            transform:translateY(-2px);
+        }
+
+        form{
+            display:flex;
+            flex-direction:column;
+        }
+
+        a{
+            text-decoration:none;
+        }
+
+        .port-label{
+            position:fixed;
+            bottom:15px;
+            right:20px;
+
+            font-size:13px;
+            opacity:0.75;
+
+            background:rgba(0,0,0,0.3);
+            padding:6px 10px;
+            border-radius:8px;
+
+            backdrop-filter:blur(6px);
+        }
+
+    </style>
 </head>
+
 <body>
-    <h1>Eliminazione prenotazione</h1>
-    Sei sicuro di voler eliminare la prenotazione con ID {{prenotazione.id}}?
-    <br><br>
+
+<div class="card">
+
+    <h1>Eliminazione Prenotazione</h1>
+
+    <div class="warning">
+        Sei sicuro di voler eliminare la prenotazione con ID <strong>{{prenotazione.id}}</strong>?
+    </div>
+
     <form method="POST" action="/cliente/prenotazione/elimina/{{prenotazione.id}}">
+
         {% csrf_token %}
-        <button type="submit">Elimina</button>
+
+        <button type="submit" class="danger">Elimina</button>
+
     </form>
-    <a href="/cliente/prenotazione/visualizza"><button>Annulla</button></a>
+
+    <a href="/cliente/prenotazione/visualizza">
+        <button type="button" class="cancel">Annulla</button>
+    </a>
+
+</div>
+
+<div class="port-label">
+    Porto di Saint John
+</div>
+
 </body>
 </html>
