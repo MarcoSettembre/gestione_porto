@@ -3,56 +3,365 @@
 <head>
     <meta charset="UTF-8">
     <title>Attracco Navi</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+
+            min-height:100vh;
+
+            background:
+                linear-gradient(rgba(0,0,0,0.68), rgba(0,0,0,0.68)),
+                url('https://upload.wikimedia.org/wikipedia/commons/b/ba/Porto_e_bacini_palermo_dall%27alto.JPG');
+
+            background-size:cover;
+            background-position:center;
+            background-attachment:fixed;
+
+            color:white;
+        }
+
+        /* NAVBAR */
+
+        .navbar{
+
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+
+            padding:15px 25px;
+
+            background:rgba(0,0,0,0.5);
+
+            backdrop-filter:blur(10px);
+
+            border-bottom:1px solid rgba(255,255,255,0.15);
+        }
+
+        .title{
+
+            font-weight:bold;
+
+            font-size:18px;
+        }
+
+        .nav-buttons{
+
+            display:flex;
+
+            gap:12px;
+        }
+
+        .nav-buttons a{
+
+            text-decoration:none;
+        }
+
+        .nav-buttons button{
+
+            padding:10px 14px;
+
+            border:none;
+            border-radius:10px;
+
+            background:#0077b6;
+
+            color:white;
+
+            font-weight:bold;
+
+            cursor:pointer;
+
+            transition:0.2s;
+        }
+
+        .nav-buttons button:hover{
+
+            background:#0096c7;
+
+            transform:translateY(-2px);
+        }
+
+        /* CONTENT */
+
+        .container{
+    padding:35px 25px;
+
+    display:flex;
+    flex-direction:column;
+
+    min-height:calc(100vh - 80px); /* navbar + margini */
+}
+
+
+        h1{
+
+            margin-bottom:25px;
+
+            font-size:32px;
+        }
+
+        .messages{
+
+            margin-bottom:25px;
+
+            padding:14px;
+
+            border-radius:12px;
+
+            background:rgba(0,180,255,0.18);
+
+            border:1px solid rgba(0,180,255,0.3);
+
+            width:fit-content;
+
+            min-width:300px;
+        }
+
+        /* TABLE */
+
+        table{
+
+            width:100%;
+
+            border-collapse:collapse;
+
+            overflow:hidden;
+
+            border-radius:14px;
+
+            background:rgba(255,255,255,0.08);
+
+            backdrop-filter:blur(8px);
+        }
+
+        th,
+        td{
+
+            padding:14px;
+
+            text-align:center;
+        }
+
+        th{
+
+            background:rgba(0,119,182,0.65);
+
+            font-size:15px;
+        }
+
+        tr:nth-child(even){
+
+            background:rgba(255,255,255,0.08);
+        }
+
+        tr:hover{
+
+            background:rgba(255,255,255,0.12);
+        }
+
+        select{
+
+            padding:8px 10px;
+
+            border:none;
+            border-radius:8px;
+
+            background:white;
+        }
+
+        td button{
+
+            padding:9px 14px;
+
+            border:none;
+            border-radius:8px;
+
+            background:#00b4d8;
+
+            color:white;
+
+            font-weight:bold;
+
+            cursor:pointer;
+
+            transition:0.2s;
+        }
+
+        td button:hover{
+
+            background:#48cae4;
+
+            transform:translateY(-2px);
+        }
+
+        /* PORT LABEL */
+
+        .footer{
+    margin-top:auto;
+    display:flex;
+    justify-content:flex-end;
+}
+
+
+        .port-label{
+
+    font-size:13px;
+
+    opacity:0.75;
+
+    background:transparent;
+
+    padding:6px 10px;
+
+    border-radius:8px;
+
+    align-self:flex-end;
+}
+
+    </style>
+
 </head>
+
 <body>
-    <h1>Lista navi da attraccare</h1>
-    <br><br>
+
+<div class="navbar">
+
+    <div class="title">
+        Gestione Attracco Navi
+    </div>
+
+    <div class="nav-buttons">
+
+        <a href="/banchina/attracco_visualizza">
+
+            <button type="button">
+                Visualizza Navi Attraccate
+            </button>
+
+        </a>
+
+        <a href="/banchina">
+
+            <button type="button">
+                Ritorna alla Dashboard
+            </button>
+
+        </a>
+
+    </div>
+
+</div>
+
+<div class="container">
+
+    <h1>
+        Lista navi da attraccare
+    </h1>
+
     {% if messages %}
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-        <br><br>
+
+        <div class="messages">
+
+            {% for message in messages %}
+
+                <p>{{ message }}</p>
+
+            {% endfor %}
+
+        </div>
+
     {% endif %}
-    <a href="/banchina/attracco_visualizza"><button>Visualizza Navi Attraccate</button></a>
-    <br><br>
-    <a href="/banchina"><button>Ritorna alla dashboard</button></a>
-    <br><br>
+
     <form method="POST" action="/banchina/attracco">
+
         {% csrf_token %}
-    <table>
-        <tr>
-            <th>IMO</th>
-            <th>Nome</th>
-            <th>Nazionalità</th>
-            <th>Compagnia</th>
-            <th>Altezza</th>
-            <th>Lunghezza</th>
-            <th>Larghezza</th>
-            <th>Banchina</th>
-            <th>Azioni</th>
-        </tr>
-        {% for item in navi_con_banchine %}
-        <tr>
-            <td>{{item.nave.imo}}</td>
-            <td>{{item.nave.nome}}</td>
-            <td>{{item.nave.nazionalita}}</td>
-            <td>{{item.nave.compagnia}}</td>
-            <td>{{item.nave.altezza}}</td>
-            <td>{{item.nave.lunghezza}}</td>
-            <td>{{item.nave.larghezza}}</td>
-            <td>
-                <select name="banchina_{{item.nave.imo}}" id="banchina_{{item.nave.imo}}">
-                    <option value="">Nessuna</option>
-                    {% for b in item.banchine %}
-                    <option value="{{b.numero}}|{{b.settore}}">
-                        {{b.numero}}/{{b.settore}}</option>
-                    {% endfor %}
-                </select>
-            </td>
-            <td><button type="submit" name="imo" value="{{item.nave.imo}}">Attracca</button></td>
-        </tr>
-        {% endfor %}
-    </table>
+
+        <table>
+
+            <tr>
+                <th>IMO</th>
+                <th>Nome</th>
+                <th>Nazionalità</th>
+                <th>Compagnia</th>
+                <th>Altezza</th>
+                <th>Lunghezza</th>
+                <th>Larghezza</th>
+                <th>Banchina</th>
+                <th>Azioni</th>
+            </tr>
+
+            {% for item in navi_con_banchine %}
+
+            <tr>
+
+                <td>{{item.nave.imo}}</td>
+                <td>{{item.nave.nome}}</td>
+                <td>{{item.nave.nazionalita}}</td>
+                <td>{{item.nave.compagnia}}</td>
+                <td>{{item.nave.altezza}}</td>
+                <td>{{item.nave.lunghezza}}</td>
+                <td>{{item.nave.larghezza}}</td>
+
+                <td>
+
+                    <select name="banchina_{{item.nave.imo}}"
+                            id="banchina_{{item.nave.imo}}">
+
+                        <option value="">
+                            Nessuna
+                        </option>
+
+                        {% for b in item.banchine %}
+
+                        <option value="{{b.numero}}|{{b.settore}}">
+
+                            {{b.numero}}/{{b.settore}}
+
+                        </option>
+
+                        {% endfor %}
+
+                    </select>
+
+                </td>
+
+                <td>
+
+                    <button type="submit"
+                            name="imo"
+                            value="{{item.nave.imo}}">
+
+                        Attracca
+
+                    </button>
+
+                </td>
+
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
     </form>
+
+    <div class="footer">
+
+        <div class="port-label">
+            Porto di Palermo
+        </div>
+
+    </div>
+
+</div>
+
 </body>
 </html>

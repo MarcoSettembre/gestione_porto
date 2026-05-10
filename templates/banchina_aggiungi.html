@@ -3,31 +3,275 @@
 <head>
     <meta charset="UTF-8">
     <title>Aggiunta Banchina</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+
+            min-height:100vh;
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            background:
+                linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+                url('https://upload.wikimedia.org/wikipedia/commons/1/1f/Port_of_Split_in_Croatia_%2848608601531%29.jpg');
+
+            background-size:cover;
+            background-position:center;
+            background-attachment:fixed;
+
+            color:white;
+        }
+
+        .card{
+
+            width:500px;
+
+            padding:35px;
+
+            background:rgba(255,255,255,0.10);
+
+            border-radius:20px;
+
+            backdrop-filter:blur(10px);
+
+            border:1px solid rgba(255,255,255,0.18);
+
+            box-shadow:0 8px 32px rgba(0,0,0,0.35);
+        }
+
+        h1{
+
+            text-align:center;
+
+            margin-bottom:25px;
+
+            font-size:28px;
+        }
+
+        form{
+
+            display:flex;
+            flex-direction:column;
+        }
+
+        label{
+
+            margin-bottom:8px;
+
+            font-weight:bold;
+        }
+
+        input,
+        select{
+
+            margin-bottom:20px;
+
+            padding:10px 12px;
+
+            border:none;
+            border-radius:10px;
+
+            background:rgba(255,255,255,0.92);
+
+            font-size:14px;
+        }
+
+        .button-group{
+
+            display:flex;
+            gap:10px;
+        }
+
+        button{
+
+            padding:10px 14px;
+
+            border:none;
+            border-radius:10px;
+
+            cursor:pointer;
+
+            font-weight:bold;
+
+            transition:0.2s;
+        }
+
+        .primary{
+
+            background:#0077b6;
+            color:white;
+        }
+
+        .primary:hover{
+
+            background:#0096c7;
+
+            transform:translateY(-2px);
+        }
+
+        .secondary{
+
+            background:#023e8a;
+            color:white;
+        }
+
+        .secondary:hover{
+
+            background:#0353a4;
+
+            transform:translateY(-2px);
+        }
+
+        .cancel{
+
+            margin-top:18px;
+
+            text-align:center;
+        }
+
+        .cancel button{
+
+            background:rgba(255,255,255,0.15);
+
+            color:white;
+        }
+
+        .cancel button:hover{
+
+            background:rgba(255,255,255,0.25);
+
+            transform:translateY(-2px);
+        }
+
+        .port-label{
+
+            position:absolute;
+
+            bottom:15px;
+            right:20px;
+
+            font-size:13px;
+
+            opacity:0.75;
+
+            color:white;
+
+            background:rgba(0,0,0,0.3);
+
+            padding:6px 10px;
+
+            border-radius:8px;
+
+            backdrop-filter:blur(6px);
+        }
+
+    </style>
+
 </head>
+
 <body>
-    <h1>Aggiunta Banchina</h1>
-    <br><br>
+
+<div class="card">
+
+    <h1>
+        Aggiunta Banchina
+    </h1>
+
     <form method="POST" action="/banchina/aggiungi">
+
         {% csrf_token %}
-        <br><br>
-        <label for="numero">Numero: </label>
-        <input type="number" id="numero" name="numero" required>
-        <br><br>
-        <label for="settore">Settore: </label>
-        <input type="text" id="settore" name="settore" required>
-        <br><br>
-        <label for="tipo">Tipo: </label>
-        <select id="tipo" name="tipo" required>
-            <option disabled selected value>---</option>
-            <option value="Cargo">Cargo</option>
-            <option value="Crociera">Crociera</option>
+
+        <label for="numero">
+            Numero:
+        </label>
+
+        <input type="number"
+               id="numero"
+               name="numero"
+               required>
+
+        <label for="settore">
+            Settore:
+        </label>
+
+        <input type="text"
+               id="settore"
+               name="settore"
+               required>
+
+        <label for="tipo">
+            Tipo:
+        </label>
+
+        <select id="tipo"
+                name="tipo"
+                required>
+
+            <option disabled selected value>
+                ---
+            </option>
+
+            <option value="Cargo">
+                Cargo
+            </option>
+
+            <option value="Crociera">
+                Crociera
+            </option>
+
         </select>
-        <br><br>
-        <label for="lunghezza">Lunghezza: </label>
-        <input type="number" id="lunghezza" name="lunghezza" required>
-        <br><br>
-        <button type="submit">Aggiungi</button> <button type="reset">Reset</button>
+
+        <label for="lunghezza">
+            Lunghezza:
+        </label>
+
+        <input type="number"
+               step="any"
+               id="lunghezza"
+               name="lunghezza"
+               required>
+
+        <div class="button-group">
+
+            <button type="submit" class="primary">
+                Aggiungi
+            </button>
+
+            <button type="reset" class="secondary">
+                Reset
+            </button>
+
+        </div>
+
     </form>
-    <a href="/banchina"><button>Annulla</button></a>
+
+    <div class="cancel">
+
+        <a href="/banchina">
+
+            <button type="button">
+                Annulla
+            </button>
+
+        </a>
+
+    </div>
+
+</div>
+
+<div class="port-label">
+    Porto di Split
+</div>
+
 </body>
 </html>

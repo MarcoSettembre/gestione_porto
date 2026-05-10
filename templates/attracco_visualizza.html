@@ -3,49 +3,266 @@
 <head>
     <meta charset="UTF-8">
     <title>Visualizzazione Navi Attraccate</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+
+            min-height:100vh;
+
+            background:
+                linear-gradient(rgba(0,0,0,0.70), rgba(0,0,0,0.70)),
+                url('https://upload.wikimedia.org/wikipedia/commons/0/0b/DublinPort.jpg');
+
+            background-size:cover;
+            background-position:center;
+            background-attachment:fixed;
+
+            color:white;
+        }
+
+        /* NAVBAR */
+
+        .navbar{
+
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+
+            padding:15px 25px;
+
+            background:rgba(0,0,0,0.5);
+
+            backdrop-filter:blur(10px);
+
+            border-bottom:1px solid rgba(255,255,255,0.15);
+        }
+
+        .navbar h1{
+            font-size:18px;
+        }
+
+        .navbar a{
+            text-decoration:none;
+        }
+
+        .navbar button{
+
+            padding:10px 14px;
+
+            border:none;
+            border-radius:10px;
+
+            background:#0077b6;
+            color:white;
+
+            font-weight:bold;
+
+            cursor:pointer;
+
+            transition:0.2s;
+        }
+
+        .navbar button:hover{
+            background:#0096c7;
+            transform:translateY(-2px);
+        }
+
+        /* CONTENT */
+
+        .container{
+
+            padding:30px 25px;
+
+            display:flex;
+            flex-direction:column;
+
+            min-height:calc(100vh - 70px);
+        }
+
+        h1{
+            margin-bottom:20px;
+        }
+
+        p{
+            margin-bottom:10px;
+        }
+
+        /* TABLE */
+
+        table{
+
+            width:100%;
+
+            border-collapse:collapse;
+
+            border-radius:14px;
+
+            overflow:hidden;
+
+            background:rgba(255,255,255,0.08);
+
+            backdrop-filter:blur(8px);
+        }
+
+        th, td{
+
+            padding:12px;
+
+            text-align:center;
+        }
+
+        th{
+            background:rgba(0,119,182,0.65);
+        }
+
+        tr:nth-child(even){
+            background:rgba(255,255,255,0.08);
+        }
+
+        tr:hover{
+            background:rgba(255,255,255,0.12);
+        }
+
+        button{
+
+            padding:8px 12px;
+
+            border:none;
+            border-radius:8px;
+
+            background:#00b4d8;
+
+            color:white;
+
+            font-weight:bold;
+
+            cursor:pointer;
+
+            transition:0.2s;
+        }
+
+        button:hover{
+            background:#48cae4;
+            transform:translateY(-2px);
+        }
+
+        /* PORT LABEL LOGIC */
+
+        .footer{
+            margin-top:auto;
+            display:flex;
+            justify-content:flex-end;
+        }
+
+        .port-label{
+
+            font-size:13px;
+
+            opacity:0.75;
+
+            background:transparent;
+
+            padding:6px 10px;
+
+            border-radius:8px;
+        }
+
+    </style>
+
 </head>
+
 <body>
-  <h1>Lista Navi Attraccate</h1>
-  {% if messages %}
+
+<!-- NAVBAR -->
+<div class="navbar">
+
+    <h1>
+        Navi Attraccate
+    </h1>
+
+    <a href="/banchina/attracco">
+        <button type="button">
+            Attracca Navi
+        </button>
+    </a>
+
+</div>
+
+<!-- CONTENT -->
+<div class="container">
+
+    <h1>Lista Navi Attraccate</h1>
+
+    {% if messages %}
+
         {% for message in messages %}
             <p>{{ message }}</p>
         {% endfor %}
+
     {% endif %}
-  <br><br>
-  <a href="/banchina/attracco"><button>Attracca Navi</button></a>
-  <br><br>
-  <form method="POST" action="/banchina/attracco_visualizza">
-    {% csrf_token %}
-  <table>
-    <tr>
-      <th>IMO</th>
-      <th>Nome</th>
-      <th>Nazionalità</th>
-      <th>Compagnia</th>
-      <th>Altezza</th>
-      <th>Lunghezza</th>
-      <th>Larghezza</th>
-      <th>Tipo</th>
-      <th>Numero Banchina</th>
-      <th>Settore Banchina</th>
-      <th>Azioni</th>
-    </tr>
-    {% for nave in navi %}
-      <tr>
-        <td>{{ nave.imo }}</td>
-        <td>{{ nave.nome }}</td>
-        <td>{{ nave.nazionalita }}</td>
-        <td>{{ nave.compagnia }}</td>
-        <td>{{ nave.altezza }}</td>
-        <td>{{ nave.lunghezza }}</td>
-        <td>{{ nave.larghezza }}</td>
-        <td>{{ nave.tipo }}</td>
-        <td>{{ nave.numero_banchina }}</td>
-        <td>{{ nave.settore_banchina }}</td>
-        <td><button type="submit" name="imo" value="{{nave.imo}}">Rimuovi</button></td>
-      </tr>
-    {% endfor %}
-  </table>
-  </form>
+
+    <form method="POST" action="/banchina/attracco_visualizza">
+
+        {% csrf_token %}
+
+        <table>
+
+            <tr>
+                <th>IMO</th>
+                <th>Nome</th>
+                <th>Nazionalità</th>
+                <th>Compagnia</th>
+                <th>Altezza</th>
+                <th>Lunghezza</th>
+                <th>Larghezza</th>
+                <th>Tipo</th>
+                <th>Numero Banchina</th>
+                <th>Settore Banchina</th>
+                <th>Azioni</th>
+            </tr>
+
+            {% for nave in navi %}
+
+            <tr>
+                <td>{{ nave.imo }}</td>
+                <td>{{ nave.nome }}</td>
+                <td>{{ nave.nazionalita }}</td>
+                <td>{{ nave.compagnia }}</td>
+                <td>{{ nave.altezza }}</td>
+                <td>{{ nave.lunghezza }}</td>
+                <td>{{ nave.larghezza }}</td>
+                <td>{{ nave.tipo }}</td>
+                <td>{{ nave.numero_banchina }}</td>
+                <td>{{ nave.settore_banchina }}</td>
+                <td>
+                    <button type="submit" name="imo" value="{{nave.imo}}">
+                        Rimuovi
+                    </button>
+                </td>
+            </tr>
+
+            {% endfor %}
+
+        </table>
+
+    </form>
+
+    <!-- PORT LABEL (dynamic bottom behavior) -->
+    <div class="footer">
+        <div class="port-label">
+            Porto di Dublino
+        </div>
+    </div>
+
+</div>
+
 </body>
 </html>

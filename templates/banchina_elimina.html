@@ -3,16 +3,192 @@
 <head>
     <meta charset="UTF-8">
     <title>Eliminazione Banchina</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+
+            min-height:100vh;
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            background:
+                linear-gradient(rgba(0,0,0,0.72), rgba(0,0,0,0.72)),
+                url('https://www.aquasurtech.cl/wp-content/uploads/2025/03/vlc_uCCOWuJUpG.jpg');
+
+            background-size:cover;
+            background-position:center;
+            background-attachment:fixed;
+
+            color:white;
+        }
+
+        .card{
+
+            width:480px;
+
+            padding:35px;
+
+            text-align:center;
+
+            background:rgba(255,255,255,0.10);
+
+            border-radius:20px;
+
+            backdrop-filter:blur(10px);
+
+            border:1px solid rgba(255,255,255,0.18);
+
+            box-shadow:0 8px 32px rgba(0,0,0,0.35);
+        }
+
+        h1{
+
+            margin-bottom:25px;
+
+            font-size:28px;
+        }
+
+        .warning{
+
+            padding:16px;
+
+            margin-bottom:25px;
+
+            border-radius:12px;
+
+            background:rgba(255,80,80,0.18);
+
+            border:1px solid rgba(255,80,80,0.35);
+
+            line-height:1.6;
+        }
+
+        form{
+            margin-bottom:15px;
+        }
+
+        button{
+
+            padding:10px 16px;
+
+            border:none;
+            border-radius:10px;
+
+            cursor:pointer;
+
+            font-weight:bold;
+
+            transition:0.2s;
+        }
+
+        .danger{
+
+            background:#c1121f;
+            color:white;
+        }
+
+        .danger:hover{
+
+            background:#e5383b;
+
+            transform:translateY(-2px);
+        }
+
+        .cancel{
+
+            background:rgba(255,255,255,0.15);
+
+            color:white;
+        }
+
+        .cancel:hover{
+
+            background:rgba(255,255,255,0.25);
+
+            transform:translateY(-2px);
+        }
+
+        a{
+            text-decoration:none;
+        }
+
+        .port-label{
+
+            position:absolute;
+
+            bottom:15px;
+            right:20px;
+
+            font-size:13px;
+
+            opacity:0.75;
+
+            color:white;
+
+            background:rgba(0,0,0,0.3);
+
+            padding:6px 10px;
+
+            border-radius:8px;
+
+            backdrop-filter:blur(6px);
+        }
+
+    </style>
+
 </head>
+
 <body>
-    <h1>Eliminazione Banchina</h1>
-    <br><br>
-    <p>Sei sicuro di voler eliminare la banchina {{banchina.numero}} nel settore {{banchina.settore}}?</p>
-    <br><br>
-    <form method="POST" action="/banchina/elimina/{{banchina.numero}}/{{banchina.settore}}">
+
+<div class="card">
+
+    <h1>
+        Eliminazione Banchina
+    </h1>
+
+    <div class="warning">
+
+        Sei sicuro di voler eliminare la banchina
+        <strong>{{banchina.numero}}</strong>
+        nel settore
+        <strong>{{banchina.settore}}</strong>?
+
+    </div>
+
+    <form method="POST"
+          action="/banchina/elimina/{{banchina.numero}}/{{banchina.settore}}">
+
         {% csrf_token %}
-        <button type="submit">Elimina</button>
+
+        <button type="submit" class="danger">
+            Elimina
+        </button>
+
     </form>
-    <a href="/banchina"><button>Annulla</button></a>
+
+    <a href="/banchina">
+
+        <button type="button" class="cancel">
+            Annulla
+        </button>
+
+    </a>
+
+</div>
+
+<div class="port-label">
+    Porto di Punta Arenas
+</div>
+
 </body>
 </html>

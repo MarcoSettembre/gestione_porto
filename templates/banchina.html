@@ -3,23 +3,356 @@
 <head>
     <meta charset="UTF-8">
     <title>Gestione Attracco Navi</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+
+    min-height:100vh;
+
+    display:flex;
+    flex-direction:column;
+
+    background:
+        linear-gradient(rgba(0,0,0,0.70), rgba(0,0,0,0.70)),
+        url('https://upload.wikimedia.org/wikipedia/commons/2/25/Porto_de_Lisboa_%282%29.jpg');
+
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+
+    color:white;
+}
+
+        /* NAVBAR */
+  /* NAVBAR */
+
+.navbar{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:15px 25px;
+
+    background:rgba(0,0,0,0.5);
+    backdrop-filter:blur(10px);
+
+    border-bottom:1px solid rgba(255,255,255,0.15);
+}
+
+.title{
+    font-weight:bold;
+}
+
+/* MENU */
+
+.menu{
+    display:flex;
+    gap:20px;
+}
+
+.dropdown{
+    position:relative;
+    display:inline-block;
+}
+
+.dropbtn{
+    background:transparent;
+    border:none;
+    color:white;
+    font-weight:bold;
+    cursor:pointer;
+    padding:10px 12px;
+    transition:0.2s;
+}
+
+.dropbtn:hover{
+    color:#90e0ef;
+}
+
+.dropdown-content{
+    display:none;
+    position:absolute;
+
+    top:40px;
+    left:0;
+
+    background:rgba(0,0,0,0.85);
+    min-width:220px;
+
+    border-radius:10px;
+    overflow:hidden;
+
+    box-shadow:0 8px 16px rgba(0,0,0,0.4);
+    z-index:10;
+}
+
+.dropdown-content a{
+    display:block;
+    padding:10px;
+
+    text-decoration:none;
+    color:white;
+
+    transition:0.2s;
+}
+
+.dropdown-content a:hover{
+    background:rgba(0,180,255,0.2);
+}
+
+.dropdown:hover .dropdown-content{
+    display:block;
+}
+
+        /* CONTENT */
+        .container{
+
+    flex:1;
+
+    padding:25px;
+
+    display:flex;
+    flex-direction:column;
+}
+
+        h1{
+            margin-bottom:20px;
+        }
+
+        .messages{
+
+            margin-bottom:20px;
+
+            background:rgba(255,255,255,0.08);
+            padding:12px;
+
+            border-radius:10px;
+
+            backdrop-filter:blur(6px);
+        }
+
+        .top-actions{
+            margin-bottom:20px;
+        }
+
+        .top-actions a{
+            text-decoration:none;
+        }
+
+        .top-actions button{
+
+            padding:10px 14px;
+
+            border:none;
+            border-radius:10px;
+
+            background:#023e8a;
+            color:white;
+
+            font-weight:bold;
+            cursor:pointer;
+
+            transition:0.2s;
+        }
+
+        .top-actions button:hover{
+            background:#0353a4;
+            transform:translateY(-2px);
+        }
+
+        /* TABLE */
+
+        table{
+
+            width:100%;
+
+            border-collapse:collapse;
+
+            background:rgba(255,255,255,0.08);
+
+            border-radius:14px;
+            overflow:hidden;
+
+            backdrop-filter:blur(6px);
+        }
+
+        th, td{
+            padding:14px;
+            text-align:center;
+        }
+
+        th{
+            background:rgba(0,119,182,0.55);
+            font-size:15px;
+        }
+
+        tr:nth-child(even){
+            background:rgba(255,255,255,0.10);
+        }
+
+        tr:hover{
+            background:rgba(255,255,255,0.16);
+        }
+
+        td a{
+            color:#90e0ef;
+            text-decoration:none;
+            font-weight:bold;
+            margin:0 5px;
+        }
+
+        td a:hover{
+            text-decoration:underline;
+        }
+
+        /* FOOTER BUTTONS */
+
+        .footer-buttons{
+
+            margin-top:25px;
+
+            display:flex;
+            gap:10px;
+        }
+
+        .footer-buttons a{
+            text-decoration:none;
+        }
+
+        .footer-buttons button{
+
+            padding:10px 14px;
+
+            border:none;
+            border-radius:10px;
+
+            background:rgba(255,255,255,0.12);
+            color:white;
+
+            font-weight:bold;
+            cursor:pointer;
+
+            transition:0.2s;
+        }
+
+        .footer-buttons button:hover{
+            background:rgba(255,255,255,0.22);
+            transform:translateY(-2px);
+        }
+
+        /* PORT LABEL */
+
+    .port-label{
+
+    margin-top:auto;
+    padding-top:20px;
+
+    display:flex;
+    justify-content:flex-end;
+
+    font-size:13px;
+    opacity:0.75;
+
+    color:white;
+}
+
+    </style>
+
 </head>
+
 <body>
-<h1> Benvenuto/a nell'area gestione attracco navi, {{request.user.username}} </h1>
-    <br><br>
+
+<!-- NAVBAR -->
+
+<!-- NAVBAR -->
+<div class="navbar">
+
+    <div class="title">
+        Gestione Attracco Navi · {{request.user.username}}
+    </div>
+
+    <div class="menu">
+
+        <!-- GESTIONE ATTRACCO -->
+        <div class="dropdown">
+
+            <button class="dropbtn">
+                Gestione Attracco ▾
+            </button>
+
+            <div class="dropdown-content">
+
+                <a href="/banchina/attracco">
+                    Attracca Navi
+                </a>
+
+                <a href="/banchina/attracco_visualizza">
+                    Visualizza Navi Attraccate
+                </a>
+
+            </div>
+
+        </div>
+
+        <!-- GESTIONE ACCOUNT -->
+        <div class="dropdown">
+
+            <button class="dropbtn">
+                Gestione Account ▾
+            </button>
+
+            <div class="dropdown-content">
+
+                <a href="/modifica_password">
+                    Modifica Password
+                </a>
+
+                <a href="/logout">
+                    Logout
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="container">
+
+    <h1>
+        Area Gestione Banchine
+    </h1>
+
     {% if messages %}
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-        <br><br>
+        <div class="messages">
+
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+
+        </div>
     {% endif %}
-    <a href="/banchina/aggiungi"><button>Aggiungi Banchina</button></a>
-    <br><br>
-    <a href="/banchina/attracco"><button>Attracca Navi</button></a>
-    <br><br>
-    <a href="/banchina/attracco_visualizza"><button>Visualizza Navi Attraccate</button></a>
-    <br><br>
+
+    <div class="top-actions">
+
+        <a href="/banchina/aggiungi">
+            <button>Aggiungi Banchina</button>
+        </a>
+
+    </div>
+
     <table>
+
         <tr>
             <th>Numero</th>
             <th>Settore</th>
@@ -27,17 +360,35 @@
             <th>Lunghezza</th>
             <th>Azioni</th>
         </tr>
+
         {% for banchina in banchine %}
         <tr>
+
             <td>{{banchina.numero}}</td>
             <td>{{banchina.settore}}</td>
             <td>{{banchina.tipo}}</td>
             <td>{{banchina.lunghezza}}</td>
-            <td><a href="/banchina/modifica/{{banchina.numero}}/{{banchina.settore}}">Modifica</a> <a href="/banchina/elimina/{{banchina.numero}}/{{banchina.settore}}">Elimina</a></td>
+
+            <td>
+                <a href="/banchina/modifica/{{banchina.numero}}/{{banchina.settore}}">
+                    Modifica
+                </a>
+
+                <a href="/banchina/elimina/{{banchina.numero}}/{{banchina.settore}}">
+                    Elimina
+                </a>
+            </td>
+
         </tr>
         {% endfor %}
+
     </table>
-    <a href="/logout"><button>Logout</button></a>
-    <a href="/modifica_password"><button>Modifica Password</button></a>
+
+    <div class="port-label">
+        Porto di Lisbona
+    </div>
+
+</div>
+
 </body>
 </html>
