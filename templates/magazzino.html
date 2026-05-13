@@ -3,20 +3,355 @@
 <head>
     <meta charset="UTF-8">
     <title>Gestione Magazzino</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+
+            min-height:100vh;
+
+            background:
+                linear-gradient(rgba(0,0,0,0.68), rgba(0,0,0,0.68)),
+                url('https://upload.wikimedia.org/wikipedia/commons/a/a4/K%C3%B8benhavns_Havn_%28Copenhagen_Port%29.jpg');
+
+            background-size:cover;
+            background-position:center;
+            background-attachment:fixed;
+
+            color:white;
+        }
+
+        /* NAVBAR */
+
+        .navbar{
+
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+
+            padding:15px 25px;
+
+            background:rgba(0,0,0,0.5);
+
+            backdrop-filter:blur(10px);
+
+            border-bottom:1px solid rgba(255,255,255,0.15);
+        }
+
+        .title{
+
+            font-weight:bold;
+
+            font-size:18px;
+        }
+
+        /* DROPDOWN */
+
+        .menu{
+            display:flex;
+            gap:20px;
+        }
+
+        .dropdown{
+            position:relative;
+            display:inline-block;
+        }
+
+        .dropbtn{
+
+            background:transparent;
+
+            border:none;
+
+            color:white;
+
+            font-weight:bold;
+
+            cursor:pointer;
+
+            padding:10px 12px;
+
+            transition:0.2s;
+        }
+
+        .dropbtn:hover{
+            color:#90e0ef;
+        }
+
+        .dropdown-content{
+
+            display:none;
+
+            position:absolute;
+
+            top:40px;
+            right:0;
+
+            background:rgba(0,0,0,0.85);
+
+            min-width:220px;
+
+            border-radius:10px;
+
+            overflow:hidden;
+
+            box-shadow:0 8px 16px rgba(0,0,0,0.4);
+
+            z-index:10;
+        }
+
+        .dropdown-content a{
+
+            display:block;
+
+            padding:12px;
+
+            text-decoration:none;
+
+            color:white;
+
+            transition:0.2s;
+        }
+
+        .dropdown-content a:hover{
+            background:rgba(0,180,255,0.2);
+        }
+
+        .dropdown:hover .dropdown-content{
+            display:block;
+        }
+
+        /* CONTENT */
+
+        .container{
+
+            padding:30px 25px;
+
+            display:flex;
+            flex-direction:column;
+
+            min-height:calc(100vh - 70px);
+        }
+
+        h1{
+            margin-bottom:25px;
+        }
+
+        /* MESSAGES */
+
+        .messages{
+
+            margin-bottom:25px;
+
+            padding:14px;
+
+            border-radius:12px;
+
+            background:rgba(0,180,255,0.18);
+
+            border:1px solid rgba(0,180,255,0.3);
+
+            width:fit-content;
+
+            min-width:300px;
+        }
+
+        /* BUTTON */
+
+        .add-button{
+
+            margin-bottom:25px;
+        }
+
+        .add-button a{
+            text-decoration:none;
+        }
+
+        .add-button button{
+
+            padding:10px 16px;
+
+            border:none;
+            border-radius:10px;
+
+            background:#0077b6;
+
+            color:white;
+
+            font-weight:bold;
+
+            cursor:pointer;
+
+            transition:0.2s;
+        }
+
+        .add-button button:hover{
+
+            background:#0096c7;
+
+            transform:translateY(-2px);
+        }
+
+        /* TABLE */
+
+        table{
+
+            width:100%;
+
+            border-collapse:collapse;
+
+            border-radius:14px;
+
+            overflow:hidden;
+
+            background:rgba(255,255,255,0.08);
+
+            backdrop-filter:blur(8px);
+        }
+
+        th,
+        td{
+
+            padding:14px;
+
+            text-align:center;
+        }
+
+        th{
+
+            background:rgba(0,119,182,0.65);
+        }
+
+        tr:nth-child(even){
+
+            background:rgba(255,255,255,0.08);
+        }
+
+        tr:hover{
+
+            background:rgba(255,255,255,0.12);
+        }
+
+        td a{
+
+            color:#90e0ef;
+
+            text-decoration:none;
+
+            font-weight:bold;
+
+            margin:0 4px;
+        }
+
+        td a:hover{
+            text-decoration:underline;
+        }
+
+        /* PORT LABEL */
+
+        .footer{
+
+            margin-top:auto;
+
+            display:flex;
+
+            justify-content:flex-end;
+        }
+
+        .port-label{
+
+            font-size:13px;
+
+            opacity:0.75;
+
+            background:transparent;
+
+            padding:6px 10px;
+
+            border-radius:8px;
+        }
+
+    </style>
+
 </head>
+
 <body>
-<h1> Benvenuto/a nell'area gestione magazzino, {{request.user.username}} </h1>
-    <br><br>
+
+<!-- NAVBAR -->
+<div class="navbar">
+
+    <div class="title">
+        Gestione Magazzino · {{request.user.username}}
+    </div>
+
+    <div class="menu">
+
+        <div class="dropdown">
+
+            <button class="dropbtn">
+                Gestione Account ▾
+            </button>
+
+            <div class="dropdown-content">
+
+                <a href="/modifica_password">
+                    Modifica Password
+                </a>
+
+                <a href="/logout">
+                    Logout
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- CONTENT -->
+<div class="container">
+
+    <h1>
+        Benvenuto/a nell'area gestione magazzino
+    </h1>
+
     {% if messages %}
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-        <br><br>
+
+        <div class="messages">
+
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+
+        </div>
+
     {% endif %}
-    <a href="/magazzino/aggiungi"><button>Aggiungi Magazzino</button></a>
-    <br><br>
+
+    <div class="add-button">
+
+        <a href="/magazzino/aggiungi">
+
+            <button type="button">
+                Aggiungi Magazzino
+            </button>
+
+        </a>
+
+    </div>
+
     {% if magazzini %}
+
     <table>
+
         <tr>
             <th>Nome</th>
             <th>Località</th>
@@ -24,21 +359,53 @@
             <th>Capacita</th>
             <th>Azioni</th>
         </tr>
-        {% for magazzino in magazzini%}
+
+        {% for magazzino in magazzini %}
+
         <tr>
+
             <td>{{magazzino.nome}}</td>
             <td>{{magazzino.localita}}</td>
             <td>{{magazzino.tipo}}</td>
             <td>{{magazzino.capacita}}</td>
-            <td><a href="/magazzino/modifica/{{magazzino.nome}}/{{magazzino.localita}}">Modifica</a> |
-                <a href="/magazzino/elimina/{{magazzino.nome}}/{{magazzino.localita}}">Elimina</a> |
-                <a href="/magazzino/stoccaggio/{{magazzino.nome}}/{{magazzino.localita}}">Visualizza Merce</a>
+
+            <td>
+
+                <a href="/magazzino/modifica/{{magazzino.nome}}/{{magazzino.localita}}">
+                    Modifica
+                </a>
+
+                |
+
+                <a href="/magazzino/elimina/{{magazzino.nome}}/{{magazzino.localita}}">
+                    Elimina
+                </a>
+
+                |
+
+                <a href="/magazzino/stoccaggio/{{magazzino.nome}}/{{magazzino.localita}}">
+                    Visualizza Merce
+                </a>
+
             </td>
+
         </tr>
+
         {% endfor %}
+
     </table>
+
     {% endif %}
-    <a href="/logout"><button>Logout</button></a>
-    <a href="/modifica_password"><button>Modifica Password</button></a>
+
+    <div class="footer">
+
+        <div class="port-label">
+            Porto di Copenhagen
+        </div>
+
+    </div>
+
+</div>
+
 </body>
 </html>

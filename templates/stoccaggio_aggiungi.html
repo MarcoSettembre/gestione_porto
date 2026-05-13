@@ -3,36 +3,292 @@
 <head>
     <meta charset="UTF-8">
     <title>Aggiunta Merce</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+
+            min-height:100vh;
+
+            display:flex;
+            flex-direction:column;
+
+            background:
+                linear-gradient(rgba(0,0,0,0.70), rgba(0,0,0,0.70)),
+                url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/33/Alexandria_Port.jpg/1280px-Alexandria_Port.jpg');
+
+            background-size:cover;
+            background-position:center;
+            background-attachment:fixed;
+
+            color:white;
+        }
+
+        .container{
+
+            flex:1;
+
+            padding:35px;
+        }
+
+        h1{
+
+            margin-bottom:30px;
+
+            font-size:32px;
+        }
+
+        .error{
+
+            margin-bottom:25px;
+
+            padding:14px;
+
+            width:fit-content;
+
+            border-radius:12px;
+
+            background:rgba(255,80,80,0.18);
+
+            border:1px solid rgba(255,80,80,0.35);
+
+            color:#ffd6d6;
+        }
+
+        table{
+
+            width:100%;
+
+            border-collapse:collapse;
+
+            background:rgba(255,255,255,0.08);
+
+            border-radius:14px;
+
+            overflow:hidden;
+        }
+
+        th, td{
+
+            padding:14px;
+
+            text-align:center;
+        }
+
+        th{
+
+            background:rgba(0,119,182,0.6);
+
+            font-size:15px;
+        }
+
+        tr:nth-child(even){
+
+            background:rgba(255,255,255,0.10);
+        }
+
+        tr:hover{
+
+            background:rgba(255,255,255,0.14);
+        }
+
+        input[type="checkbox"]{
+
+            transform:scale(1.2);
+
+            cursor:pointer;
+        }
+
+        .buttons{
+
+            margin-top:25px;
+
+            display:flex;
+
+            gap:12px;
+        }
+
+        button{
+
+            padding:11px 18px;
+
+            border:none;
+            border-radius:10px;
+
+            font-weight:bold;
+
+            cursor:pointer;
+
+            transition:0.2s;
+        }
+
+        .primary{
+
+            background:#0077b6;
+
+            color:white;
+        }
+
+        .primary:hover{
+
+            background:#0096c7;
+
+            transform:translateY(-2px);
+        }
+
+        .secondary{
+
+            background:#023e8a;
+
+            color:white;
+        }
+
+        .secondary:hover{
+
+            background:#0353a4;
+
+            transform:translateY(-2px);
+        }
+
+        .cancel{
+
+            margin-top:18px;
+        }
+
+        .cancel button{
+
+            background:rgba(255,255,255,0.15);
+
+            color:white;
+        }
+
+        .cancel button:hover{
+
+            background:rgba(255,255,255,0.25);
+
+            transform:translateY(-2px);
+        }
+
+        .footer{
+
+            display:flex;
+            justify-content:flex-end;
+
+            padding:15px 20px;
+        }
+
+        .port-label{
+
+            font-size:13px;
+
+            opacity:0.75;
+
+            background:transparent;
+        }
+
+    </style>
+
 </head>
+
 <body>
-    <h1>Elenco merci stoccabili in magazzino {{nome}} in {{localita}}</h1>
-    <br><br>
+
+<div class="container">
+
+    <h1>
+        Elenco merci stoccabili in magazzino {{nome}} in {{localita}}
+    </h1>
+
     {% if error %}
-        <p>Errore: {{ error }}</p>
-        <br><br>
+
+        <div class="error">
+            Errore: {{ error }}
+        </div>
+
     {% endif %}
-    <form method="POST" action="/magazzino/stoccaggio/aggiungi/{{nome}}/{{localita}}">
+
+    <form method="POST"
+          action="/magazzino/stoccaggio/aggiungi/{{nome}}/{{localita}}">
+
         {% csrf_token %}
+
         <table>
+
             <tr>
                 <th>SSCC</th>
                 <th>Peso</th>
                 <th>Paese</th>
                 <th>Azione</th>
             </tr>
+
             {% for m in merce %}
+
             <tr>
+
                 <td>{{m.sscc}}</td>
                 <td>{{m.peso}}</td>
                 <td>{{m.paese}}</td>
-                <td><label for="m_{{m.sscc}}">Stocca: </label>
-                    <input type="checkbox" name="merci" id="m_{{m.sscc}}" value="{{m.sscc}}"></td>
+
+                <td>
+
+                    <label for="m_{{m.sscc}}">
+                        Stocca:
+                    </label>
+
+                    <input type="checkbox"
+                           name="merci"
+                           id="m_{{m.sscc}}"
+                           value="{{m.sscc}}">
+
+                </td>
+
             </tr>
+
             {% endfor %}
+
         </table>
-        <br><br>
-        <button type="submit">Aggiungi</button> <button type="reset">Reset</button>
+
+        <div class="buttons">
+
+            <button type="submit" class="primary">
+                Aggiungi
+            </button>
+
+            <button type="reset" class="secondary">
+                Reset
+            </button>
+
+        </div>
+
     </form>
-    <a href="/magazzino/stoccaggio/{{nome}}/{{localita}}"><button>Annulla</button></a>
+
+    <div class="cancel">
+
+        <a href="/magazzino/stoccaggio/{{nome}}/{{localita}}">
+
+            <button type="button">
+                Annulla
+            </button>
+
+        </a>
+
+    </div>
+
+</div>
+
+<div class="footer">
+
+    <div class="port-label">
+        Porto di Alessandria d'Egitto
+    </div>
+
+</div>
+
 </body>
 </html>

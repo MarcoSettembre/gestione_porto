@@ -3,16 +3,191 @@
 <head>
     <meta charset="UTF-8">
     <title>Rimozione Merce</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+
+            min-height:100vh;
+
+            display:flex;
+            flex-direction:column;
+
+            background:
+                linear-gradient(rgba(0,0,0,0.68), rgba(0,0,0,0.68)),
+                url('https://upload.wikimedia.org/wikipedia/commons/3/3d/Vladivostok_harbor.jpg');
+
+            background-size:cover;
+            background-position:center;
+            background-attachment:fixed;
+
+            color:white;
+        }
+
+        .container{
+
+            flex:1;
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            padding:40px 20px;
+        }
+
+        .card{
+
+            width:520px;
+
+            background:rgba(255,255,255,0.10);
+            backdrop-filter:blur(10px);
+
+            border:1px solid rgba(255,255,255,0.18);
+
+            border-radius:20px;
+
+            padding:35px;
+
+            box-shadow:0 8px 30px rgba(0,0,0,0.35);
+
+            text-align:center;
+        }
+
+        h1{
+            margin-bottom:25px;
+            font-size:32px;
+        }
+
+        .warning{
+
+            font-size:18px;
+            line-height:1.6;
+
+            margin-bottom:30px;
+
+            color:#f1f1f1;
+        }
+
+        .sscc{
+            color:#90e0ef;
+            font-weight:bold;
+        }
+
+        .buttons{
+
+            display:flex;
+            justify-content:center;
+            gap:15px;
+
+            margin-top:10px;
+        }
+
+        button{
+
+            border:none;
+            border-radius:10px;
+
+            padding:12px 20px;
+
+            font-size:15px;
+            font-weight:bold;
+
+            cursor:pointer;
+
+            transition:0.2s;
+        }
+
+        .remove-btn{
+
+            background:#c1121f;
+            color:white;
+        }
+
+        .remove-btn:hover{
+
+            background:#e5383b;
+            transform:translateY(-2px);
+        }
+
+        .cancel-btn{
+
+            background:#1d3557;
+            color:white;
+        }
+
+        .cancel-btn:hover{
+
+            background:#457b9d;
+            transform:translateY(-2px);
+        }
+
+        .port-wrapper{
+
+            width:100%;
+
+            display:flex;
+            justify-content:flex-end;
+
+            padding:0 20px 15px 20px;
+        }
+
+        .port-label{
+
+            font-size:13px;
+            opacity:0.75;
+
+            text-align:right;
+        }
+
+    </style>
 </head>
+
 <body>
-    <h1>Rimozione Merce</h1>
-    <br><br>
-    Sei sicuro di voler rimuovere la merce con SSCC {{sscc}}?
-    <br><br>
-    <form method="POST" action="/magazzino/stoccaggio/elimina/{{sscc}}">
-        {% csrf_token %}
-        <button type="submit">Rimuovi</button>
-    </form>
-    <a href="/magazzino/stoccaggio/{{nome}}/{{localita}}"><button>Annulla</button></a>
+
+    <div class="container">
+
+        <div class="card">
+
+            <h1>Rimozione Merce</h1>
+
+            <div class="warning">
+                Sei sicuro di voler rimuovere la merce con SSCC
+                <span class="sscc">{{sscc}}</span>?
+            </div>
+
+            <div class="buttons">
+
+                <form method="POST" action="/magazzino/stoccaggio/elimina/{{sscc}}">
+                    {% csrf_token %}
+                    <button type="submit" class="remove-btn">
+                        Rimuovi
+                    </button>
+                </form>
+
+                <a href="/magazzino/stoccaggio/{{nome}}/{{localita}}">
+                    <button class="cancel-btn">
+                        Annulla
+                    </button>
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <div class="port-wrapper">
+        <div class="port-label">
+            Porto di Vladivostock
+        </div>
+    </div>
+
 </body>
 </html>

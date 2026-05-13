@@ -1,16 +1,188 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="it">
 <head>
     <meta charset="UTF-8">
     <title>Eliminazione Magazzino</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+
+            min-height:100vh;
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            background:
+                linear-gradient(rgba(0,0,0,0.72), rgba(0,0,0,0.72)),
+                url('https://ushuaiashipping.com/wp-content/uploads/2025/01/Ph-PatagonianDuck-7-1-2560x1536.jpg');
+
+            background-size:cover;
+            background-position:center;
+            background-attachment:fixed;
+
+            color:white;
+        }
+
+        .card{
+
+            width:520px;
+
+            padding:40px;
+
+            text-align:center;
+
+            background:rgba(255,255,255,0.10);
+
+            border-radius:22px;
+
+            backdrop-filter:blur(10px);
+
+            border:1px solid rgba(255,255,255,0.18);
+
+            box-shadow:0 8px 32px rgba(0,0,0,0.35);
+        }
+
+        h1{
+
+            margin-bottom:25px;
+
+            font-size:32px;
+        }
+
+        p{
+
+            line-height:1.7;
+
+            font-size:17px;
+
+            margin-bottom:30px;
+        }
+
+        .buttons{
+
+            display:flex;
+            justify-content:center;
+            gap:12px;
+        }
+
+        button{
+
+            padding:11px 18px;
+
+            border:none;
+            border-radius:10px;
+
+            font-weight:bold;
+
+            cursor:pointer;
+
+            transition:0.2s;
+        }
+
+        .delete{
+
+            background:#c1121f;
+
+            color:white;
+        }
+
+        .delete:hover{
+
+            background:#e5383b;
+
+            transform:translateY(-2px);
+        }
+
+        .cancel{
+
+            background:rgba(255,255,255,0.15);
+
+            color:white;
+        }
+
+        .cancel:hover{
+
+            background:rgba(255,255,255,0.25);
+
+            transform:translateY(-2px);
+        }
+
+        .port-label{
+
+            position:absolute;
+
+            bottom:15px;
+            right:20px;
+
+            font-size:13px;
+
+            opacity:0.75;
+
+            background:rgba(0,0,0,0.3);
+
+            padding:6px 10px;
+
+            border-radius:8px;
+
+            backdrop-filter:blur(6px);
+        }
+
+    </style>
+
 </head>
+
 <body>
-    <h1>Eliminazione Magazzino</h1>
-    <p>Sei sicuro di voler eliminare il magazzino {{magazzino.nome}} in {{magazzino.localita}}?</p>
-    <form method="POST" action="/magazzino/elimina/{{magazzino.nome}}/{{magazzino.localita}}">
-        {% csrf_token %}
-        <button type="submit">Elimina</button>
-    </form>
-    <a href="/magazzino"><button>Annulla</button></a>
+
+<div class="card">
+
+    <h1>
+        Eliminazione Magazzino
+    </h1>
+
+    <p>
+        Sei sicuro di voler eliminare il magazzino
+        <strong>{{magazzino.nome}}</strong>
+        in
+        <strong>{{magazzino.localita}}</strong>?
+    </p>
+
+    <div class="buttons">
+
+        <form method="POST"
+              action="/magazzino/elimina/{{magazzino.nome}}/{{magazzino.localita}}">
+
+            {% csrf_token %}
+
+            <button type="submit" class="delete">
+                Elimina
+            </button>
+
+        </form>
+
+        <a href="/magazzino">
+
+            <button type="button" class="cancel">
+                Annulla
+            </button>
+
+        </a>
+
+    </div>
+
+</div>
+
+<div class="port-label">
+    Porto di Ushuaia
+</div>
+
 </body>
 </html>

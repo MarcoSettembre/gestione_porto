@@ -3,24 +3,274 @@
 <head>
     <meta charset="UTF-8">
     <title>Modifica Magazzino</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+
+            min-height:100vh;
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            background:
+                linear-gradient(rgba(0,0,0,0.68), rgba(0,0,0,0.68)),
+                url('https://www.poal.co.nz/sites/default/files/styles/md/public/2025-08/POAL%20-%20Nov%202024%20-%20006.jpg?itok=pw6Tak7p');
+
+            background-size:cover;
+            background-position:center;
+            background-attachment:fixed;
+
+            color:white;
+        }
+
+        .card{
+
+            width:520px;
+
+            padding:35px;
+
+            background:rgba(255,255,255,0.10);
+
+            border-radius:20px;
+
+            backdrop-filter:blur(10px);
+
+            border:1px solid rgba(255,255,255,0.18);
+
+            box-shadow:0 8px 32px rgba(0,0,0,0.35);
+        }
+
+        h1{
+
+            text-align:center;
+
+            margin-bottom:30px;
+
+            font-size:28px;
+
+            line-height:1.4;
+        }
+
+        form{
+
+            display:flex;
+            flex-direction:column;
+        }
+
+        label{
+
+            margin-bottom:8px;
+
+            font-weight:bold;
+        }
+
+        input{
+
+            margin-bottom:22px;
+
+            padding:11px 12px;
+
+            border:none;
+            border-radius:10px;
+
+            background:rgba(255,255,255,0.92);
+
+            font-size:14px;
+        }
+
+        .button-group{
+
+            display:flex;
+
+            gap:10px;
+        }
+
+        button{
+
+            padding:10px 16px;
+
+            border:none;
+            border-radius:10px;
+
+            font-weight:bold;
+
+            cursor:pointer;
+
+            transition:0.2s;
+        }
+
+        .primary{
+
+            background:#0077b6;
+
+            color:white;
+        }
+
+        .primary:hover{
+
+            background:#0096c7;
+
+            transform:translateY(-2px);
+        }
+
+        .secondary{
+
+            background:#023e8a;
+
+            color:white;
+        }
+
+        .secondary:hover{
+
+            background:#0353a4;
+
+            transform:translateY(-2px);
+        }
+
+        .cancel{
+
+            margin-top:18px;
+
+            text-align:center;
+        }
+
+        .cancel button{
+
+            background:rgba(255,255,255,0.15);
+
+            color:white;
+        }
+
+        .cancel button:hover{
+
+            background:rgba(255,255,255,0.25);
+
+            transform:translateY(-2px);
+        }
+
+        .error{
+
+            margin-top:20px;
+
+            padding:12px;
+
+            border-radius:10px;
+
+            background:rgba(255,80,80,0.18);
+
+            border:1px solid rgba(255,80,80,0.35);
+
+            color:#ffd6d6;
+
+            text-align:center;
+        }
+
+        .port-label{
+
+            position:absolute;
+
+            bottom:15px;
+            right:20px;
+
+            font-size:13px;
+
+            opacity:0.75;
+
+            background:rgba(0,0,0,0.3);
+
+            padding:6px 10px;
+
+            border-radius:8px;
+
+            backdrop-filter:blur(6px);
+        }
+
+    </style>
+
 </head>
+
 <body>
-    <h1>Modifica Magazzino {{magazzino.nome}} in {{magazzino.localita}}</h1>
-    <br><br>
-    <form method="POST" action="/magazzino/modifica/{{magazzino.nome}}/{{magazzino.localita}}">
+
+<div class="card">
+
+    <h1>
+        Modifica Magazzino {{magazzino.nome}} in {{magazzino.localita}}
+    </h1>
+
+    <form method="POST"
+          action="/magazzino/modifica/{{magazzino.nome}}/{{magazzino.localita}}">
+
         {% csrf_token %}
-        <br><br>
-        <label for="tipo">Tipo: </label>
-        <input type="text" name="tipo" id="tipo" value="{{magazzino.tipo}}" required>
-        <label for="capacita">Capacità: </label>
-        <input type="number" name="capacita" id="capacita" value="{{magazzino.capacita}}" required>
-        <br><br>
-        <button type="submit">Modifica</button> <button type="reset">Reset</button>
+
+        <label for="tipo">
+            Tipo:
+        </label>
+
+        <input type="text"
+               name="tipo"
+               id="tipo"
+               value="{{magazzino.tipo}}"
+               required>
+
+        <label for="capacita">
+            Capacità:
+        </label>
+
+        <input type="number"
+               step="any"
+               name="capacita"
+               id="capacita"
+               value="{{magazzino.capacita}}"
+               required>
+
+        <div class="button-group">
+
+            <button type="submit" class="primary">
+                Modifica
+            </button>
+
+            <button type="reset" class="secondary">
+                Reset
+            </button>
+
+        </div>
+
     </form>
-    <a href="/magazzino"><button>Annulla</button></a>
-    <br><br>
+
+    <div class="cancel">
+
+        <a href="/magazzino">
+
+            <button type="button">
+                Annulla
+            </button>
+
+        </a>
+
+    </div>
+
     {% if error %}
-    Errore: {{ error }}
+
+        <div class="error">
+            Errore: {{ error }}
+        </div>
+
     {% endif %}
+
+</div>
+
+<div class="port-label">
+    Porto di Auckland
+</div>
+
 </body>
 </html>

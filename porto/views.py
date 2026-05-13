@@ -749,7 +749,7 @@ def stoccaggio_modifica(request, sscc):
             return render(request, 'stoccaggio_modifica.html', {'sscc': sscc, 'magazzini': mag, 'error': 'Vincolo non rispettato'})
         messages.success(request, 'Merce modificata con successo')
         return redirect('stoccaggio', nome=nome, localita=localita)
-    return render(request, 'stoccaggio_modifica.html', {'sscc': sscc, 'magazzini': mag})
+    return render(request, 'stoccaggio_modifica.html', {'sscc': sscc, 'magazzini': mag, 'stoccaggio': s})
 @login_required
 @group_required('gestore_magazzino')
 def stoccaggio_elimina(request, sscc):
