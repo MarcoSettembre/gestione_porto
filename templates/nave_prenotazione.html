@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <title>Visualizzazione Prenotazioni su Nave</title>
+</head>
+<body>
+    <h1>Lista prenotazioni su nave con IMO {{imo}}</h1>
+    <br><br>
+    <a href="/crociera"><button>Ritorna alla dashboard</button></a>
+    <br><br>
+    <table>
+        <tr>
+            <th>Numero Stanza</th>
+            <th>Codice Fiscale</th>
+            <th>Nome Cliente</th>
+            <th>Data Inizio</th>
+            <th>Data Fine</th>
+            <th>Servizio Guida</th>
+        </tr>
+        {% for prenotazione in prenotazioni %}
+        <tr>
+            <td>{{prenotazione.numero}}</td>
+            <td>{{prenotazione.codice_fiscale.codice_fiscale}}</td>
+            <td>{{prenotazione.codice_fiscale.nome}} {{prenotazione.codice_fiscale.cognome}}</td>
+            <td>{{prenotazione.data_inizio}}</td>
+            <td>{{prenotazione.scadenza}}</td>
+            <td> {% if prenotazione.servizio_guida %}
+                  Sì
+                {% else %}
+                  No
+                {% endif %}
+            </td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

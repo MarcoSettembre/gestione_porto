@@ -1420,3 +1420,11 @@ def prenotazione_elimina(request, id_prenotazione):
         messages.success(request, 'Prenotazione eliminata con successo')
         return redirect('prenotazione_visualizza')
     return render(request, 'prenotazione_elimina.html', {'prenotazione': p})
+@login_required
+@group_required('gestore_navi_crociera')
+def nave_prenotazione(request, imo):
+    if not UserNave.objects.filter(user=request.user, nave__imo=imo).exists():
+        messages.error(request, "Non sei autorizzato a vedere le prenotazioni questa nave")
+        return redirect('crociera')
+    p = Prenotazione.objects.filter(imo=imo)
+    return render(request, 'nave_prenotazione.html', {'prenotazioni': p, 'imo':imo})

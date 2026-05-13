@@ -77,4 +77,5 @@ urlpatterns = [
     path('cliente/prenotazione/visualizza', views.prenotazione_visualizza, name='prenotazione_visualizza'),
     path('cliente/prenotazione/modifica/<int:id_prenotazione>', views.prenotazione_modifica, name='prenotazione_modifica'),
     path('cliente/prenotazione/elimina/<int:id_prenotazione>', views.prenotazione_elimina, name='prenotazione_elimina'),
+    path('crociera/prenotazione/<str:imo>', views.nave_prenotazione, name='nave_prenotazione'),
 ]
