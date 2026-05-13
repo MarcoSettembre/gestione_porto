@@ -3,43 +3,295 @@
 <head>
     <meta charset="UTF-8">
     <title>Modifica Nave Cargo</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+
+            min-height:100vh;
+
+            display:flex;
+            flex-direction:column;
+
+            background:
+                linear-gradient(rgba(0,0,0,0.68), rgba(0,0,0,0.68)),
+                url('https://upload.wikimedia.org/wikipedia/commons/f/fb/Jebel_Ali_Port_2_Imresolt.jpg');
+
+            background-size:cover;
+            background-position:center;
+            background-attachment:fixed;
+
+            color:white;
+        }
+
+        .container{
+
+            flex:1;
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+
+            padding:40px 20px;
+        }
+
+        .form-box{
+
+            width:650px;
+
+            background:rgba(255,255,255,0.10);
+            backdrop-filter:blur(10px);
+
+            border:1px solid rgba(255,255,255,0.18);
+
+            border-radius:22px;
+
+            padding:35px;
+
+            box-shadow:0 8px 30px rgba(0,0,0,0.35);
+        }
+
+        h1{
+
+            text-align:center;
+
+            margin-bottom:30px;
+
+            font-size:30px;
+        }
+
+        form{
+
+            display:flex;
+            flex-direction:column;
+
+            gap:18px;
+        }
+
+        .field{
+
+            display:flex;
+            flex-direction:column;
+
+            gap:8px;
+        }
+
+        label{
+
+            font-weight:bold;
+
+            color:#caf0f8;
+        }
+
+        input{
+
+            padding:12px;
+
+            border:none;
+            border-radius:10px;
+
+            background:rgba(255,255,255,0.15);
+
+            color:white;
+
+            font-size:15px;
+
+            outline:none;
+        }
+
+        input:focus{
+
+            background:rgba(255,255,255,0.22);
+
+            border:1px solid rgba(144,224,239,0.5);
+        }
+
+        .buttons{
+
+            display:flex;
+
+            justify-content:center;
+
+            gap:15px;
+
+            margin-top:15px;
+        }
+
+        button{
+
+            border:none;
+
+            padding:12px 20px;
+
+            border-radius:10px;
+
+            font-size:15px;
+            font-weight:bold;
+
+            cursor:pointer;
+
+            transition:0.2s;
+        }
+
+        .primary{
+
+            background:#0077b6;
+            color:white;
+        }
+
+        .primary:hover{
+
+            background:#0096c7;
+
+            transform:translateY(-2px);
+        }
+
+        .secondary{
+
+            background:#1d3557;
+            color:white;
+        }
+
+        .secondary:hover{
+
+            background:#457b9d;
+
+            transform:translateY(-2px);
+        }
+
+        .error{
+
+            margin-top:25px;
+
+            text-align:center;
+
+            background:rgba(255,0,0,0.15);
+
+            border:1px solid rgba(255,0,0,0.25);
+
+            padding:12px;
+
+            border-radius:10px;
+        }
+
+        .port-wrapper{
+
+            width:100%;
+
+            display:flex;
+            justify-content:flex-end;
+
+            padding:15px 20px;
+        }
+
+        .port-label{
+
+            font-size:13px;
+
+            opacity:0.75;
+
+            text-align:right;
+        }
+
+    </style>
 </head>
+
 <body>
-    <h1>Modifica nave con IMO {{nave.imo}}</h1>
-    <br><br>
-    <form method="POST" action="/cargo/modifica/{{nave.imo}}">
-        {% csrf_token %}
-        <br><br>
-            <label for="nome">Nome: </label>
-            <input type="text" name="nome" id="nome" value="{{nave.nome}}" required>
-            <br><br>
-            <label for="nazionalita">Nazionalità: </label>
-            <input type="text" name="nazionalita" id="nazionalita" value="{{nave.nazionalita}}" required>
-            <br><br>
-            <label for="compagnia">Compagnia: </label>
-            <input type="text" name="compagnia" id="compagnia" value="{{nave.compagnia}}" required>
-            <br><br>
-            <label for="altezza">Altezza: </label>
-            <input type="number" name="altezza" id="altezza" value="{{nave.altezza}}" required>
-            <br><br>
-            <label for="lunghezza">Lunghezza: </label>
-            <input type="number" name="lunghezza" id="lunghezza" value="{{nave.lunghezza}}" required>
-            <br><br>
-            <label for="larghezza">Larghezza: </label>
-            <input type="number" name="larghezza" id="larghezza" value="{{nave.larghezza}}" required>
-            <br><br>
-            <label for="peso_massimo">Peso Massimo: </label>
-            <input type="number" name="peso_massimo" id="peso_massimo" value="{{nave.peso_massimo}}" required>
-            <br><br>
-            <label for="capacita">Capacità: </label>
-            <input type="number" name="capacita" id="capacita" value="{{nave.capacita}}" required>
-            <br><br>
-            <button type="submit">Modifica</button> <button type="reset">Reset</button>
-    </form>
-    <a href="/cargo"><button>Annulla</button></a>
-    <br><br>
-    {% if error %}
-    Errore: {{ error }}
-    {% endif %}
+
+    <div class="container">
+
+        <div class="form-box">
+
+            <h1>Modifica nave con IMO {{nave.imo}}</h1>
+
+            <form method="POST" action="/cargo/modifica/{{nave.imo}}">
+
+                {% csrf_token %}
+
+                <div class="field">
+                    <label for="nome">Nome:</label>
+                    <input type="text" name="nome" id="nome" value="{{nave.nome}}" required>
+                </div>
+
+                <div class="field">
+                    <label for="nazionalita">Nazionalità:</label>
+                    <input type="text" name="nazionalita" id="nazionalita" value="{{nave.nazionalita}}" required>
+                </div>
+
+                <div class="field">
+                    <label for="compagnia">Compagnia:</label>
+                    <input type="text" name="compagnia" id="compagnia" value="{{nave.compagnia}}" required>
+                </div>
+
+                <div class="field">
+                    <label for="altezza">Altezza:</label>
+                    <input type="number" step="any" min="0.0" name="altezza" id="altezza" value="{{nave.altezza}}" required>
+                </div>
+
+                <div class="field">
+                    <label for="lunghezza">Lunghezza:</label>
+                    <input type="number" step="any" min="0.0" name="lunghezza" id="lunghezza" value="{{nave.lunghezza}}" required>
+                </div>
+
+                <div class="field">
+                    <label for="larghezza">Larghezza:</label>
+                    <input type="number" step="any" min="0.0" name="larghezza" id="larghezza" value="{{nave.larghezza}}" required>
+                </div>
+
+                <div class="field">
+                    <label for="peso_massimo">Peso Massimo:</label>
+                    <input type="number" step="any" min="0.0" name="peso_massimo" id="peso_massimo" value="{{nave.peso_massimo}}" required>
+                </div>
+
+                <div class="field">
+                    <label for="capacita">Capacità:</label>
+                    <input type="number" min="0" name="capacita" id="capacita" value="{{nave.capacita}}" required>
+                </div>
+
+                <div class="buttons">
+
+                    <button type="submit" class="primary">
+                        Modifica
+                    </button>
+
+                    <button type="reset" class="secondary">
+                        Reset
+                    </button>
+
+                    <a href="/cargo">
+                        <button type="button" class="secondary">
+                            Annulla
+                        </button>
+                    </a>
+
+                </div>
+
+            </form>
+
+            {% if error %}
+                <div class="error">
+                    Errore: {{ error }}
+                </div>
+            {% endif %}
+
+        </div>
+
+    </div>
+
+    <div class="port-wrapper">
+
+        <div class="port-label">
+            Porto di Dubai
+        </div>
+
+    </div>
+
 </body>
 </html>

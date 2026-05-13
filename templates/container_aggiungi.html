@@ -3,27 +3,231 @@
 <head>
     <meta charset="UTF-8">
     <title>Aggiunta Container</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+
+            min-height:100vh;
+
+            display:flex;
+            flex-direction:column;
+            justify-content:center;
+            align-items:center;
+
+            background:
+                linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+                url('https://upload.wikimedia.org/wikipedia/commons/thumb/5/58/Vue_g%C3%A9n%C3%A9raleH13A0659.JPG/1280px-Vue_g%C3%A9n%C3%A9raleH13A0659.JPG');
+
+            background-size:cover;
+            background-position:center;
+            background-attachment:fixed;
+
+            color:white;
+
+            padding:40px 20px;
+        }
+
+        .container{
+
+            width:100%;
+            max-width:650px;
+
+            background:rgba(0,0,0,0.55);
+
+            backdrop-filter:blur(10px);
+
+            border:1px solid rgba(255,255,255,0.12);
+
+            border-radius:20px;
+
+            padding:40px;
+
+            box-shadow:0 10px 30px rgba(0,0,0,0.45);
+        }
+
+        h1{
+            text-align:center;
+            margin-bottom:30px;
+        }
+
+        .error{
+            margin-bottom:25px;
+            padding:14px;
+            border-radius:10px;
+            background:rgba(255,0,0,0.18);
+            border:1px solid rgba(255,0,0,0.3);
+        }
+
+        form{
+            display:flex;
+            flex-direction:column;
+            gap:20px;
+        }
+
+        .form-group{
+            display:flex;
+            flex-direction:column;
+        }
+
+        label{
+            margin-bottom:8px;
+            font-weight:bold;
+        }
+
+        input{
+            padding:12px;
+            border:none;
+            border-radius:10px;
+            background:rgba(255,255,255,0.12);
+            color:white;
+            outline:none;
+        }
+
+        /* BOTTONI */
+
+        .buttons{
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            margin-top:10px;
+        }
+
+        .right-actions{
+            display:flex;
+            gap:10px;
+            margin-left:auto;
+        }
+
+        button{
+            border:none;
+            padding:12px 20px;
+            border-radius:10px;
+            cursor:pointer;
+            font-weight:bold;
+            transition:0.2s;
+        }
+
+        .add-btn{
+            background:#0077b6;
+            color:white;
+        }
+
+        .add-btn:hover{
+            background:#0096c7;
+            transform:translateY(-2px);
+        }
+
+        .reset-btn{
+            background:#6c757d;
+            color:white;
+        }
+
+        .reset-btn:hover{
+            background:#868e96;
+            transform:translateY(-2px);
+        }
+
+        .cancel-wrapper{
+            margin-top:35px;
+        }
+
+        .cancel-btn button{
+            width:100%;
+            background:#495057;
+            color:white;
+        }
+
+        .cancel-btn button:hover{
+            background:#6c757d;
+            transform:translateY(-2px);
+        }
+
+        /* PORT LABEL FIX IN BOTTOM RIGHT */
+
+        .port-label{
+            position:fixed;
+            bottom:15px;
+            right:20px;
+
+            font-size:13px;
+            opacity:0.75;
+
+            background:rgba(0,0,0,0.3);
+            padding:6px 10px;
+            border-radius:8px;
+
+            backdrop-filter:blur(6px);
+        }
+
+    </style>
 </head>
+
 <body>
-    <h1>Aggiunta container su nave {{imo}}</h1>
-    <br><br>
-    {% if error %}
-        <p>Errore: {{ error }}</p>
-        <br><br>
-    {% endif %}
-    <form method="POST" action="/cargo/container/aggiungi/{{imo}}">
-        {% csrf_token %}
-        <label for="id">ID: </label>
-        <input type="text" name="id" id="id" required>
-        <br><br>
-        <label for="dimensione">Dimensione: </label>
-        <input type="number" name="dimensione" id="dimensione" required>
-        <br><br>
-        <label for="marchio">Marchio: </label>
-        <input type="text" name="marchio" id="marchio" required>
-        <br><br>
-        <button type="submit">Aggiungi</button> <button type="reset">Reset</button>
-    </form>
-    <a href="/cargo/container/{{imo}}"><button>Annulla</button></a>
+
+    <div class="container">
+
+        <h1>Aggiunta container su nave {{imo}}</h1>
+
+        {% if error %}
+            <div class="error">
+                Errore: {{ error }}
+            </div>
+        {% endif %}
+
+        <form method="POST" action="/cargo/container/aggiungi/{{imo}}">
+
+            {% csrf_token %}
+
+            <div class="form-group">
+                <label for="id">ID:</label>
+                <input type="text" name="id" id="id" required>
+            </div>
+
+            <div class="form-group">
+                <label for="dimensione">Dimensione:</label>
+                <input type="number" min="0" name="dimensione" id="dimensione" required>
+            </div>
+
+            <div class="form-group">
+                <label for="marchio">Marchio:</label>
+                <input type="text" name="marchio" id="marchio" required>
+            </div>
+
+            <div class="buttons">
+
+                <button type="submit" class="add-btn">
+                    Aggiungi
+                </button>
+
+                <div class="right-actions">
+                    <button type="reset" class="reset-btn">
+                        Reset
+                    </button>
+                </div>
+
+            </div>
+
+        </form>
+
+        <div class="cancel-wrapper">
+            <a href="/cargo/container/{{imo}}" class="cancel-btn">
+                <button>Annulla</button>
+            </a>
+        </div>
+
+    </div>
+
+    <div class="port-label">
+        Porto di Tangier
+    </div>
+
 </body>
 </html>

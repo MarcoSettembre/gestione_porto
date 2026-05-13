@@ -3,60 +3,430 @@
 <head>
     <meta charset="UTF-8">
     <title>Gestione Navi Cargo</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+
+            min-height:100vh;
+
+            display:flex;
+            flex-direction:column;
+
+            background:
+                linear-gradient(rgba(0,0,0,0.68), rgba(0,0,0,0.68)),
+                url('https://upload.wikimedia.org/wikipedia/commons/thumb/4/4d/Shanghai-Yangshan-Port-Containers2013-01.JPG/1280px-Shanghai-Yangshan-Port-Containers2013-01.JPG');
+
+            background-size:cover;
+            background-position:center;
+            background-attachment:fixed;
+
+            color:white;
+        }
+
+        /* NAVBAR */
+
+        .navbar{
+
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+
+            padding:15px 25px;
+
+            background:rgba(0,0,0,0.5);
+            backdrop-filter:blur(10px);
+
+            border-bottom:1px solid rgba(255,255,255,0.15);
+        }
+
+        .navbar-title{
+
+            font-size:18px;
+            font-weight:bold;
+        }
+
+        .dropdown{
+
+            position:relative;
+            display:inline-block;
+        }
+
+        .dropbtn{
+
+            background:transparent;
+            border:none;
+
+            color:white;
+
+            font-size:15px;
+            font-weight:bold;
+
+            cursor:pointer;
+
+            padding:10px 14px;
+
+            transition:0.2s;
+        }
+
+        .dropbtn:hover{
+            color:#90e0ef;
+        }
+
+        .dropdown-content{
+
+            display:none;
+
+            position:absolute;
+
+            right:0;
+            top:42px;
+
+            min-width:220px;
+
+            background:rgba(0,0,0,0.88);
+
+            border-radius:12px;
+
+            overflow:hidden;
+
+            box-shadow:0 8px 18px rgba(0,0,0,0.35);
+
+            z-index:10;
+        }
+
+        .dropdown-content a{
+
+            display:block;
+
+            padding:12px 15px;
+
+            color:white;
+            text-decoration:none;
+
+            transition:0.2s;
+        }
+
+        .dropdown-content a:hover{
+
+            background:rgba(0,180,255,0.20);
+        }
+
+        .dropdown:hover .dropdown-content{
+            display:block;
+        }
+
+        /* CONTENT */
+
+        .content{
+
+            flex:1;
+
+            padding:35px 25px;
+        }
+
+        h1{
+
+            margin-bottom:25px;
+
+            font-size:34px;
+        }
+
+        .messages{
+
+            margin-bottom:25px;
+
+            background:rgba(0,180,255,0.16);
+
+            border:1px solid rgba(0,180,255,0.28);
+
+            padding:14px;
+
+            border-radius:12px;
+
+            width:fit-content;
+
+            min-width:300px;
+        }
+
+        .actions{
+
+            margin-bottom:25px;
+        }
+
+        .actions button{
+
+            border:none;
+
+            padding:12px 18px;
+
+            border-radius:10px;
+
+            background:#0077b6;
+
+            color:white;
+
+            font-weight:bold;
+
+            cursor:pointer;
+
+            transition:0.2s;
+        }
+
+        .actions button:hover{
+
+            background:#0096c7;
+
+            transform:translateY(-2px);
+        }
+
+        /* TABLE */
+
+        .table-wrapper{
+
+            overflow-x:auto;
+        }
+
+        table{
+
+            width:100%;
+
+            border-collapse:collapse;
+
+            background:rgba(255,255,255,0.08);
+
+            border-radius:14px;
+
+            overflow:hidden;
+        }
+
+        th{
+
+            background:rgba(0,119,182,0.6);
+
+            padding:14px;
+
+            text-align:center;
+        }
+
+        td{
+
+            padding:12px;
+
+            text-align:center;
+        }
+
+        tr:nth-child(even){
+
+            background:rgba(255,255,255,0.10);
+        }
+
+        td a{
+
+            color:#90e0ef;
+
+            text-decoration:none;
+
+            font-weight:bold;
+
+            margin:0 4px;
+        }
+
+        td a:hover{
+            text-decoration:underline;
+        }
+        .action-links{
+
+    display:flex;
+    flex-direction:column;
+
+    gap:8px;
+
+    align-items:center;
+}
+
+.action-links a{
+
+    width:130px;
+
+    padding:7px 10px;
+
+    border-radius:8px;
+
+    background:rgba(0,180,255,0.15);
+
+    transition:0.2s;
+}
+
+.action-links a:hover{
+
+    background:rgba(0,180,255,0.28);
+
+    text-decoration:none;
+
+    transform:translateY(-1px);
+}
+        /* PORT LABEL */
+
+        .port-wrapper{
+
+            width:100%;
+
+            display:flex;
+            justify-content:flex-end;
+
+            padding:15px 20px;
+        }
+
+        .port-label{
+
+            font-size:13px;
+
+            opacity:0.75;
+
+            text-align:right;
+        }
+
+    </style>
 </head>
+
 <body>
-<h1> Benvenuto/a nell'area gestione navi cargo, {{request.user.username}} </h1>
-    <br><br>
-    {% if messages %}
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-        <br><br>
-    {% endif %}
-    <a href="/cargo/aggiungi"><button>Aggiungi Nave</button></a>
-    <br><br>
-     <table>
-        <tr>
-            <th>IMO</th>
-            <th>Nome</th>
-            <th>Nazionalità</th>
-            <th>Compagnia</th>
-            <th>Altezza</th>
-            <th>Lunghezza</th>
-            <th>Larghezza</th>
-            <th>Peso Massimo</th>
-            <th>Capacità</th>
-            <th>Peso Occupato</th>
-            <th>Volume Occupato</th>
-            <th>Numero Banchina</th>
-            <th>Settore Banchina</th>
-            <th>Azioni</th>
-        </tr>
-        {% for rel in navi %}
-        <tr>
-            <td>{{ rel.nave.imo }}</td>
-            <td>{{ rel.nave.nome }}</td>
-            <td>{{ rel.nave.nazionalita }}</td>
-            <td>{{ rel.nave.compagnia }}</td>
-            <td>{{ rel.nave.altezza }}</td>
-            <td>{{ rel.nave.lunghezza }}</td>
-            <td>{{ rel.nave.larghezza }}</td>
-            <td>{{ rel.nave.peso_massimo }}</td>
-            <td>{{ rel.nave.capacita }}</td>
-            <td>{{ rel.nave.peso_occupato }}</td>
-            <td>{{ rel.nave.volume_occupato }}</td>
-            <td>{{ rel.nave.numero_banchina }}</td>
-            <td>{{ rel.nave.settore_banchina }}</td>
-            <td>
-        <a href="/cargo/modifica/{{ rel.nave.imo }}">Modifica</a> |
-        <a href="/cargo/elimina/{{ rel.nave.imo }}">Elimina</a> |
-        <a href="/cargo/container/{{ rel.nave.imo }}">Visualizza Container</a>
-    </td>
-    </tr>
-    {% endfor %}
-    </table>
-    <br><br>
-    <a href="/modifica_password"><button>Modifica Password</button></a>
-    <a href="/logout"><button>Logout</button></a>
+
+    <!-- NAVBAR -->
+
+    <div class="navbar">
+
+        <div class="navbar-title">
+            Dashboard Gestione Navi Cargo · {{request.user.username}}
+        </div>
+
+        <div class="dropdown">
+
+            <button class="dropbtn">
+                Gestione Account ▾
+            </button>
+
+            <div class="dropdown-content">
+
+                <a href="/modifica_password">
+                    Modifica Password
+                </a>
+
+                <a href="/logout">
+                    Logout
+                </a>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- CONTENT -->
+
+    <div class="content">
+
+        <h1>Gestione Navi Cargo</h1>
+
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="actions">
+
+            <a href="/cargo/aggiungi">
+                <button>Aggiungi Nave</button>
+            </a>
+
+        </div>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <tr>
+                    <th>IMO</th>
+                    <th>Nome</th>
+                    <th>Nazionalità</th>
+                    <th>Compagnia</th>
+                    <th>Altezza</th>
+                    <th>Lunghezza</th>
+                    <th>Larghezza</th>
+                    <th>Peso Massimo</th>
+                    <th>Capacità</th>
+                    <th>Peso Occupato</th>
+                    <th>Volume Occupato</th>
+                    <th>Numero Banchina</th>
+                    <th>Settore Banchina</th>
+                    <th>Azioni</th>
+                </tr>
+
+                {% for rel in navi %}
+
+                <tr>
+
+                    <td>{{ rel.nave.imo }}</td>
+                    <td>{{ rel.nave.nome }}</td>
+                    <td>{{ rel.nave.nazionalita }}</td>
+                    <td>{{ rel.nave.compagnia }}</td>
+                    <td>{{ rel.nave.altezza }}</td>
+                    <td>{{ rel.nave.lunghezza }}</td>
+                    <td>{{ rel.nave.larghezza }}</td>
+                    <td>{{ rel.nave.peso_massimo }}</td>
+                    <td>{{ rel.nave.capacita }}</td>
+                    <td>{{ rel.nave.peso_occupato }}</td>
+                    <td>{{ rel.nave.volume_occupato }}</td>
+                    <td>{{ rel.nave.numero_banchina }}</td>
+                    <td>{{ rel.nave.settore_banchina }}</td>
+
+                    <td>
+
+                        <div class="action-links">
+
+                            <a href="/cargo/modifica/{{ rel.nave.imo }}">
+                                Modifica
+                            </a>
+
+                            <a href="/cargo/elimina/{{ rel.nave.imo }}">
+                                Elimina
+                            </a>
+
+                            <a href="/cargo/container/{{ rel.nave.imo }}">
+                                Visualizza Container
+                            </a>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <div class="port-wrapper">
+
+        <div class="port-label">
+            Porto di Shanghai
+        </div>
+
+    </div>
+
 </body>
 </html>

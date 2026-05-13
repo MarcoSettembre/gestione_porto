@@ -3,16 +3,152 @@
 <head>
     <meta charset="UTF-8">
     <title>Eliminazione Merce</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+
+            min-height:100vh;
+            display:flex;
+            flex-direction:column;
+
+            background:
+                linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+                url('https://upload.wikimedia.org/wikipedia/commons/c/c3/CO-colon-2000-02.jpg');
+
+            background-size:cover;
+            background-position:center;
+            background-attachment:fixed;
+
+            color:white;
+        }
+
+        .container{
+
+            width:100%;
+            max-width:650px;
+
+            margin:auto;
+
+            background:rgba(0,0,0,0.55);
+            backdrop-filter:blur(10px);
+
+            border:1px solid rgba(255,255,255,0.12);
+            border-radius:18px;
+
+            padding:40px;
+
+            text-align:center;
+
+            box-shadow:0 10px 25px rgba(0,0,0,0.4);
+        }
+
+        h1{
+            margin-bottom:25px;
+        }
+
+        .warning{
+            font-size:18px;
+            margin-bottom:30px;
+            line-height:1.5;
+        }
+
+        .sscc{
+            color:#90e0ef;
+            font-weight:bold;
+        }
+
+        .actions{
+            display:flex;
+            justify-content:center;
+            gap:15px;
+            flex-wrap:wrap;
+        }
+
+        button{
+            border:none;
+            padding:12px 22px;
+            border-radius:10px;
+            cursor:pointer;
+            font-weight:bold;
+            transition:0.2s;
+        }
+
+        .delete-btn{
+            background:#c1121f;
+            color:white;
+        }
+
+        .delete-btn:hover{
+            background:#e5383b;
+            transform:translateY(-2px);
+        }
+
+        .cancel-btn{
+            background:#495057;
+            color:white;
+        }
+
+        .cancel-btn:hover{
+            background:#6c757d;
+            transform:translateY(-2px);
+        }
+
+        a{
+            text-decoration:none;
+        }
+
+        .footer{
+            margin-top:auto;
+            padding:20px 30px;
+            text-align:right;
+            font-size:13px;
+            opacity:0.75;
+        }
+
+    </style>
 </head>
+
 <body>
+
+<div class="container">
+
     <h1>Eliminazione Merce</h1>
-    <br><br>
-    Sei sicuro di voler eliminare la merce con SSCC {{merce.sscc}}?
-    <br><br>
-    <form method="POST" action="/cargo/merce/elimina/{{merce.sscc}}">
-      {% csrf_token %}
-      <button type="submit">Elimina</button>
-    </form>
-    <a href="/cargo/merce/{{merce.id_container_id}}"><button>Annulla</button></a>
+
+    <p class="warning">
+        Sei sicuro di voler eliminare la merce con SSCC
+        <span class="sscc">{{merce.sscc}}</span>?
+    </p>
+
+    <div class="actions">
+
+        <form method="POST" action="/cargo/merce/elimina/{{merce.sscc}}">
+            {% csrf_token %}
+            <button type="submit" class="delete-btn">
+                Elimina
+            </button>
+        </form>
+
+        <a href="/cargo/merce/{{merce.id_container_id}}">
+            <button class="cancel-btn">
+                Annulla
+            </button>
+        </a>
+
+    </div>
+
+</div>
+
+<div class="footer">
+    Porto di Colón
+</div>
+
 </body>
 </html>

@@ -3,38 +3,384 @@
 <head>
     <meta charset="UTF-8">
     <title>Gestione Container</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+
+            min-height:100vh;
+
+            display:flex;
+            flex-direction:column;
+
+            background:
+                linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+                url('https://upload.wikimedia.org/wikipedia/commons/thumb/0/0a/Port_of_Los_Angeles_%282501768235%29.jpg/1280px-Port_of_Los_Angeles_%282501768235%29.jpg');
+
+            background-size:cover;
+            background-position:center;
+            background-attachment:fixed;
+
+            color:white;
+        }
+
+        /* NAVBAR */
+
+        .navbar{
+
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+
+            padding:18px 28px;
+
+            background:rgba(0,0,0,0.5);
+
+            backdrop-filter:blur(10px);
+
+            border-bottom:1px solid rgba(255,255,255,0.12);
+        }
+
+        .navbar-title{
+
+            font-size:20px;
+            font-weight:bold;
+        }
+
+        .navbar-title span{
+            color:#90e0ef;
+        }
+
+        .dashboard-btn{
+
+            text-decoration:none;
+        }
+
+        .dashboard-btn button{
+
+            border:none;
+
+            padding:10px 18px;
+
+            border-radius:10px;
+
+            cursor:pointer;
+
+            font-weight:bold;
+
+            background:#0077b6;
+            color:white;
+
+            transition:0.2s;
+        }
+
+        .dashboard-btn button:hover{
+
+            background:#00b4d8;
+
+            transform:translateY(-2px);
+        }
+
+        /* CONTENUTO */
+
+        .content{
+
+            width:100%;
+
+            padding:35px 30px;
+        }
+
+        h1{
+            margin-bottom:25px;
+        }
+
+        /* MESSAGES */
+
+        .messages{
+
+            margin-bottom:25px;
+        }
+
+        .message{
+
+            margin-bottom:10px;
+
+            padding:12px 15px;
+
+            border-radius:10px;
+
+            background:rgba(0,180,255,0.15);
+
+            border:1px solid rgba(0,180,255,0.25);
+        }
+
+        /* ACTION BUTTON */
+
+        .top-actions{
+            margin-bottom:25px;
+        }
+
+        .top-actions a{
+            text-decoration:none;
+        }
+
+        .top-actions button{
+
+            border:none;
+
+            padding:12px 18px;
+
+            border-radius:10px;
+
+            cursor:pointer;
+
+            font-weight:bold;
+
+            background:#0096c7;
+            color:white;
+
+            transition:0.2s;
+        }
+
+        .top-actions button:hover{
+
+            background:#00b4d8;
+
+            transform:translateY(-2px);
+        }
+
+        /* TABLE */
+
+        .table-wrapper{
+            overflow-x:auto;
+        }
+
+        table{
+
+            width:100%;
+
+            border-collapse:collapse;
+
+            background:rgba(255,255,255,0.08);
+
+            border-radius:16px;
+
+            overflow:hidden;
+
+            backdrop-filter:blur(6px);
+        }
+
+        th, td{
+
+            padding:16px 14px;
+
+            text-align:center;
+        }
+
+        th{
+
+            background:rgba(0,119,182,0.65);
+
+            font-size:15px;
+        }
+
+        tr:nth-child(even){
+
+            background:rgba(255,255,255,0.05);
+        }
+
+        tr:hover{
+
+            background:rgba(255,255,255,0.1);
+        }
+
+        /* ACTIONS */
+
+        .actions{
+
+            display:flex;
+            flex-direction:column;
+            gap:8px;
+
+            align-items:center;
+        }
+
+        .action-link{
+
+            text-decoration:none;
+
+            padding:8px 14px;
+
+            border-radius:8px;
+
+            font-size:14px;
+            font-weight:bold;
+
+            color:white;
+
+            transition:0.2s;
+
+            min-width:140px;
+        }
+
+        .modify{
+            background:#0077b6;
+        }
+
+        .modify:hover{
+            background:#0096c7;
+        }
+
+        .delete{
+            background:#c1121f;
+        }
+
+        .delete:hover{
+            background:#e5383b;
+        }
+
+        .view{
+            background:#2a9d8f;
+        }
+
+        .view:hover{
+            background:#38bfae;
+        }
+
+        /* PORT LABEL */
+
+        .footer-wrapper{
+
+            width:100%;
+
+            margin-top:auto;
+
+            padding:18px 25px;
+        }
+
+        .port-label{
+
+            text-align:right;
+
+            font-size:13px;
+
+            opacity:0.75;
+        }
+
+    </style>
 </head>
+
 <body>
-    <h1>Gestione container su nave con IMO {{imo}}</h1>
-    <br><br>
-    {% if messages %}
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-    {% endif %}
-    <a href="/cargo"><button>Ritorna alla dashboard</button></a>
-    <br><br>
-    <a href="/cargo/container/aggiungi/{{imo}}"><button>Aggiungi container</button></a>
-    <br><br>
-    <table>
-        <tr>
-            <th>ID</th>
-            <th>Dimensione</th>
-            <th>Peso</th>
-            <th>Marchio</th>
-            <th>Azioni</th>
-        </tr>
-        {% for container in container_navi %}
-        <tr>
-            <td>{{ container.id }}</td>
-            <td>{{ container.dimensione }}</td>
-            <td>{{ container.peso }}</td>
-            <td>{{ container.marchio}}</td>
-            <td><a href="/cargo/container/modifica/{{container.id}}">Modifica</a> |
-                <a href="/cargo/container/elimina/{{container.id}}">Elimina</a>|
-                <a href="/cargo/merce/{{container.id}}">Visualizza Merci</a> </td> 
-        </tr>
-        {% endfor %}
-    </table>
+
+    <!-- NAVBAR -->
+
+    <div class="navbar">
+
+        <div class="navbar-title">
+            Gestione Container ·
+            <span>{{request.user.username}}</span>
+        </div>
+
+        <a href="/cargo" class="dashboard-btn">
+            <button>
+                Ritorna alla dashboard
+            </button>
+        </a>
+
+    </div>
+
+    <!-- CONTENUTO -->
+
+    <div class="content">
+
+        <h1>Gestione container su nave con IMO {{imo}}</h1>
+
+        {% if messages %}
+            <div class="messages">
+                {% for message in messages %}
+                    <div class="message">
+                        {{ message }}
+                    </div>
+                {% endfor %}
+            </div>
+        {% endif %}
+
+        <div class="top-actions">
+            <a href="/cargo/container/aggiungi/{{imo}}">
+                <button>
+                    Aggiungi container
+                </button>
+            </a>
+        </div>
+
+        <div class="table-wrapper">
+
+            <table>
+
+                <tr>
+                    <th>ID</th>
+                    <th>Dimensione</th>
+                    <th>Peso</th>
+                    <th>Marchio</th>
+                    <th>Azioni</th>
+                </tr>
+
+                {% for container in container_navi %}
+
+                <tr>
+
+                    <td>{{ container.id }}</td>
+                    <td>{{ container.dimensione }}</td>
+                    <td>{{ container.peso }}</td>
+                    <td>{{ container.marchio }}</td>
+
+                    <td>
+
+                        <div class="actions">
+
+                            <a href="/cargo/container/modifica/{{container.id}}"
+                               class="action-link modify">
+                                Modifica
+                            </a>
+
+                            <a href="/cargo/container/elimina/{{container.id}}"
+                               class="action-link delete">
+                                Elimina
+                            </a>
+
+                            <a href="/cargo/merce/{{container.id}}"
+                               class="action-link view">
+                                Visualizza Merci
+                            </a>
+
+                        </div>
+
+                    </td>
+
+                </tr>
+
+                {% endfor %}
+
+            </table>
+
+        </div>
+
+    </div>
+
+    <div class="footer-wrapper">
+
+        <div class="port-label">
+            Porto di Los Angeles
+        </div>
+
+    </div>
+
 </body>
 </html>

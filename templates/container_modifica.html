@@ -3,31 +3,236 @@
 <head>
     <meta charset="UTF-8">
     <title>Modifica Container</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+
+            min-height:100vh;
+
+            display:flex;
+            justify-content:center;
+            align-items:center;
+            flex-direction:column;
+
+            background:
+                linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+                url('https://upload.wikimedia.org/wikipedia/commons/thumb/a/af/The_port_of_Mundra_in_Gujarat.jpg/1280px-The_port_of_Mundra_in_Gujarat.jpg');
+
+            background-size:cover;
+            background-position:center;
+            background-attachment:fixed;
+
+            color:white;
+
+            padding:40px 20px;
+        }
+
+        .container{
+
+            width:100%;
+            max-width:700px;
+
+            background:rgba(0,0,0,0.55);
+
+            backdrop-filter:blur(10px);
+
+            border:1px solid rgba(255,255,255,0.12);
+
+            border-radius:20px;
+
+            padding:40px;
+
+            box-shadow:0 10px 30px rgba(0,0,0,0.45);
+        }
+
+        h1{
+            text-align:center;
+            margin-bottom:30px;
+        }
+
+        .error{
+            margin-bottom:20px;
+            padding:12px;
+            border-radius:10px;
+            background:rgba(255,0,0,0.18);
+            border:1px solid rgba(255,0,0,0.3);
+        }
+
+        form{
+            display:flex;
+            flex-direction:column;
+            gap:18px;
+        }
+
+        label{
+            font-weight:bold;
+            margin-bottom:6px;
+        }
+
+        input, select{
+            padding:12px;
+            border:none;
+            border-radius:10px;
+            background:rgba(255,255,255,0.12);
+            color:white;
+            outline:none;
+        }
+
+        /* BOTTONI */
+
+        .buttons{
+            display:flex;
+            justify-content:space-between;
+            margin-top:10px;
+        }
+
+        .right{
+            display:flex;
+            gap:10px;
+            margin-left:auto;
+        }
+
+        button{
+
+            border:none;
+            padding:12px 20px;
+
+            border-radius:10px;
+
+            cursor:pointer;
+
+            font-weight:bold;
+
+            transition:0.2s;
+        }
+
+        .save-btn{
+            background:#0077b6;
+            color:white;
+        }
+
+        .save-btn:hover{
+            background:#0096c7;
+            transform:translateY(-2px);
+        }
+
+        .reset-btn{
+            background:#6c757d;
+            color:white;
+        }
+
+        .reset-btn:hover{
+            background:#868e96;
+            transform:translateY(-2px);
+        }
+
+        .cancel{
+            margin-top:30px;
+        }
+
+        .cancel button{
+            width:100%;
+            background:#495057;
+            color:white;
+        }
+
+        .cancel button:hover{
+            background:#6c757d;
+            transform:translateY(-2px);
+        }
+
+        /* PORT LABEL */
+
+        .port-label{
+            position:fixed;
+            bottom:15px;
+            right:20px;
+
+            font-size:13px;
+            opacity:0.75;
+
+            background:rgba(0,0,0,0.3);
+            padding:6px 10px;
+            border-radius:8px;
+
+            backdrop-filter:blur(6px);
+        }
+
+    </style>
 </head>
+
 <body>
-    <h1>Modifica container con ID {{container.id}}</h1>
-    <br><br>
-    {% if error %}
-        <p>Errore: {{ error }}</p>
-        <br><br>
-    {% endif %}
-    <form method="POST" action="/cargo/container/modifica/{{container.id}}">
-        {% csrf_token %}
-        <label for="dimensione">Dimensione: </label>
-        <input type="number" name="dimensione" id="dimensione" value="{{container.dimensione}}" required>
-        <br><br>
-        <label for="marchio">Marchio: </label>
-        <input type="text" name="marchio" id="marchio" value="{{container.marchio}}" required>
-        <br><br>
-        <label for="imo">IMO Nave: </label>
-        <select name="imo" id="imo">
-            {% for n in navi %}
-                <option value="{{n.imo}}"{% if n.imo == container.imo_id %}selected{% endif %}>{{n.imo}}</option>
-            {% endfor %}
-        </select>
-        <br><br>
-        <button type="submit">Modifica</button> <button type="reset">Reset</button>
-    </form>
-    <a href="/cargo/container/{{imo}}"><button>Annulla</button></a>
+
+    <div class="container">
+
+        <h1>Modifica container con ID {{container.id}}</h1>
+
+        {% if error %}
+            <div class="error">
+                Errore: {{ error }}
+            </div>
+        {% endif %}
+
+        <form method="POST" action="/cargo/container/modifica/{{container.id}}">
+
+            {% csrf_token %}
+
+            <div>
+                <label for="dimensione">Dimensione:</label>
+                <input type="number" min="0" name="dimensione" id="dimensione" value="{{container.dimensione}}" required>
+            </div>
+
+            <div>
+                <label for="marchio">Marchio:</label>
+                <input type="text" name="marchio" id="marchio" value="{{container.marchio}}" required>
+            </div>
+
+            <div>
+                <label for="imo">IMO Nave:</label>
+                <select name="imo" id="imo">
+                    {% for n in navi %}
+                        <option value="{{n.imo}}"{% if n.imo == container.imo_id %}selected{% endif %}>
+                            {{n.imo}}
+                        </option>
+                    {% endfor %}
+                </select>
+            </div>
+
+            <div class="buttons">
+
+                <button type="submit" class="save-btn">
+                    Modifica
+                </button>
+
+                <div class="right">
+                    <button type="reset" class="reset-btn">
+                        Reset
+                    </button>
+                </div>
+
+            </div>
+
+        </form>
+
+        <div class="cancel">
+            <a href="/cargo/container/{{container.imo_id}}">
+                <button>Annulla</button>
+            </a>
+        </div>
+
+    </div>
+
+    <div class="port-label">
+        Porto di Mundra
+    </div>
+
 </body>
 </html>

@@ -3,26 +3,183 @@
 <head>
     <meta charset="UTF-8">
     <title>Modifica Merce</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+
+            min-height:100vh;
+            display:flex;
+            flex-direction:column;
+
+            background:
+                linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+                url('https://upload.wikimedia.org/wikipedia/commons/thumb/3/34/Valence_Port_%282%29.jpg/1280px-Valence_Port_%282%29.jpg');
+
+            background-size:cover;
+            background-position:center;
+            background-attachment:fixed;
+
+            color:white;
+        }
+
+        /* CONTAINER */
+        .container{
+
+            width:100%;
+            max-width:650px;
+
+            margin:auto;
+
+            background:rgba(0,0,0,0.55);
+            backdrop-filter:blur(10px);
+
+            border:1px solid rgba(255,255,255,0.12);
+            border-radius:18px;
+
+            padding:40px;
+
+            box-shadow:0 10px 25px rgba(0,0,0,0.4);
+
+            text-align:center;
+        }
+
+        h1{
+            margin-bottom:25px;
+            font-size:24px;
+        }
+
+        label{
+            display:block;
+            margin-top:15px;
+            margin-bottom:6px;
+            font-weight:bold;
+            text-align:left;
+        }
+
+        input, select{
+
+            width:100%;
+            padding:10px;
+
+            border-radius:8px;
+            border:none;
+
+            outline:none;
+        }
+
+        input:focus, select:focus{
+            outline:2px solid #90e0ef;
+        }
+
+        /* BUTTONS */
+        .actions{
+            display:flex;
+            justify-content:space-between;
+            gap:15px;
+
+            margin-top:25px;
+        }
+
+        button{
+
+            padding:12px 20px;
+
+            border:none;
+            border-radius:10px;
+
+            cursor:pointer;
+            font-weight:bold;
+
+            transition:0.2s;
+        }
+
+        .submit-btn{
+            background:#0077b6;
+            color:white;
+            flex:1;
+        }
+
+        .submit-btn:hover{
+            background:#0096c7;
+            transform:translateY(-2px);
+        }
+
+        .reset-btn{
+            background:#495057;
+            color:white;
+        }
+
+        .reset-btn:hover{
+            background:#6c757d;
+        }
+
+        .cancel{
+            margin-top:20px;
+        }
+
+        .cancel a button{
+            width:100%;
+            background:#c1121f;
+            color:white;
+        }
+
+        .cancel a button:hover{
+            background:#e5383b;
+        }
+
+        /* ERROR */
+        .error{
+            margin-bottom:15px;
+            color:#ff6b6b;
+            font-weight:bold;
+        }
+
+        /* FOOTER */
+        .footer{
+            margin-top:auto;
+            padding:20px 30px;
+            text-align:right;
+            font-size:13px;
+            opacity:0.75;
+        }
+
+    </style>
+
 </head>
+
 <body>
+
+<div class="container">
+
     <h1>Modifica merce con SSCC {{merce.sscc}}</h1>
-    <br><br>
+
     {% if error %}
-        <p>Errore: {{ error }}</p>
-        <br><br>
+        <div class="error">
+            Errore: {{ error }}
+        </div>
     {% endif %}
+
     <form method="POST" action="/cargo/merce/modifica/{{merce.sscc}}">
         {% csrf_token %}
-        <label for="peso">Peso: </label>
-        <input type="number" name="peso" id="peso" value="{{merce.peso}}" required>
-        <br><br>
-        <label for="paese">Paese: </label>
+
+        <label for="peso">Peso:</label>
+        <input type="number" step="any" min="0.0" name="peso" id="peso" value="{{merce.peso}}" required>
+
+        <label for="paese">Paese:</label>
         <input type="text" name="paese" id="paese" value="{{merce.paese}}" required>
-        <br><br>
-        <label for="genere">Genere: </label>
+
+        <label for="genere">Genere:</label>
         <input type="text" name="genere" id="genere" value="{{merce.genere}}" required>
-        <br><br>
-        <label for="id_container">ID Container: </label>
+
+        <label for="id_container">ID Container:</label>
         <select name="id_container" id="id_container">
             {% for c in container %}
             <option value="{{c.id}}" {% if c.id == merce.id_container_id %}selected{% endif %}>
@@ -30,9 +187,25 @@
             </option>
             {% endfor %}
         </select>
-        <br><br>
-        <button type="submit">Modifica</button> <button type="reset">Reset</button>
+
+        <div class="actions">
+            <button type="submit" class="submit-btn">Modifica</button>
+            <button type="reset" class="reset-btn">Reset</button>
+        </div>
+
     </form>
-    <a href="/cargo/merce/{{merce.id_container_id}}"><button>Annulla</button></a>
+
+    <div class="cancel">
+        <a href="/cargo/merce/{{merce.id_container_id}}">
+            <button>Annulla</button>
+        </a>
+    </div>
+
+</div>
+
+<div class="footer">
+    Porto di Valencia
+</div>
+
 </body>
 </html>
