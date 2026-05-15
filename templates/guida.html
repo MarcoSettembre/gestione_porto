@@ -1,97 +1,418 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <title>Guide</title>
+<meta charset="UTF-8">
+<title>Guide</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial;
+}
+
+body{
+
+    min-height:100vh;
+
+    display:flex;
+    flex-direction:column;
+
+    background:
+    linear-gradient(rgba(0,0,0,0.65),rgba(0,0,0,0.65)),
+    url("https://upload.wikimedia.org/wikipedia/commons/thumb/a/a9/PortOVan.jpg/1280px-PortOVan.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail");
+
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+
+    color:white;
+}
+
+/* NAVBAR */
+
+.navbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:16px 28px;
+
+    background:rgba(0,0,0,.5);
+
+    backdrop-filter:blur(10px);
+
+    border-bottom:1px solid rgba(255,255,255,.1);
+}
+
+.title{
+
+    font-size:20px;
+
+    font-weight:bold;
+}
+
+.dashboard-btn{
+
+    text-decoration:none;
+}
+
+.dashboard-btn button{
+
+    background:#0096c7;
+
+    color:white;
+
+    border:none;
+
+    padding:10px 18px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+    transition:.2s;
+}
+
+.dashboard-btn button:hover{
+
+    background:#00b4d8;
+
+    transform:translateY(-2px);
+}
+
+
+/* CONTENUTO */
+
+.page{
+
+    flex:1;
+
+    padding:35px;
+}
+
+h1{
+
+    text-align:center;
+
+    margin-bottom:25px;
+}
+
+.messages{
+
+    width:70%;
+
+    margin:auto;
+
+    margin-bottom:25px;
+
+    text-align:center;
+
+    padding:15px;
+
+    border-radius:10px;
+
+    background:rgba(0,180,255,.18);
+}
+
+.top-actions{
+
+    margin-bottom:25px;
+}
+
+.add-btn{
+
+    text-decoration:none;
+}
+
+.add-btn button{
+
+    background:#2a9d8f;
+
+    border:none;
+
+    color:white;
+
+    padding:12px 18px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+    transition:.2s;
+}
+
+.add-btn button:hover{
+
+    background:#34b3a5;
+
+    transform:translateY(-2px);
+}
+
+/* TABELLA */
+
+.table-container{
+
+    overflow-x:auto;
+
+    background:rgba(0,0,0,.45);
+
+    padding:20px;
+
+    border-radius:18px;
+
+    backdrop-filter:blur(10px);
+
+    border:1px solid rgba(255,255,255,.08);
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+}
+
+th{
+
+    background:rgba(0,150,199,.3);
+
+    padding:14px;
+}
+
+td{
+
+    padding:14px;
+
+    text-align:center;
+
+    border-bottom:1px solid rgba(255,255,255,.08);
+}
+
+tr:hover{
+
+    background:rgba(255,255,255,.05);
+}
+
+
+/* AZIONI */
+
+.actions{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+}
+
+.action-btn{
+
+    text-decoration:none;
+}
+
+.modify{
+
+    color:#90e0ef;
+}
+
+.delete{
+
+    color:#ff8fa3;
+}
+
+.modify:hover,
+.delete:hover{
+
+    opacity:.7;
+}
+
+
+/* PORT LABEL DINAMICA */
+
+.footer-wrapper{
+
+    width:100%;
+
+    margin-top:auto;
+
+    padding:20px 30px;
+}
+
+.port-label{
+
+    text-align:right;
+
+    font-size:13px;
+
+    opacity:.75;
+}
+
+</style>
 </head>
+
 <body>
+
+<div class="navbar">
+
+    <div class="title">
+        Gestione Guide · {{request.user.username}}
+    </div>
+
+    <a href="/crociera" class="dashboard-btn">
+        <button>
+            Ritorna alla dashboard
+        </button>
+    </a>
+
+</div>
+
+
+<div class="page">
 
     <h1>Elenco guide</h1>
 
-    <br><br>
-
     {% if messages %}
+    <div class="messages">
+
         {% for message in messages %}
-            <p>{{ message }}</p>
+            {{message}}
         {% endfor %}
-        <br><br>
+
+    </div>
     {% endif %}
-    <a href="/crociera"><button>Ritorna alla dashboard</button></a>
-    <br><br>
-    <a href="/crociera/guida/aggiungi">
-        <button>Aggiungi Guida</button>
-    </a>
 
-    <br><br>
 
-    <table>
+    <div class="top-actions">
 
-        <tr>
-            <th>CF</th>
-            <th>Nome</th>
-            <th>Cognome</th>
-            <th>Data Nascita</th>
-            <th>Numero Licenza</th>
-            <th>Stipendio</th>
-            <th>Data Assunzione</th>
-            <th>Valutazione</th>
-            <th>ID Itinerario</th>
-            <th>Lingue</th>
-            <th>Azioni</th>
-        </tr>
+        <a href="/crociera/guida/aggiungi"
+           class="add-btn">
 
-        {% for item in guide_mod %}
+            <button>
+                + Aggiungi Guida
+            </button>
 
-        <tr>
-            <td>{{ item.guida.codice_fiscale }}</td>
-            <td>{{ item.guida.nome }}</td>
-            <td>{{ item.guida.cognome }}</td>
-            <td>{{ item.guida.data_nascita}}</td>
-            <td>{{ item.guida.numero_licensa}}</td>
-            <td>{{ item.guida.stipendio}}</td>
-            <td>{{ item.guida.data_assunzione}}</td>
-            <td>{{ item.guida.valutazione}}</td>
-            <td>{{ item.guida.id_itinerario_id}}</td>
-            <td>
-                {% for l in item.lingue %}
-                    {{ l.0 }}:{{ l.1 }}<br>
-                {% endfor %}
-            </td>
+        </a>
 
-            <td>
-                <a href="/crociera/guida/modifica/{{item.guida.codice_fiscale}}">Modifica</a> |
-                <a href="/crociera/guida/elimina/{{item.guida.codice_fiscale}}">Elimina</a>
-            </td>
-        </tr>
+    </div>
 
-        {% endfor %}
 
-        {% for item in guide_non_mod %}
+<div class="table-container">
 
-        <tr>
-            <td>{{ item.guida.codice_fiscale }}</td>
-            <td>{{ item.guida.nome }}</td>
-            <td>{{ item.guida.cognome }}</td>
-            <td>{{ item.guida.data_nascita}}</td>
-            <td>{{ item.guida.numero_licensa}}</td>
-            <td>{{ item.guida.stipendio}}</td>
-            <td>{{ item.guida.data_assunzione}}</td>
-            <td>{{ item.guida.valutazione}}</td>
-            <td>{{ item.guida.id_itinerario_id}}</td>
-            <td>
-                {% for l in item.lingue %}
-                    {{ l.0 }}:{{ l.1 }}<br>
-                {% endfor %}
-            </td>
+<table>
 
-            <td>
-                <!-- nessuna azione -->
-            </td>
-        </tr>
+<tr>
+    <th>CF</th>
+    <th>Nome</th>
+    <th>Cognome</th>
+    <th>Data Nascita</th>
+    <th>Licenza</th>
+    <th>Stipendio</th>
+    <th>Assunzione</th>
+    <th>Valutazione</th>
+    <th>ID Itinerario</th>
+    <th>Lingue</th>
+    <th>Azioni</th>
+</tr>
 
-        {% endfor %}
 
-    </table>
+{% for item in guide_mod %}
+
+<tr>
+
+<td>{{ item.guida.codice_fiscale }}</td>
+<td>{{ item.guida.nome }}</td>
+<td>{{ item.guida.cognome }}</td>
+<td>{{ item.guida.data_nascita}}</td>
+<td>{{ item.guida.numero_licensa}}</td>
+<td>{{ item.guida.stipendio}}</td>
+<td>{{ item.guida.data_assunzione}}</td>
+<td>{{ item.guida.valutazione}}</td>
+<td>{{ item.guida.id_itinerario_id}}</td>
+
+<td>
+
+{% for l in item.lingue %}
+{{ l.0 }}: {{ l.1 }}<br>
+{% endfor %}
+
+</td>
+
+<td>
+
+<div class="actions">
+
+<a class="action-btn modify"
+href="/crociera/guida/modifica/{{item.guida.codice_fiscale}}">
+Modifica
+</a>
+
+<a class="action-btn delete"
+href="/crociera/guida/elimina/{{item.guida.codice_fiscale}}">
+Elimina
+</a>
+
+</div>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+
+
+{% for item in guide_non_mod %}
+
+<tr>
+
+<td>{{ item.guida.codice_fiscale }}</td>
+<td>{{ item.guida.nome }}</td>
+<td>{{ item.guida.cognome }}</td>
+<td>{{ item.guida.data_nascita}}</td>
+<td>{{ item.guida.numero_licensa}}</td>
+<td>{{ item.guida.stipendio}}</td>
+<td>{{ item.guida.data_assunzione}}</td>
+<td>{{ item.guida.valutazione}}</td>
+<td>{{ item.guida.id_itinerario_id}}</td>
+
+<td>
+
+{% for l in item.lingue %}
+{{ l.0 }}: {{ l.1 }}<br>
+{% endfor %}
+
+</td>
+
+<td>—</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+</div>
+
+
+<div class="footer-wrapper">
+
+<div class="port-label">
+Porto di Vancouver
+</div>
+
+</div>
 
 </body>
 </html>

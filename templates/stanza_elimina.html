@@ -2,16 +2,245 @@
 <html lang="it">
 <head>
     <meta charset="UTF-8">
-    <title>Eliminazione stanza</title>
+    <title>Eliminazione Stanza</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial;
+}
+
+body{
+
+    min-height:100vh;
+
+    display:flex;
+    flex-direction:column;
+
+    background:
+    linear-gradient(rgba(0,0,0,.65), rgba(0,0,0,.65)),
+    url("https://a-us.storyblok.com/f/1005231/4032x2268/688a4e8394/barbados-port-sign.jpg");
+
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+
+    color:white;
+
+}
+
+
+/* CONTAINER */
+
+.container{
+
+    width:100%;
+    max-width:700px;
+
+    margin:auto;
+
+    background:rgba(0,0,0,.55);
+
+    backdrop-filter:blur(10px);
+
+    border:1px solid rgba(255,255,255,.12);
+
+    border-radius:18px;
+
+    padding:40px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.4);
+
+    text-align:center;
+
+}
+
+
+h1{
+
+    margin-bottom:25px;
+
+}
+
+
+.warning{
+
+    font-size:18px;
+
+    line-height:1.6;
+
+    margin-bottom:35px;
+
+}
+
+
+.highlight{
+
+    color:#90e0ef;
+
+    font-weight:bold;
+
+}
+
+
+/* BOTTONI */
+
+.actions{
+
+    display:flex;
+
+    justify-content:center;
+
+    gap:15px;
+
+    flex-wrap:wrap;
+
+}
+
+
+button{
+
+    border:none;
+
+    padding:12px 24px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+    transition:.2s;
+
+}
+
+
+.delete-btn{
+
+    background:#c1121f;
+
+    color:white;
+
+}
+
+.delete-btn:hover{
+
+    background:#e5383b;
+
+    transform:translateY(-2px);
+
+}
+
+
+.cancel-btn{
+
+    background:#495057;
+
+    color:white;
+
+}
+
+.cancel-btn:hover{
+
+    background:#6c757d;
+
+    transform:translateY(-2px);
+
+}
+
+
+a{
+    text-decoration:none;
+}
+
+
+/* FOOTER */
+
+.footer-wrapper{
+
+    width:100%;
+
+    margin-top:auto;
+
+    padding:20px 30px;
+
+}
+
+.port-label{
+
+    text-align:right;
+
+    font-size:13px;
+
+    opacity:.75;
+
+}
+
+</style>
 </head>
+
 <body>
-    <h1>Eliminazione stanza</h1>
-    Sei sicuro di voler eliminare la stanza {{numero}} dalla nave con IMO {{imo}}?
-    <br><br>
-    <form method="POST" action="/crociera/stanza/elimina/{{imo}}/{{numero}}">
-        {% csrf_token %}
-        <button type="submit">Elimina</button>
-    </form>
-    <a href="/crociera/stanza/{{imo}}"><button>Annulla</button></a>
+
+<div class="container">
+
+    <h1>
+        Eliminazione Stanza
+    </h1>
+
+    <p class="warning">
+
+        Sei sicuro di voler eliminare la stanza
+        <span class="highlight">{{numero}}</span>
+
+        dalla nave con IMO
+
+        <span class="highlight">{{imo}}</span>?
+
+    </p>
+
+
+    <div class="actions">
+
+        <form method="POST"
+              action="/crociera/stanza/elimina/{{imo}}/{{numero}}">
+
+            {% csrf_token %}
+
+            <button type="submit"
+                    class="delete-btn">
+
+                Elimina
+
+            </button>
+
+        </form>
+
+
+        <a href="/crociera/stanza/{{imo}}">
+
+            <button class="cancel-btn">
+
+                Annulla
+
+            </button>
+
+        </a>
+
+    </div>
+
+</div>
+
+
+<div class="footer-wrapper">
+
+    <div class="port-label">
+        Porto di Bridgetown
+    </div>
+
+</div>
+
 </body>
 </html>

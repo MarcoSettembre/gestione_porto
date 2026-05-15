@@ -3,32 +3,348 @@
 <head>
     <meta charset="UTF-8">
     <title>Modifica Stanza</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial;
+}
+
+body{
+
+    min-height:100vh;
+
+    display:flex;
+    flex-direction:column;
+
+    background:
+    linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.65)),
+    url("https://upload.wikimedia.org/wikipedia/commons/c/cc/Puerto_de_Buenos_Aires%2C_Argentina.jpg");
+
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+
+    color:white;
+}
+
+
+.container{
+
+    width:100%;
+    max-width:700px;
+
+    margin:auto;
+
+    background:rgba(0,0,0,.55);
+
+    backdrop-filter:blur(10px);
+
+    border:1px solid rgba(255,255,255,.1);
+
+    border-radius:18px;
+
+    padding:40px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.4);
+
+}
+
+
+h1{
+
+    text-align:center;
+
+    margin-bottom:30px;
+
+}
+
+
+.error{
+
+    margin-bottom:20px;
+
+    padding:12px;
+
+    border-radius:10px;
+
+    background:rgba(255,0,0,.15);
+
+    border:1px solid rgba(255,0,0,.3);
+
+}
+
+
+.form-group{
+
+    margin-bottom:20px;
+
+}
+
+
+label{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    font-weight:bold;
+
+}
+
+
+select{
+
+    width:100%;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:rgba(255,255,255,.12);
+
+    color:white;
+
+}
+
+
+select option{
+    color:black;
+}
+
+
+.button-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-top:30px;
+
+}
+
+
+.left-buttons{
+
+    display:flex;
+
+    gap:10px;
+
+}
+
+
+button{
+
+    border:none;
+
+    padding:12px 22px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+    transition:.2s;
+
+}
+
+
+.edit-btn{
+
+    background:#0077b6;
+    color:white;
+
+}
+
+.edit-btn:hover{
+
+    background:#0096c7;
+
+    transform:translateY(-2px);
+
+}
+
+
+.reset-btn{
+
+    background:#6c757d;
+    color:white;
+
+}
+
+.reset-btn:hover{
+
+    background:#868e96;
+
+    transform:translateY(-2px);
+
+}
+
+
+.cancel-btn{
+
+    background:#495057;
+    color:white;
+
+}
+
+.cancel-btn:hover{
+
+    background:#6c757d;
+
+    transform:translateY(-2px);
+
+}
+
+a{
+    text-decoration:none;
+}
+
+
+/* FOOTER */
+
+.footer-wrapper{
+
+    margin-top:auto;
+
+    padding:20px 30px;
+
+}
+
+.port-label{
+
+    text-align:right;
+
+    font-size:13px;
+
+    opacity:.75;
+
+}
+
+</style>
+
 </head>
+
 <body>
-    <h1>Modifica stanza {{stanza.numero}} su nave con IMO {{stanza.imo_id}}</h1>
-    <br><br>
-    {% if error %}
-        <p>Errore: {{ error }}</p>
-        <br><br>
-    {% endif %}
-    <form method="POST" action="/crociera/stanza/modifica/{{stanza.imo_id}}/{{stanza.numero}}">
-        {% csrf_token %}
-        <label for="classe">Classe: </label>
-        <select name="classe" id="classe" required>
-            <option value="Interna" {% if stanza.classe == "Interna" %} selected {% endif %}>Interna</option>
-            <option value="Esterna" {% if stanza.classe == "Esterna" %} selected {% endif %}>Esterna</option>
-            <option value="Suite" {% if stanza.classe == "Suite" %} selected {% endif %}>Suite</option>
-        </select>
-        <br><br>
-        <label for="tipo">Tipo: </label>
-        <select name="tipo" id="tipo" required>
-            <option value="Singola" {% if stanza.tipo == "Singola" %} selected {% endif %}>Singola</option>
-            <option value="Doppia" {% if stanza.tipo == "Doppia" %} selected {% endif %}>Doppia</option>
-            <option value="Matrimoniale" {% if stanza.tipo == "Matrimoniale" %} selected {% endif %}>Matrimoniale</option>
-        </select>
-        <br><br>
-        <button type="submit">Modifica</button> <button type="reset">Reset</button>
-    </form>
-    <a href="/crociera/stanza/{{stanza.imo_id}}"><button>Annulla</button></a>
+
+
+<div class="container">
+
+<h1>
+Modifica stanza {{stanza.numero}} su nave con IMO {{stanza.imo_id}}
+</h1>
+
+{% if error %}
+<div class="error">
+Errore: {{ error }}
+</div>
+{% endif %}
+
+
+<form method="POST" action="/crociera/stanza/modifica/{{stanza.imo_id}}/{{stanza.numero}}">
+
+{% csrf_token %}
+
+<div class="form-group">
+
+<label for="classe">
+Classe:
+</label>
+
+<select name="classe" id="classe" required>
+
+<option value="Interna"
+{% if stanza.classe == "Interna" %} selected {% endif %}>
+Interna
+</option>
+
+<option value="Esterna"
+{% if stanza.classe == "Esterna" %} selected {% endif %}>
+Esterna
+</option>
+
+<option value="Suite"
+{% if stanza.classe == "Suite" %} selected {% endif %}>
+Suite
+</option>
+
+</select>
+
+</div>
+
+
+<div class="form-group">
+
+<label for="tipo">
+Tipo:
+</label>
+
+<select name="tipo" id="tipo" required>
+
+<option value="Singola"
+{% if stanza.tipo == "Singola" %} selected {% endif %}>
+Singola
+</option>
+
+<option value="Doppia"
+{% if stanza.tipo == "Doppia" %} selected {% endif %}>
+Doppia
+</option>
+
+<option value="Matrimoniale"
+{% if stanza.tipo == "Matrimoniale" %} selected {% endif %}>
+Matrimoniale
+</option>
+
+</select>
+
+</div>
+
+
+<div class="button-row">
+
+<div class="left-buttons">
+
+<button type="submit"
+class="edit-btn">
+Modifica
+</button>
+
+<button type="reset"
+class="reset-btn">
+Reset
+</button>
+
+</div>
+
+
+<a href="/crociera/stanza/{{stanza.imo_id}}">
+<button type="button"
+class="cancel-btn">
+Annulla
+</button>
+</a>
+
+</div>
+
+</form>
+
+</div>
+
+
+<div class="footer-wrapper">
+
+<div class="port-label">
+Porto di Buenos Aires
+</div>
+
+</div>
+
 </body>
 </html>

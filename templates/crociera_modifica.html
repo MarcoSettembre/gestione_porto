@@ -3,51 +3,334 @@
 <head>
     <meta charset="UTF-8">
     <title>Modifica Nave Crociera</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+
+            min-height:100vh;
+
+            display:flex;
+            flex-direction:column;
+
+            background:
+                linear-gradient(rgba(0,0,0,0.65),rgba(0,0,0,0.65)),
+                url('https://upload.wikimedia.org/wikipedia/commons/thumb/0/01/Port_of_Seattle_from_Columbia_Center%2C_2022.jpg/1280px-Port_of_Seattle_from_Columbia_Center%2C_2022.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail');
+
+            background-size:cover;
+            background-position:center;
+            background-attachment:fixed;
+
+            color:white;
+        }
+
+        .container{
+
+            width:100%;
+            max-width:800px;
+
+            margin:auto;
+
+            background:rgba(0,0,0,0.55);
+
+            backdrop-filter:blur(10px);
+
+            border:1px solid rgba(255,255,255,0.12);
+
+            border-radius:20px;
+
+            padding:40px;
+
+            box-shadow:0 10px 30px rgba(0,0,0,.4);
+        }
+
+        h1{
+            text-align:center;
+            margin-bottom:30px;
+        }
+
+        .imo{
+            color:#90e0ef;
+        }
+
+        .error{
+
+            background:rgba(255,0,0,.18);
+
+            padding:12px;
+
+            border-radius:10px;
+
+            margin-bottom:25px;
+        }
+
+        .field{
+
+            display:flex;
+            flex-direction:column;
+
+            margin-bottom:18px;
+        }
+
+        label{
+            margin-bottom:8px;
+            font-weight:bold;
+        }
+
+        input,select{
+
+            padding:12px;
+
+            border:none;
+
+            border-radius:10px;
+
+            background:rgba(255,255,255,.15);
+
+            color:white;
+        }
+
+        select option{
+            color:black;
+        }
+
+        input:focus,
+        select:focus{
+
+            outline:none;
+
+            box-shadow:0 0 0 2px #90e0ef;
+        }
+
+        .buttons{
+
+            display:flex;
+
+            justify-content:space-between;
+
+            margin-top:30px;
+        }
+
+        button{
+
+            border:none;
+
+            padding:12px 24px;
+
+            border-radius:10px;
+
+            font-weight:bold;
+
+            cursor:pointer;
+
+            transition:.2s;
+        }
+
+        .save-btn{
+
+            background:#0077b6;
+            color:white;
+        }
+
+        .save-btn:hover{
+
+            background:#0096c7;
+            transform:translateY(-2px);
+        }
+
+        .reset-btn{
+
+            background:#495057;
+            color:white;
+        }
+
+        .reset-btn:hover{
+
+            background:#6c757d;
+            transform:translateY(-2px);
+        }
+
+        .cancel{
+
+            margin-top:30px;
+            text-align:center;
+        }
+
+        .cancel button{
+
+            background:#6c757d;
+            color:white;
+        }
+
+        .cancel button:hover{
+            background:#868e96;
+        }
+
+        a{
+            text-decoration:none;
+        }
+
+        .footer-wrapper{
+
+            width:100%;
+
+            padding:20px 30px;
+
+            margin-top:auto;
+        }
+
+        .port-label{
+
+            text-align:right;
+
+            font-size:13px;
+
+            opacity:.75;
+        }
+
+    </style>
 </head>
+
 <body>
-        <h1>Modifica nave con IMO {{nave.imo}}</h1>
-        <br><br>
-        <form method="POST" action="/crociera/modifica/{{nave.imo}}">
-            {% csrf_token %}
-            <br><br>
-            <label for="nome">Nome: </label>
-            <input type="text" name="nome" id="nome" value="{{nave.nome}}" required>
-            <br><br>
-            <label for="nazionalita">Nazionalità: </label>
-            <input type="text" name="nazionalita" id="nazionalita" value="{{nave.nazionalita}}" required>
-            <br><br>
-            <label for="compagnia">Compagnia: </label>
-            <input type="text" name="compagnia" id="compagnia" value="{{nave.compagnia}}" required>
-            <br><br>
-            <label for="altezza">Altezza: </label>
-            <input type="number" name="altezza" id="altezza" value="{{nave.altezza}}" required>
-            <br><br>
-            <label for="lunghezza">Lunghezza: </label>
-            <input type="number" name="lunghezza" id="lunghezza" value="{{nave.lunghezza}}" required>
-            <br><br>
-            <label for="larghezza">Larghezza: </label>
-            <input type="number" name="larghezza" id="larghezza" value="{{nave.larghezza}}" required>
-            <br><br>
-            <label for="capienza">Capienza: </label>
-            <input type="number" name="capienza" id="capienza" value="{{nave.capienza}}" required>
-            <br><br>
-            <label for="id_itinerario">Itinerario: </label>
-            <select name="id_itinerario" id="id_itinerario">
-                <option value="">Nessuno</option>
-                {% for i in itinerari %}
-                     <option value="{{ i.id }}">
-                        {{ i.nome }}
-                     </option>
-                {% endfor %}
-            </select>
-            <br><br>
-            <button type="submit">Modifica</button> <button type="reset">Reset</button>
-            <br><br>
-        </form>
-    <a href="/crociera"><button>Annulla</button></a>
-    <br><br>
+
+<div class="container">
+
+    <h1>
+        Modifica nave con IMO
+        <span class="imo">{{nave.imo}}</span>
+    </h1>
+
     {% if error %}
-        Errore: {{ error }}
+        <div class="error">
+            Errore: {{ error }}
+        </div>
     {% endif %}
+
+    <form method="POST" action="/crociera/modifica/{{nave.imo}}">
+        {% csrf_token %}
+
+        <div class="field">
+            <label for="nome">Nome:</label>
+            <input type="text"
+                   name="nome"
+                   id="nome"
+                   value="{{nave.nome}}"
+                   required>
+        </div>
+
+        <div class="field">
+            <label for="nazionalita">Nazionalità:</label>
+            <input type="text"
+                   name="nazionalita"
+                   id="nazionalita"
+                   value="{{nave.nazionalita}}"
+                   required>
+        </div>
+
+        <div class="field">
+            <label for="compagnia">Compagnia:</label>
+            <input type="text"
+                   name="compagnia"
+                   id="compagnia"
+                   value="{{nave.compagnia}}"
+                   required>
+        </div>
+
+        <div class="field">
+            <label for="altezza">Altezza:</label>
+            <input type="number"
+                   step="any"
+                   min="0.0"
+                   name="altezza"
+                   id="altezza"
+                   value="{{nave.altezza}}"
+                   required>
+        </div>
+
+        <div class="field">
+            <label for="lunghezza">Lunghezza:</label>
+            <input type="number"
+                   step="any"
+                   min="0.0"
+                   name="lunghezza"
+                   id="lunghezza"
+                   value="{{nave.lunghezza}}"
+                   required>
+        </div>
+
+        <div class="field">
+            <label for="larghezza">Larghezza:</label>
+            <input type="number"
+                   step="any"
+                   min="0.0"
+                   name="larghezza"
+                   id="larghezza"
+                   value="{{nave.larghezza}}"
+                   required>
+        </div>
+
+        <div class="field">
+            <label for="capienza">Capienza:</label>
+            <input type="number"
+                   min="0"
+                   name="capienza"
+                   id="capienza"
+                   value="{{nave.capienza}}"
+                   required>
+        </div>
+
+        <div class="field">
+            <label for="id_itinerario">Itinerario:</label>
+
+            <select name="id_itinerario" id="id_itinerario">
+
+                <option value="">Nessuno</option>
+
+                {% for i in itinerari %}
+                    <option value="{{ i.id }}">
+                        {{ i.nome }}
+                    </option>
+                {% endfor %}
+
+            </select>
+        </div>
+
+        <div class="buttons">
+
+            <button type="submit" class="save-btn">
+                Modifica
+            </button>
+
+            <button type="reset" class="reset-btn">
+                Reset
+            </button>
+
+        </div>
+
+    </form>
+
+    <div class="cancel">
+        <a href="/crociera">
+            <button>
+                Annulla
+            </button>
+        </a>
+    </div>
+
+</div>
+
+<div class="footer-wrapper">
+    <div class="port-label">
+        Porto di Seattle
+    </div>
+</div>
+
 </body>
 </html>

@@ -3,26 +3,303 @@
 <head>
     <meta charset="UTF-8">
     <title>Itinerari</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+
+            min-height:100vh;
+
+            display:flex;
+            flex-direction:column;
+
+            background:
+            linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.65)),
+            url('https://upload.wikimedia.org/wikipedia/commons/8/8a/Aerial_view_-_Harbour_of_Genoa%2C_Italy_-_DSC01156.JPG?utm_source=en.wikipedia.org&utm_campaign=imageinfo&utm_content=original');
+
+            background-size:cover;
+            background-position:center;
+            background-attachment:fixed;
+
+            color:white;
+        }
+
+        /* NAVBAR */
+
+        .navbar{
+
+            display:flex;
+
+            justify-content:space-between;
+
+            align-items:center;
+
+            padding:15px 25px;
+
+            background:rgba(0,0,0,.55);
+
+            backdrop-filter:blur(10px);
+
+            border-bottom:1px solid rgba(255,255,255,.1);
+        }
+
+        .title{
+
+            font-weight:bold;
+            font-size:18px;
+        }
+
+        .dashboard-btn{
+
+            text-decoration:none;
+        }
+
+        .dashboard-btn button{
+
+            border:none;
+
+            padding:10px 18px;
+
+            border-radius:10px;
+
+            background:#0077b6;
+
+            color:white;
+
+            font-weight:bold;
+
+            cursor:pointer;
+
+            transition:.2s;
+        }
+
+        .dashboard-btn button:hover{
+
+            background:#0096c7;
+
+            transform:translateY(-2px);
+        }
+
+
+        /* CONTENUTO */
+
+        .container{
+
+            width:95%;
+
+            margin:30px auto;
+
+            flex:1;
+        }
+
+        h1{
+
+            text-align:center;
+
+            margin-bottom:25px;
+        }
+
+        .messages{
+
+            margin-bottom:25px;
+
+            padding:15px;
+
+            border-radius:12px;
+
+            background:rgba(0,180,255,.15);
+
+            border:1px solid rgba(255,255,255,.1);
+        }
+
+
+        /* BOTTONE AGGIUNGI */
+
+        .add{
+
+            margin-bottom:25px;
+        }
+
+        .add a{
+
+            text-decoration:none;
+        }
+
+        .add button{
+
+            border:none;
+
+            padding:12px 22px;
+
+            border-radius:10px;
+
+            background:#2a9d8f;
+
+            color:white;
+
+            font-weight:bold;
+
+            cursor:pointer;
+
+            transition:.2s;
+        }
+
+        .add button:hover{
+
+            transform:translateY(-2px);
+
+            background:#3eb5a5;
+        }
+
+
+        /* TABELLA */
+
+        table{
+
+            width:100%;
+
+            border-collapse:collapse;
+
+            overflow:hidden;
+
+            border-radius:15px;
+
+            background:rgba(255,255,255,.08);
+
+            backdrop-filter:blur(8px);
+        }
+
+        th{
+
+            background:rgba(0,119,182,.7);
+
+            padding:15px;
+        }
+
+        td{
+
+            padding:14px;
+
+            text-align:center;
+
+            border-top:1px solid rgba(255,255,255,.08);
+        }
+
+        tr:hover{
+
+            background:rgba(255,255,255,.05);
+        }
+
+
+        /* AZIONI */
+
+        .actions{
+
+            display:flex;
+
+            flex-direction:column;
+
+            gap:8px;
+
+            align-items:center;
+        }
+
+        .actions a{
+
+            text-decoration:none;
+
+            color:#90e0ef;
+
+            font-weight:bold;
+        }
+
+        .actions a:hover{
+
+            color:white;
+        }
+
+
+        /* FOOTER */
+
+        .footer-wrapper{
+
+            width:100%;
+
+            margin-top:auto;
+
+            padding:20px 30px;
+        }
+
+        .port-label{
+
+            text-align:right;
+
+            font-size:13px;
+
+            opacity:.75;
+        }
+
+    </style>
+
 </head>
+
 <body>
+
+
+<div class="navbar">
+
+    <div class="title">
+        Gestione Itinerari · {{request.user.username}}
+    </div>
+
+    <a href="/crociera"
+       class="dashboard-btn">
+
+        <button>
+            Ritorna alla dashboard
+        </button>
+
+    </a>
+
+</div>
+
+
+
+<div class="container">
 
     <h1>Elenco itinerari</h1>
 
-    <br><br>
 
     {% if messages %}
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-        <br><br>
-    {% endif %}
-    <a href="/crociera"><button>Ritorna alla dashboard</button></a>
-    <br><br>
-    <a href="/crociera/itinerario/aggiungi">
-        <button>Aggiungi Itinerario</button>
-    </a>
+    <div class="messages">
 
-    <br><br>
+        {% for message in messages %}
+            {{message}}
+        {% endfor %}
+
+    </div>
+    {% endif %}
+
+
+    <div class="add">
+
+        <a href="/crociera/itinerario/aggiungi">
+
+            <button>
+                + Aggiungi Itinerario
+            </button>
+
+        </a>
+
+    </div>
+
 
     <table>
 
@@ -36,53 +313,81 @@
             <th>Azioni</th>
         </tr>
 
+
         {% for i in itinerari_modificabili %}
         <tr>
+
             <td>{{i.id}}</td>
-            <td>{{ i.nome }}</td>
-            <td>{{ i.data_inizio }}</td>
-            <td>{{ i.data_fine }}</td>
-            <td>{{ i.prezzo }}</td>
+            <td>{{i.nome}}</td>
+            <td>{{i.data_inizio}}</td>
+            <td>{{i.data_fine}}</td>
+            <td>{{i.prezzo}}</td>
 
             <td>
+
                 {% for tappa in i.tappe %}
-                    {{ tappa }}{% if not forloop.last %}, {% endif %}
+                    {{tappa}}{% if not forloop.last %}, {% endif %}
                 {% endfor %}
+
             </td>
 
             <td>
-                <a href="/crociera/itinerario/modifica/{{i.id}}">
-                    Modifica
-                </a>
-                |
-                <a href="/crociera/itinerario/elimina/{{i.id}}">
-                    Elimina
-                </a>
+
+                <div class="actions">
+
+                    <a href="/crociera/itinerario/modifica/{{i.id}}">
+                        Modifica
+                    </a>
+
+                    <a href="/crociera/itinerario/elimina/{{i.id}}">
+                        Elimina
+                    </a>
+
+                </div>
+
             </td>
+
         </tr>
         {% endfor %}
+
 
         {% for i in itinerari_non_modificabili %}
         <tr>
+
             <td>{{i.id}}</td>
-            <td>{{ i.nome }}</td>
-            <td>{{ i.data_inizio }}</td>
-            <td>{{ i.data_fine }}</td>
-            <td>{{ i.prezzo }}</td>
+            <td>{{i.nome}}</td>
+            <td>{{i.data_inizio}}</td>
+            <td>{{i.data_fine}}</td>
+            <td>{{i.prezzo}}</td>
 
             <td>
+
                 {% for tappa in i.tappe %}
-                    {{ tappa }}{% if not forloop.last %}, {% endif %}
+                    {{tappa}}{% if not forloop.last %}, {% endif %}
                 {% endfor %}
+
             </td>
 
-            <td>
-                ---
-            </td>
+            <td>---</td>
+
         </tr>
+
         {% endfor %}
 
     </table>
+
+</div>
+
+
+<div class="footer-wrapper">
+
+    <div class="port-label">
+
+        Porto di Genova
+
+    </div>
+
+</div>
 
 </body>
 </html>

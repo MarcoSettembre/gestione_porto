@@ -3,35 +3,226 @@
 <head>
     <meta charset="UTF-8">
     <title>Visualizzazione Stanze</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+            min-height:100vh;
+            display:flex;
+            flex-direction:column;
+            background:
+                linear-gradient(rgba(0,0,0,0.55), rgba(0,0,0,0.55)),
+                url('https://www.sightseeing-experience.com/magazine/wp-content/uploads/2024/08/AdobeStock_46229260-1024x683.jpeg');
+            background-size:cover;
+            background-position:center;
+            background-attachment:fixed;
+            color:white;
+        }
+
+        /* NAVBAR */
+        .navbar{
+            width:100%;
+            display:flex;
+            justify-content:space-between;
+            align-items:center;
+            padding:15px 25px;
+            background:rgba(0,0,0,0.6);
+            backdrop-filter:blur(8px);
+            border-bottom:1px solid rgba(255,255,255,0.1);
+        }
+
+        .left{
+            font-weight:bold;
+        }
+
+        .right button{
+            border:none;
+            padding:10px 16px;
+            border-radius:8px;
+            cursor:pointer;
+            background:#495057;
+            color:white;
+            font-weight:bold;
+            transition:0.2s;
+        }
+
+        .right button:hover{
+            background:#6c757d;
+            transform:translateY(-2px);
+        }
+
+        /* CONTENUTO */
+        .container{
+            width:100%;
+            max-width:1000px;
+            margin:40px auto;
+            background:rgba(0,0,0,0.55);
+            padding:25px;
+            border-radius:16px;
+            backdrop-filter:blur(10px);
+        }
+
+        h1{
+            margin-bottom:20px;
+            text-align:center;
+        }
+
+        table{
+            width:100%;
+            border-collapse:collapse;
+            margin-top:15px;
+        }
+
+        th, td{
+            padding:12px;
+            text-align:center;
+            border-bottom:1px solid rgba(255,255,255,0.15);
+        }
+
+        a{
+            color:#90e0ef;
+            text-decoration:none;
+            font-weight:bold;
+        }
+
+        a:hover{
+            text-decoration:underline;
+        }
+
+        .actions{
+            display:flex;
+            gap:8px;
+            justify-content:center;
+        }
+
+        .footer-wrapper{
+            width:100%;
+            margin-top:auto;
+            padding:20px 30px;
+        }
+
+        .port-label{
+            text-align:right;
+            font-size:13px;
+            opacity:0.75;
+        }
+        /* ADD BUTTON */
+
+.top-actions{
+
+    margin-bottom:25px;
+
+}
+
+.main-btn{
+
+    border:none;
+
+    background:#0077b6;
+
+    color:white;
+
+    padding:12px 20px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+    transition:.2s;
+
+}
+
+.main-btn:hover{
+
+    background:#0096c7;
+
+    transform:translateY(-2px);
+
+}
+    </style>
 </head>
+
 <body>
-    <h1>Stanze su nave con IMO {{imo}}</h1>
-    <br><br>
-    {% if messages %}
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-        <br><br>
-    {% endif %}
-    <a href="/crociera"><button>Ritorna alla dashboard</button></a>
-    <br><br>
+
+    <!-- NAVBAR -->
+    <div class="navbar">
+
+        <div class="left">
+            Gestione Stanze - {{request.user.username}}
+        </div>
+
+        <div class="right">
+            <a href="/crociera">
+                <button>Ritorna alla dashboard</button>
+            </a>
+        </div>
+
+    </div>
+
+    <!-- CONTENUTO -->
+    <div class="container">
+
+        <h1>Stanze su nave con IMO {{imo}}</h1>
+
+        {% if messages %}
+            {% for message in messages %}
+                <p>{{ message }}</p>
+            {% endfor %}
+            <br><br>
+        {% endif %}
+
+        <div class="top-actions">
+
     <a href="/crociera/stanza/aggiungi/{{imo}}">
-    <button>Aggiungi Stanza</button></a>
-    <table>
-        <tr>
-            <th>Numero</th>
-            <th>Classe</th>
-            <th>Tipo</th>
-            <th>Azioni</th>
-        </tr>
-        {% for stanza in stanze %}
-        <tr>
-            <td>{{stanza.numero}}</td>
-            <td>{{stanza.classe}}</td>
-            <td>{{stanza.tipo}}</td>
-            <td><a href="/crociera/stanza/modifica/{{stanza.imo_id}}/{{stanza.numero}}">Modifica</a> | <a href="/crociera/stanza/elimina/{{stanza.imo_id}}/{{stanza.numero}}">Elimina</a></td>
-        </tr>
-        {% endfor %}
-    </table>
+        <button class="main-btn">
+            Aggiungi Stanza
+        </button>
+    </a>
+
+</div>
+        <table>
+            <tr>
+                <th>Numero</th>
+                <th>Classe</th>
+                <th>Tipo</th>
+                <th>Azioni</th>
+            </tr>
+
+            {% for stanza in stanze %}
+            <tr>
+                <td>{{stanza.numero}}</td>
+                <td>{{stanza.classe}}</td>
+                <td>{{stanza.tipo}}</td>
+                <td class="actions">
+                    <a href="/crociera/stanza/modifica/{{stanza.imo_id}}/{{stanza.numero}}">
+                        Modifica
+                    </a>
+                    <a href="/crociera/stanza/elimina/{{stanza.imo_id}}/{{stanza.numero}}">
+                        Elimina
+                    </a>
+                </td>
+            </tr>
+            {% endfor %}
+
+        </table>
+
+    </div>
+
+    <!-- PORT LABEL -->
+    <div class="footer-wrapper">
+        <div class="port-label">
+            Porto di Messina
+        </div>
+    </div>
+
 </body>
 </html>

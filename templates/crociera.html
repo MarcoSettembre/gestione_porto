@@ -1,62 +1,474 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <title>Gestione Navi Crociera</title>
+<meta charset="UTF-8">
+<title>Gestione Navi Crociera</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial;
+}
+
+body{
+
+    min-height:100vh;
+    display:flex;
+    flex-direction:column;
+
+    background:
+    linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.65)),
+    url("https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Nassau_-_panoramio_%284%29.jpg/1920px-Nassau_-_panoramio_%284%29.jpg?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail");
+
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+
+    color:white;
+}
+
+
+/* NAVBAR */
+
+.navbar{
+
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+
+    padding:15px 25px;
+
+    background:rgba(0,0,0,.5);
+
+    backdrop-filter:blur(10px);
+
+    border-bottom:1px solid rgba(255,255,255,.1);
+
+}
+
+.title{
+    font-weight:bold;
+    font-size:18px;
+}
+
+
+/* MENU */
+
+.menu{
+
+    display:flex;
+    gap:20px;
+
+}
+
+.dropdown{
+
+    position:relative;
+
+}
+
+.dropbtn{
+
+    background:transparent;
+    border:none;
+
+    color:white;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+    padding:10px;
+
+}
+
+.dropbtn:hover{
+    color:#90e0ef;
+}
+
+.dropdown-content{
+
+    display:none;
+
+    position:absolute;
+
+    right:0;
+    top:40px;
+
+    min-width:220px;
+
+    background:rgba(0,0,0,.9);
+
+    border-radius:12px;
+
+    overflow:hidden;
+
+    z-index:10;
+
+}
+
+.dropdown-content a{
+
+    display:block;
+
+    color:white;
+
+    text-decoration:none;
+
+    padding:12px;
+
+}
+
+.dropdown-content a:hover{
+
+    background:rgba(0,180,255,.2);
+
+}
+
+.dropdown:hover .dropdown-content{
+
+    display:block;
+
+}
+
+
+/* CONTENT */
+
+.content{
+
+    flex:1;
+
+    padding:30px;
+
+}
+
+h1{
+
+    margin-bottom:20px;
+
+}
+
+
+.messages{
+
+    margin-bottom:25px;
+
+    background:rgba(0,180,255,.15);
+
+    border:1px solid rgba(0,180,255,.3);
+
+    padding:15px;
+
+    border-radius:12px;
+
+}
+
+
+/* ADD BUTTON */
+
+.top-actions{
+
+    margin-bottom:25px;
+
+}
+
+.main-btn{
+
+    border:none;
+
+    background:#0077b6;
+
+    color:white;
+
+    padding:12px 20px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+}
+
+.main-btn:hover{
+
+    background:#0096c7;
+
+}
+
+
+/* TABLE */
+
+.table-wrapper{
+
+    overflow-x:auto;
+
+}
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    background:rgba(255,255,255,.08);
+
+    border-radius:15px;
+
+    overflow:hidden;
+
+}
+
+th{
+
+    background:rgba(0,119,182,.6);
+
+}
+
+th,td{
+
+    padding:14px;
+
+    text-align:center;
+
+}
+
+tr:nth-child(even){
+
+    background:rgba(255,255,255,.06);
+
+}
+
+
+/* ACTIONS */
+
+.action-links{
+
+    display:flex;
+
+    flex-direction:column;
+
+    gap:8px;
+
+}
+
+.action-links a{
+
+    text-decoration:none;
+
+    color:#90e0ef;
+
+    font-size:14px;
+
+}
+
+.action-links a:hover{
+
+    color:white;
+
+}
+
+
+/* FOOTER */
+
+.footer-wrapper{
+
+    margin-top:auto;
+
+    padding:20px 30px;
+
+}
+
+.port-label{
+
+    text-align:right;
+
+    font-size:13px;
+
+    opacity:.75;
+
+}
+
+</style>
 </head>
+
 <body>
-    <h1> Benvenuto/a nell'area gestione navi crociera, {{request.user.username}} </h1>
-    <br><br>
-    {% if messages %}
-        {% for message in messages %}
-            <p>{{ message }}</p>
-        {% endfor %}
-        <br><br>
-    {% endif %}
-    <a href="/crociera/aggiungi"><button>Aggiungi Nave</button></a>
-    <a href="/crociera/itinerario"><button>Visualizza Itinerari</button></a>
-    <a href="/crociera/guida"><button>Visualizza Guide</button></a>
-    <br><br>
-    {% if navi %}
-    <table>
-        <tr>
-            <th>IMO</th>
-            <th>Nome</th>
-            <th>Nazionalità</th>
-            <th>Compagnia</th>
-            <th>Altezza</th>
-            <th>Lunghezza</th>
-            <th>Larghezza</th>
-            <th>Capienza</th>
-            <th>Numero Banchina</th>
-            <th>Settore Banchina</th>
-            <th>ID Itinerario</th>
-            <th>Azioni</th>
-        </tr>
-        {% for rel in navi %}
-        <tr>
-    <td>{{ rel.nave.imo }}</td>
-    <td>{{ rel.nave.nome }}</td>
-    <td>{{ rel.nave.nazionalita }}</td>
-    <td>{{ rel.nave.compagnia }}</td>
-    <td>{{ rel.nave.altezza }}</td>
-    <td>{{ rel.nave.lunghezza }}</td>
-    <td>{{ rel.nave.larghezza }}</td>
-    <td>{{ rel.nave.capienza }}</td>
-    <td>{{ rel.nave.numero_banchina }}</td>
-    <td>{{ rel.nave.settore_banchina }}</td>
-    <td>{{ rel.nave.id_itinerario_id }}</td>
-    <td>
-        <a href="/crociera/modifica/{{ rel.nave.imo }}">Modifica</a> |
-        <a href="/crociera/elimina/{{ rel.nave.imo }}">Elimina</a> |
-        <a href="/crociera/stanza/{{ rel.nave.imo }}">Visualizza Stanze</a> |
-        <a href="/crociera/prenotazione/{{ rel.nave.imo }}">Visualizza Prenotazioni</a>
-    </td>
-    </tr>
-    {% endfor %}
-    </table>
-    {% endif %}
-    <a href="/logout"><button>Logout</button></a>
-    <a href="/modifica_password"><button>Modifica Password</button></a>
+
+
+<div class="navbar">
+
+<div class="title">
+Dashboard Gestione Navi Crociera · {{request.user.username}}
+</div>
+
+<div class="menu">
+
+<div class="dropdown">
+<button class="dropbtn">
+Gestione Itinerari ▾
+</button>
+
+<div class="dropdown-content">
+<a href="/crociera/itinerario">
+Visualizza Itinerari
+</a>
+</div>
+</div>
+
+
+<div class="dropdown">
+
+<button class="dropbtn">
+Gestione Guide ▾
+</button>
+
+<div class="dropdown-content">
+<a href="/crociera/guida">
+Visualizza Guide
+</a>
+</div>
+
+</div>
+
+
+<div class="dropdown">
+
+<button class="dropbtn">
+Gestione Account ▾
+</button>
+
+<div class="dropdown-content">
+<a href="/modifica_password">
+Modifica Password
+</a>
+
+<a href="/logout">
+Logout
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+
+<div class="content">
+
+<h1>
+Benvenuto/a nell'area gestione navi crociera
+</h1>
+
+{% if messages %}
+<div class="messages">
+
+{% for message in messages %}
+{{message}}
+{% endfor %}
+
+</div>
+{% endif %}
+
+
+<div class="top-actions">
+
+<a href="/crociera/aggiungi">
+<button class="main-btn">
+Aggiungi Nave
+</button>
+</a>
+
+</div>
+
+
+{% if navi %}
+
+<div class="table-wrapper">
+
+<table>
+
+<tr>
+<th>IMO</th>
+<th>Nome</th>
+<th>Nazionalità</th>
+<th>Compagnia</th>
+<th>Altezza</th>
+<th>Lunghezza</th>
+<th>Larghezza</th>
+<th>Capienza</th>
+<th>N° Banchina</th>
+<th>Settore</th>
+<th>Itinerario</th>
+<th>Azioni</th>
+</tr>
+
+
+{% for rel in navi %}
+
+<tr>
+
+<td>{{ rel.nave.imo }}</td>
+<td>{{ rel.nave.nome }}</td>
+<td>{{ rel.nave.nazionalita }}</td>
+<td>{{ rel.nave.compagnia }}</td>
+<td>{{ rel.nave.altezza }}</td>
+<td>{{ rel.nave.lunghezza }}</td>
+<td>{{ rel.nave.larghezza }}</td>
+<td>{{ rel.nave.capienza }}</td>
+<td>{{ rel.nave.numero_banchina }}</td>
+<td>{{ rel.nave.settore_banchina }}</td>
+<td>{{ rel.nave.id_itinerario_id }}</td>
+
+<td>
+
+<div class="action-links">
+
+<a href="/crociera/modifica/{{ rel.nave.imo }}">
+Modifica
+</a>
+
+<a href="/crociera/elimina/{{ rel.nave.imo }}">
+Elimina
+</a>
+
+<a href="/crociera/stanza/{{ rel.nave.imo }}">
+Visualizza Stanze
+</a>
+
+<a href="/crociera/prenotazione/{{ rel.nave.imo }}">
+Visualizza Prenotazioni
+</a>
+
+</div>
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+{% endif %}
+
+</div>
+
+
+<div class="footer-wrapper">
+
+<div class="port-label">
+Porto di Nassau
+</div>
+
+</div>
+
 </body>
 </html>

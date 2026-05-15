@@ -1,38 +1,286 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <title>Visualizzazione Prenotazioni su Nave</title>
+<meta charset="UTF-8">
+<title>Visualizzazione Prenotazioni su Nave</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial;
+}
+
+body{
+
+    min-height:100vh;
+
+    display:flex;
+    flex-direction:column;
+
+    background:
+    linear-gradient(rgba(0,0,0,.65),rgba(0,0,0,.65)),
+    url("https://upload.wikimedia.org/wikipedia/commons/thumb/2/28/Tokyo_passenger_ship_terminal.JPG/1280px-Tokyo_passenger_ship_terminal.JPG?utm_source=en.wikipedia.org&utm_campaign=parser&utm_content=thumbnail");
+
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+
+    color:white;
+
+}
+
+
+/* NAVBAR */
+
+.navbar{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    align-items:center;
+
+    padding:15px 25px;
+
+    background:rgba(0,0,0,.5);
+
+    backdrop-filter:blur(10px);
+
+    border-bottom:1px solid rgba(255,255,255,.1);
+
+}
+
+
+.title{
+
+    font-size:18px;
+
+    font-weight:bold;
+
+}
+
+
+.dashboard-btn{
+
+    border:none;
+
+    background:#495057;
+
+    color:white;
+
+    padding:10px 18px;
+
+    border-radius:10px;
+
+    cursor:pointer;
+
+    font-weight:bold;
+
+    transition:.2s;
+
+}
+
+.dashboard-btn:hover{
+
+    background:#6c757d;
+
+    transform:translateY(-2px);
+
+}
+
+
+a{
+
+    text-decoration:none;
+
+}
+
+
+/* CONTENT */
+
+.content{
+
+    flex:1;
+
+    padding:30px;
+
+}
+
+
+h1{
+
+    margin-bottom:25px;
+
+}
+
+
+/* TABLE */
+
+.table-wrapper{
+
+    overflow-x:auto;
+
+}
+
+
+table{
+
+    width:100%;
+
+    border-collapse:collapse;
+
+    background:rgba(255,255,255,.08);
+
+    border-radius:15px;
+
+    overflow:hidden;
+
+}
+
+
+th{
+
+    background:rgba(0,119,182,.6);
+
+}
+
+
+th,td{
+
+    padding:14px;
+
+    text-align:center;
+
+}
+
+
+tr:nth-child(even){
+
+    background:rgba(255,255,255,.06);
+
+}
+
+
+/* FOOTER */
+
+.footer-wrapper{
+
+    margin-top:auto;
+
+    padding:20px 30px;
+
+}
+
+
+.port-label{
+
+    text-align:right;
+
+    font-size:13px;
+
+    opacity:.75;
+
+}
+
+</style>
 </head>
+
 <body>
-    <h1>Lista prenotazioni su nave con IMO {{imo}}</h1>
-    <br><br>
-    <a href="/crociera"><button>Ritorna alla dashboard</button></a>
-    <br><br>
-    <table>
-        <tr>
-            <th>Numero Stanza</th>
-            <th>Codice Fiscale</th>
-            <th>Nome Cliente</th>
-            <th>Data Inizio</th>
-            <th>Data Fine</th>
-            <th>Servizio Guida</th>
-        </tr>
-        {% for prenotazione in prenotazioni %}
-        <tr>
-            <td>{{prenotazione.numero}}</td>
-            <td>{{prenotazione.codice_fiscale.codice_fiscale}}</td>
-            <td>{{prenotazione.codice_fiscale.nome}} {{prenotazione.codice_fiscale.cognome}}</td>
-            <td>{{prenotazione.data_inizio}}</td>
-            <td>{{prenotazione.scadenza}}</td>
-            <td> {% if prenotazione.servizio_guida %}
-                  Sì
-                {% else %}
-                  No
-                {% endif %}
-            </td>
-        </tr>
-        {% endfor %}
-    </table>
+
+
+<div class="navbar">
+
+    <div class="title">
+        Visualizzazione Prenotazioni · {{request.user.username}}
+    </div>
+
+    <a href="/crociera">
+        <button class="dashboard-btn">
+            Ritorna alla dashboard
+        </button>
+    </a>
+
+</div>
+
+
+
+<div class="content">
+
+<h1>
+Lista prenotazioni su nave con IMO {{imo}}
+</h1>
+
+
+<div class="table-wrapper">
+
+<table>
+
+<tr>
+    <th>Numero Stanza</th>
+    <th>Codice Fiscale</th>
+    <th>Nome Cliente</th>
+    <th>Data Inizio</th>
+    <th>Data Fine</th>
+    <th>Servizio Guida</th>
+</tr>
+
+
+{% for prenotazione in prenotazioni %}
+
+<tr>
+
+<td>{{prenotazione.numero}}</td>
+
+<td>
+{{prenotazione.codice_fiscale.codice_fiscale}}
+</td>
+
+<td>
+{{prenotazione.codice_fiscale.nome}}
+{{prenotazione.codice_fiscale.cognome}}
+</td>
+
+<td>
+{{prenotazione.data_inizio}}
+</td>
+
+<td>
+{{prenotazione.scadenza}}
+</td>
+
+<td>
+
+{% if prenotazione.servizio_guida %}
+Sì
+{% else %}
+No
+{% endif %}
+
+</td>
+
+</tr>
+
+{% endfor %}
+
+</table>
+
+</div>
+
+</div>
+
+
+
+<div class="footer-wrapper">
+
+<div class="port-label">
+Porto di Tokyo
+</div>
+
+</div>
+
+
 </body>
 </html>

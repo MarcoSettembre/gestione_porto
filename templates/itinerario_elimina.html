@@ -3,38 +3,211 @@
 <head>
     <meta charset="UTF-8">
     <title>Eliminazione Itinerario</title>
+
+    <style>
+
+        *{
+            margin:0;
+            padding:0;
+            box-sizing:border-box;
+            font-family:Arial;
+        }
+
+        body{
+
+            min-height:100vh;
+
+            display:flex;
+            flex-direction:column;
+
+            background:
+                linear-gradient(rgba(0,0,0,0.65), rgba(0,0,0,0.65)),
+                url('https://images.ferryhopper.com/images/articles/2020/mykonos-port-cover-2020.jpg');
+
+            background-size:cover;
+            background-position:center;
+            background-attachment:fixed;
+
+            color:white;
+        }
+
+        .container{
+
+            width:100%;
+            max-width:700px;
+
+            margin:auto;
+
+            background:rgba(0,0,0,0.55);
+
+            backdrop-filter:blur(10px);
+
+            border:1px solid rgba(255,255,255,0.12);
+
+            border-radius:18px;
+
+            padding:40px;
+
+            box-shadow:0 10px 25px rgba(0,0,0,0.4);
+
+            text-align:center;
+        }
+
+        h1{
+            margin-bottom:25px;
+        }
+
+        .warning{
+            font-size:18px;
+            line-height:1.7;
+            margin-bottom:30px;
+        }
+
+        .itinerario{
+            color:#90e0ef;
+            font-weight:bold;
+        }
+
+        .error{
+
+            margin-bottom:25px;
+
+            background:rgba(255,0,0,0.18);
+
+            border:1px solid rgba(255,0,0,0.3);
+
+            padding:12px;
+
+            border-radius:10px;
+        }
+
+        .actions{
+
+            display:flex;
+
+            justify-content:center;
+
+            gap:15px;
+
+            flex-wrap:wrap;
+        }
+
+        button{
+
+            border:none;
+
+            padding:12px 24px;
+
+            border-radius:10px;
+
+            cursor:pointer;
+
+            font-weight:bold;
+
+            transition:0.2s;
+        }
+
+        .delete-btn{
+
+            background:#c1121f;
+            color:white;
+        }
+
+        .delete-btn:hover{
+
+            background:#e5383b;
+
+            transform:translateY(-2px);
+        }
+
+        .cancel-btn{
+
+            background:#495057;
+            color:white;
+        }
+
+        .cancel-btn:hover{
+
+            background:#6c757d;
+
+            transform:translateY(-2px);
+        }
+
+        a{
+            text-decoration:none;
+        }
+
+        .footer-wrapper{
+
+            width:100%;
+
+            margin-top:auto;
+
+            padding:20px 30px;
+        }
+
+        .port-label{
+
+            text-align:right;
+
+            font-size:13px;
+
+            opacity:0.75;
+        }
+
+    </style>
+
 </head>
+
 <body>
 
-    <h1>Eliminazione itinerario</h1>
+    <div class="container">
 
-    <br><br>
+        <h1>Eliminazione Itinerario</h1>
 
-    {% if error %}
-        <p>{{ error }}</p>
-        <br><br>
-    {% endif %}
+        {% if error %}
+            <div class="error">
+                {{ error }}
+            </div>
+        {% endif %}
 
-    <p>
-        Sei sicuro di voler eliminare l'itinerario
-        <strong>{{ itinerario.nome }}</strong>?
-    </p>
+        <p class="warning">
+            Sei sicuro di voler eliminare l'itinerario
+            <span class="itinerario">
+                {{ itinerario.nome }}
+            </span>?
+        </p>
 
-    <br><br>
+        <div class="actions">
 
-    <form method="POST" action="/crociera/itinerario/elimina/{{itinerario.id}}">
+            <form method="POST"
+                  action="/crociera/itinerario/elimina/{{itinerario.id}}">
 
-        {% csrf_token %}
+                {% csrf_token %}
 
-        <button type="submit">Elimina</button>
+                <button type="submit" class="delete-btn">
+                    Elimina
+                </button>
 
-    </form>
+            </form>
 
-    <br>
+            <a href="/crociera/itinerario">
 
-    <a href="/crociera/itinerario">
-        <button>Annulla</button>
-    </a>
+                <button class="cancel-btn">
+                    Annulla
+                </button>
+
+            </a>
+
+        </div>
+
+    </div>
+
+    <div class="footer-wrapper">
+        <div class="port-label">
+            Porto di Mykonos
+        </div>
+    </div>
 
 </body>
 </html>

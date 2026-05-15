@@ -1,83 +1,356 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-    <meta charset="UTF-8">
-    <title>Aggiunta Guida</title>
+<meta charset="UTF-8">
+<title>Aggiunta Guida</title>
+
+<style>
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:Arial;
+}
+
+body{
+
+    min-height:100vh;
+
+    display:flex;
+    flex-direction:column;
+
+    background:
+    linear-gradient(rgba(0,0,0,0.65),rgba(0,0,0,0.65)),
+    url("https://www.deborahinkorea.com/uploads/1/3/1/7/131707772/ultimate-port-day-on-jeju-island-jeju-city-vs-seogwipo-6_orig.jpg");
+
+    background-size:cover;
+    background-position:center;
+    background-attachment:fixed;
+
+    color:white;
+}
+
+.container{
+
+    width:100%;
+    max-width:850px;
+
+    margin:auto;
+
+    background:rgba(0,0,0,.55);
+
+    backdrop-filter:blur(10px);
+
+    border:1px solid rgba(255,255,255,.1);
+
+    border-radius:18px;
+
+    padding:40px;
+
+    box-shadow:0 10px 25px rgba(0,0,0,.4);
+}
+
+h1{
+
+    text-align:center;
+
+    margin-bottom:30px;
+}
+
+.error{
+
+    margin-bottom:25px;
+
+    padding:15px;
+
+    border-radius:10px;
+
+    background:rgba(255,0,0,.2);
+
+    border:1px solid rgba(255,80,80,.3);
+
+    text-align:center;
+}
+
+.form-group{
+
+    margin-bottom:18px;
+}
+
+label{
+
+    display:block;
+
+    margin-bottom:8px;
+
+    font-weight:bold;
+}
+
+input,
+select{
+
+    width:100%;
+
+    padding:12px;
+
+    border:none;
+
+    border-radius:10px;
+
+    background:rgba(255,255,255,.9);
+
+    outline:none;
+}
+
+.button-row{
+
+    display:flex;
+
+    justify-content:space-between;
+
+    margin-top:35px;
+}
+
+.left-buttons{
+
+    display:flex;
+
+    gap:12px;
+}
+
+button{
+
+    border:none;
+
+    padding:12px 24px;
+
+    border-radius:10px;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.submit-btn{
+
+    background:#2a9d8f;
+
+    color:white;
+}
+
+.submit-btn:hover{
+
+    background:#34b3a5;
+
+    transform:translateY(-2px);
+}
+
+.reset-btn{
+
+    background:#f4a261;
+
+    color:white;
+}
+
+.reset-btn:hover{
+
+    background:#ffb87a;
+
+    transform:translateY(-2px);
+}
+
+.cancel-btn{
+
+    background:#495057;
+
+    color:white;
+}
+
+.cancel-btn:hover{
+
+    background:#6c757d;
+
+    transform:translateY(-2px);
+}
+
+a{
+
+    text-decoration:none;
+}
+
+.footer-wrapper{
+
+    width:100%;
+
+    margin-top:auto;
+
+    padding:20px 30px;
+}
+
+.port-label{
+
+    text-align:right;
+
+    font-size:13px;
+
+    opacity:.75;
+}
+
+</style>
 </head>
+
 <body>
 
-    <h1>Aggiunta guida</h1>
+<div class="container">
 
-    <br><br>
+<h1>Aggiunta guida</h1>
 
-    {% if error %}
-        <p>{{ error }}</p>
-        <br><br>
-    {% endif %}
+{% if error %}
+<div class="error">
+    {{ error }}
+</div>
+{% endif %}
 
-    <form method="POST" action="/crociera/guida/aggiungi">
+<form method="POST" action="/crociera/guida/aggiungi">
 
-        {% csrf_token %}
+{% csrf_token %}
 
-        <label>Codice fiscale:</label>
-        <input type="text" name="codice_fiscale" required>
+<div class="form-group">
+<label>Codice fiscale:</label>
+<input type="text"
+       name="codice_fiscale"
+       required>
+</div>
 
-        <br><br>
+<div class="form-group">
+<label>Nome:</label>
+<input type="text"
+       name="nome"
+       required>
+</div>
 
-        <label>Nome:</label>
-        <input type="text" name="nome" required>
+<div class="form-group">
+<label>Cognome:</label>
+<input type="text"
+       name="cognome"
+       required>
+</div>
 
-        <br><br>
+<div class="form-group">
+<label>Data nascita:</label>
+<input type="date"
+       name="data_nascita"
+       required>
+</div>
 
-        <label>Cognome:</label>
-        <input type="text" name="cognome" required>
+<div class="form-group">
+<label>Numero licenza:</label>
+<input type="number"
+       name="numero_licensa"
+       required>
+</div>
 
-        <br><br>
+<div class="form-group">
+<label>Stipendio:</label>
+<input type="number"
+       step="0.01"
+       min="0.0"
+       name="stipendio"
+       required>
+</div>
 
-        <label>Data nascita:</label>
-        <input type="date" name="data_nascita" required>
+<div class="form-group">
+<label>Data assunzione:</label>
+<input type="date"
+       name="data_assunzione"
+       required>
+</div>
 
-        <br><br>
+<div class="form-group">
+<label>Valutazione:</label>
+<input type="number"
+       step="0.1"
+       min="1.0"
+       max="5.0"
+       name="valutazione"
+       required>
+</div>
 
-        <label>Numero licenza:</label>
-        <input type="number" name="numero_licensa" required>
+<div class="form-group">
+<label>Itinerario:</label>
 
-        <br><br>
+<select name="id_itinerario">
 
-        <label>Stipendio:</label>
-        <input type="number" step="0.01" name="stipendio" required>
+<option value="">---</option>
 
-        <br><br>
+{% for ui in itinerari %}
+<option value="{{ ui.itinerario.id }}">
+{{ ui.itinerario.nome }}
+</option>
+{% endfor %}
 
-        <label>Data assunzione:</label>
-        <input type="date" name="data_assunzione" required>
+</select>
 
-        <br><br>
+</div>
 
-        <label>Valutazione:</label>
-        <input type="number" step="0.1" name="valutazione" required>
+<div class="form-group">
 
-        <br><br>
+<label>
+Lingue (lingua:livello, separate da virgola):
+</label>
 
-        <label>Itinerario:</label>
-        <select name="id_itinerario">
-            <option value="">---</option>
-            {% for ui in itinerari %}
-                <option value="{{ ui.itinerario.id }}">
-                    {{ ui.itinerario.nome }}
-                </option>
-            {% endfor %}
-        </select>
+<input type="text"
+       name="lingue">
 
-        <br><br>
+</div>
 
-        <label>Lingue (lingua:livello, separati da virgola):</label>
-        <input type="text" name="lingue" size="60">
+<div class="button-row">
 
-        <br><br>
+<div class="left-buttons">
 
-        <button type="submit">Aggiungi</button> <button type="reset">Reset</button>
-    </form>
-    <a href="/guida"><button>Annulla</button></a>
+<button type="submit"
+class="submit-btn">
+
+Aggiungi
+
+</button>
+
+<button type="reset"
+class="reset-btn">
+
+Reset
+
+</button>
+
+</div>
+
+<a href="/crociera/guida">
+
+<button type="button"
+class="cancel-btn">
+
+Annulla
+
+</button>
+
+</a>
+
+</div>
+
+</form>
+
+</div>
+
+<div class="footer-wrapper">
+
+<div class="port-label">
+Porto di Jeju
+</div>
+
+</div>
+
 </body>
 </html>
