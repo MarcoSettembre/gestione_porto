@@ -122,7 +122,11 @@
             font-size:13px;
             opacity:0.75;
         }
-
+.error{
+            color:#ffb4b4;
+            margin-bottom:10px;
+            font-weight:bold;
+        }
     </style>
 </head>
 
@@ -131,7 +135,11 @@
     <div class="container">
 
         <h1>Eliminazione Container</h1>
-
+        {% if error %}
+            <div class="error">
+                Errore: {{ error }}
+            </div>
+        {% endif %}
         <p>
             Sei sicuro di voler eliminare il container con ID
             <span class="id">{{container.id}}</span>?

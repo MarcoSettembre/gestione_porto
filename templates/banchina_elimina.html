@@ -143,7 +143,11 @@
 
             backdrop-filter:blur(6px);
         }
-
+.error{
+            color:#ffb4b4;
+            margin-bottom:10px;
+            font-weight:bold;
+        }
     </style>
 
 </head>
@@ -155,7 +159,11 @@
     <h1>
         Eliminazione Banchina
     </h1>
-
+    {% if error %}
+            <div class="error">
+                Errore: {{ error }}
+            </div>
+    {% endif %}
     <div class="warning">
 
         Sei sicuro di voler eliminare la banchina

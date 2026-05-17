@@ -6,7 +6,7 @@ from django.contrib.auth.models import Group
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from core.models import *
-from django.db import IntegrityError, DataError, connection
+from django.db import IntegrityError, DataError, connection, DatabaseError
 from porto.decorators import group_required
 
 
@@ -27,6 +27,15 @@ def redirect_by_role(request):
     elif role == 'admin':
         return redirect('homepage')
     return redirect('')
+def estrai_errore_db(e):
+    if hasattr(e, 'args') and len(e.args) > 1:
+        messaggio = e.args[1]
+    else:
+        messaggio = str(e)
+    testo = messaggio.lower()
+    if "chk" in testo:
+        return "Dati inseriti non validi"
+    return messaggio
 def register(request):
     if request.method != "POST":
         return render(request, 'index.html')
@@ -138,10 +147,9 @@ def cliente_aggiungi(request):
                 data_nascita=request.POST.get('data_nascita'),
                 telefono=request.POST.get('telefono')
             )
-        except IntegrityError:
-            return render(request,"cliente_aggiungi.html",{'error':"Vincolo non rispettato"})
-        except DataError:
-            return render(request,"cliente_aggiungi.html",{'error':"Dati non validi"})
+        except DatabaseError as e:
+            errore=estrai_errore_db(e)
+            return render(request,"cliente_aggiungi.html",{'error':errore})
         UserCliente.objects.create(
             user=request.user,
             cliente=user_cliente
@@ -165,10 +173,9 @@ def cliente_modifica(request):
         user_cliente.telefono = request.POST.get('telefono')
         try:
             user_cliente.save()
-        except IntegrityError:
-            return render(request, "cliente_modifica.html", {'error': "Vincolo non rispettato"})
-        except DataError:
-            return render(request, "cliente_modifica.html", {'error': "Dati non validi"})
+        except DatabaseError as e:
+            errore=estrai_errore_db(e)
+            return render(request, "cliente_modifica.html", {'error': errore})
         messages.success(request, 'Cliente modificato con successo')
         return redirect('cliente')
     return render(request, 'cliente_modifica.html', {'cliente': user_cliente})
@@ -181,7 +188,11 @@ def cliente_elimina(request):
         messages.error(request, "Non hai un cliente associato")
         return redirect("cliente")
     if request.method == 'POST':
-        user_cliente.delete()
+        try:
+            user_cliente.delete()
+        except DatabaseError as e:
+            errore=estrai_errore_db(e)
+            return render(request, "cliente_elimina.html", {'error': errore})
         messages.success(request, 'Cliente eliminato con successo')
         return redirect('cliente')
     return render(request, 'cliente_elimina.html', {'cliente': user_cliente})
@@ -222,10 +233,9 @@ def crociera_aggiungi(request):
                 volume_occupato=0,
                 id_itinerario=itinerarioOB
             )
-        except IntegrityError:
-            return render(request, "crociera_aggiungi.html",{'error':"Vincolo non rispettato"})
-        except DataError:
-            return render(request, "crociera_aggiungi.html",{'error':"Dati non validi"})
+        except DatabaseError as e:
+            errore=estrai_errore_db(e)
+            return render(request, "crociera_aggiungi.html", {'error': errore})
         UserNave.objects.create(
             user=request.user,
             nave=nave
@@ -253,10 +263,9 @@ def crociera_modifica(request,imo):
             nave.id_itinerario = None
         try:
             nave.save()
-        except IntegrityError:
-            return render(request, "crociera_modifica.html",{'error':"Vincolo non rispettato"})
-        except DataError:
-            return render(request, "crociera_modifica.html",{'error':"Dati non validi"})
+        except DatabaseError as e:
+            errore=estrai_errore_db(e)
+            return render(request, "crociera_modifica.html",{'error': errore})
         messages.success(request, 'Nave modificata con successo')
         return redirect('crociera')
     return render(request, 'crociera_modifica.html', {'nave': nave, 'itinerari':itinerari})
@@ -265,7 +274,11 @@ def crociera_modifica(request,imo):
 def crociera_elimina(request,imo):
     nave=get_object_or_404(Nave, imo=imo, usernave__user=request.user)
     if request.method == 'POST':
-        nave.delete()
+        try:
+            nave.delete()
+        except DatabaseError as e:
+            errore=estrai_errore_db(e)
+            return render(request, "crociera_elimina.html", {'error': errore})
         messages.success(request, 'Nave eliminata con successo')
         return redirect('crociera')
     return render(request, 'crociera_elimina.html', {'nave': nave})
@@ -289,10 +302,9 @@ def cargo_aggiungi(request):
                 capienza=None,
                 tipo="Cargo",
             )
-        except IntegrityError:
-            return render(request, "cargo_aggiungi.html",{'error':"Vincolo non rispettato"})
-        except DataError:
-            return render(request, "cargo_aggiungi.html",{'error':"Dati non validi"})
+        except DatabaseError as e:
+            errore=estrai_errore_db(e)
+            return render(request, "cargo_aggiungi.html",{'error':errore})
         UserNave.objects.create(
             user=request.user,
             nave=nave
@@ -315,10 +327,9 @@ def cargo_modifica(request,imo):
         nave.capacita = int(request.POST.get('capacita') or 0)
         try:
             nave.save()
-        except IntegrityError:
-            return render(request, "cargo_modifica.html",{'error':"Vincolo non rispettato"})
-        except DataError:
-            return render(request, "cargo_modifica.html",{'error':"Dati non validi"})
+        except DatabaseError as e:
+            errore=estrai_errore_db(e)
+            return render(request, "cargo_modifica.html",{'error':errore})
         messages.success(request, 'Nave modificata con successo')
         return redirect('cargo')
     return render(request, 'cargo_modifica.html',{'nave':nave})
@@ -327,7 +338,11 @@ def cargo_modifica(request,imo):
 def cargo_elimina(request,imo):
     nave=get_object_or_404(Nave, imo=imo, usernave__user=request.user)
     if request.method == 'POST':
-        nave.delete()
+        try:
+            nave.delete()
+        except DatabaseError as e:
+            errore=estrai_errore_db(e)
+            return render(request, "cargo_elimina.html", {'error': errore})
         messages.success(request, 'Nave eliminata con successo')
         return redirect('cargo')
     return render(request, 'cargo_elimina.html', {'nave': nave})
@@ -342,10 +357,9 @@ def magazzino_aggiungi(request):
                 tipo=request.POST.get('tipo'),
                 capacita=float(request.POST.get('capacita') or 0),
             )
-        except IntegrityError:
-            return render(request, "magazzino_aggiungi.html",{'error':"Vincolo non rispettato"})
-        except DataError:
-            return render(request, "magazzino_aggiungi.html",{'error':"Dati non validi"})
+        except DatabaseError as e:
+            errore = estrai_errore_db(e)
+            return render(request, "magazzino_aggiungi.html",{'error': errore})
         UserMagazzino.objects.create(
             user=request.user,
             nome_magazzino=mag.nome,
@@ -371,6 +385,7 @@ def magazzino_modifica(request,nome,localita):
         tipo=request.POST.get('tipo')
         capacita=float(request.POST.get('capacita') or 0)
         with connection.cursor() as cursor:
+            try:
                 cursor.execute("""
                                UPDATE Magazzino
                                SET Tipo     = %s,
@@ -383,6 +398,9 @@ def magazzino_modifica(request,nome,localita):
                                    nome,
                                    localita
                                ])
+            except DatabaseError as e:
+                errore = estrai_errore_db(e)
+                return render(request, "magazzino_modifica.html",{'error': errore})
         if cursor.rowcount == 0:
             messages.error(request,'Magazzino non trovato')
             return redirect('magazzino')
@@ -404,11 +422,15 @@ def magazzino_elimina(request,nome,localita):
     mag = Magazzino.objects.raw(sql, [nome, localita])[0]
     if request.method == 'POST':
         with connection.cursor() as cursor:
-            cursor.execute("""
+            try:
+                cursor.execute("""
                            DELETE FROM Magazzino
                            WHERE Nome = %s
                              AND Localita = %s
                            """, [nome, localita])
+            except DatabaseError as e:
+                errore = estrai_errore_db(e)
+                return render(request, "magazzino_elimina.html",{'error': errore})
         if cursor.rowcount == 0:
             messages.error(request,'Magazzino non trovato')
             return redirect('magazzino')
@@ -427,10 +449,9 @@ def banchina_aggiungi(request):
                 tipo=request.POST.get('tipo'),
                 lunghezza=float(request.POST.get('lunghezza') or 0),
             )
-        except IntegrityError:
-            return render(request, "banchina_aggiungi.html",{'error':"Vincolo non rispettato"})
-        except DataError:
-            return render(request, "banchina_aggiungi.html",{'error':"Dati non validi"})
+        except DatabaseError as e:
+            errore=estrai_errore_db(e)
+            return render(request, "banchina_aggiungi.html",{'error':errore})
         UserBanchina.objects.create(
             user=request.user,
             numero_banchina=ban.numero,
@@ -456,14 +477,18 @@ def banchina_modifica(request,numero,settore):
         tipo=request.POST.get('tipo')
         lunghezza=float(request.POST.get('lunghezza') or 0)
         with connection.cursor() as cursor:
-                cursor.execute("""
-                               UPDATE Banchina
-                               SET Tipo     = %s,
-                                   Lunghezza = %s
-                               WHERE Numero = %s
-                                 AND Settore = %s
-                               """, [tipo, lunghezza, numero, settore]
-                )
+                try:
+                    cursor.execute("""
+                                   UPDATE Banchina
+                                   SET Tipo     = %s,
+                                       Lunghezza = %s
+                                   WHERE Numero = %s
+                                     AND Settore = %s
+                                   """, [tipo, lunghezza, numero, settore]
+                    )
+                except DatabaseError as e:
+                    errore=estrai_errore_db(e)
+                    return render(request, "banchina_modifica.html",{'error':errore})
                 if cursor.rowcount == 0:
                     messages.error(request,'Banchina non trovata')
                     return redirect('banchina')
@@ -485,11 +510,15 @@ def banchina_elimina(request,numero,settore):
     ban = Banchina.objects.raw(sql, [numero, settore])[0]
     if request.method == 'POST':
         with connection.cursor() as cursor:
-            cursor.execute("""
-                            DELETE FROM Banchina
-                            WHERE Numero = %s
-                            AND Settore = %s
-                            """, [numero, settore])
+            try:
+                cursor.execute("""
+                                DELETE FROM Banchina
+                                WHERE Numero = %s
+                                AND Settore = %s
+                                """, [numero, settore])
+            except DatabaseError as e:
+                errore=estrai_errore_db(e)
+                return render(request, "banchina_elimina.html",{'error':errore})
             if cursor.rowcount == 0:
                 messages.error(request,'Banchina non trovata')
                 return redirect('banchina')
@@ -520,11 +549,9 @@ def attracco(request):
                 if updated == 0:
                     messages.error(request, 'Nave non trovata')
                     return redirect('attracco')
-            except IntegrityError:
-                messages.error(request, 'Vincolo non rispettato')
-                return redirect('attracco')
-            except DataError:
-                messages.error(request, 'Dati non validi')
+            except DatabaseError as e:
+                errore = estrai_errore_db(e)
+                messages.error(request, errore)
                 return redirect('attracco')
             messages.success(request, 'Nave attraccata con successo')
             return redirect('attracco')
@@ -541,7 +568,12 @@ def attracco_visualizza(request):
     """,[request.user.id])
     if request.method == 'POST':
         imo=request.POST.get('imo')
-        Nave.objects.filter(imo=imo).update(numero_banchina=None, settore_banchina=None)
+        try:
+            Nave.objects.filter(imo=imo).update(numero_banchina=None, settore_banchina=None)
+        except DatabaseError as e:
+            errore = estrai_errore_db(e)
+            messages.error(request, errore)
+            return redirect('attracco_visualizza')
         messages.success(request, 'Nave disattraccata con successo')
         return redirect('attracco_visualizza')
     return render(request, 'attracco_visualizza.html',{'navi': navi})
@@ -568,10 +600,9 @@ def container_aggiungi(request, imo):
                 marchio=request.POST.get('marchio'),
                 imo_id=imo,
             )
-        except IntegrityError:
-            return render(request, "container_aggiungi.html",{'imo': imo, 'error':"Vincolo non rispettato"})
-        except DataError:
-            return render(request, "container_aggiungi.html",{'imo': imo, 'error':"Dati non validi"})
+        except DatabaseError as e:
+            errore = estrai_errore_db(e)
+            return render(request, "container_aggiungi.html",{'imo': imo, 'error':errore})
         messages.success(request, 'Container aggiunto con successo')
         return redirect('container', imo=imo)
     return render(request, 'container_aggiungi.html', {'imo': imo})
@@ -589,10 +620,9 @@ def container_modifica(request, container_id):
             c.marchio = request.POST.get('marchio')
             c.imo_id = request.POST.get('imo')
             c.save()
-        except IntegrityError:
-            return render(request, "container_modifica.html",{'container' : c, 'navi': navi, 'error':"Vincolo non rispettato"})
-        except DataError:
-            return render(request, "container_modifica.html",{'container' : c, 'navi': navi, 'error':"Dati non validi"})
+        except DatabaseError as e:
+            errore = estrai_errore_db(e)
+            return render(request, "container_modifica.html",{'container' : c, 'navi': navi, 'error': errore})
         messages.success(request, 'Container modificato con successo')
         return redirect('container', imo=c.imo_id)
     return render(request, 'container_modifica.html', {'container': c, 'navi': navi})
@@ -605,7 +635,11 @@ def container_elimina(request, container_id):
     c = Container.objects.get(id=container_id)
     if request.method == 'POST':
         imo = c.imo_id
-        c.delete()
+        try:
+            c.delete()
+        except DatabaseError as e:
+            errore = estrai_errore_db(e)
+            return render(request, "container_elimina.html",{'container': c, 'error': errore})
         messages.success(request, 'Container eliminato con successo')
         return redirect('container', imo=imo)
     return render(request, 'container_elimina.html', {'container': c})
@@ -632,10 +666,9 @@ def merce_aggiungi(request, container_id):
                 genere=request.POST.get('genere'),
                 id_container_id=container_id,
             )
-        except IntegrityError:
-            return render(request, "merce_aggiungi.html",{'container_id': container_id, 'error':"Vincolo non rispettato"})
-        except DataError:
-            return render(request, "merce_aggiungi.html",{'container_id': container_id,'error':"Dati non validi"})
+        except DatabaseError as e:
+            errore = estrai_errore_db(e)
+            return render(request, "merce_aggiungi.html",{'container_id': container_id,'error': errore})
         messages.success(request, 'Merce aggiunta con successo')
         return redirect('merce', container_id=container_id)
     return render(request, 'merce_aggiungi.html', {'container_id': container_id})
@@ -654,10 +687,9 @@ def merce_modifica(request, sscc):
             m.genere = request.POST.get('genere')
             m.id_container_id=request.POST.get('id_container')
             m.save()
-        except IntegrityError:
-            return render(request, "merce_modifica.html",{'merce' : m, 'container' : c, 'error':"Vincolo non rispettato"})
-        except DataError:
-            return render(request, "merce_modifica.html",{'merce' : m, 'container' : c, 'error':"Dati non validi"})
+        except DatabaseError as e:
+            errore = estrai_errore_db(e)
+            return render(request, "merce_modifica.html",{'merce' : m, 'container' : c, 'error': errore})
         messages.success(request, 'Merce modificata con successo')
         return redirect('merce', container_id=m.id_container_id)
     return render(request, 'merce_modifica.html', {'merce': m, 'container' : c})
@@ -670,7 +702,11 @@ def merce_elimina(request, sscc):
     m = Merce.objects.get(sscc=sscc)
     if request.method == 'POST':
         container_id=m.id_container_id
-        m.delete()
+        try:
+            m.delete()
+        except DatabaseError as e:
+            errore = estrai_errore_db(e)
+            return render(request, "merce_elimina.html",{'merce': m, 'error': errore})
         messages.success(request, 'Merce eliminata con successo')
         return redirect('merce', container_id=container_id)
     return render(request, 'merce_elimina.html', {'merce': m})
@@ -701,8 +737,9 @@ def stoccaggio_aggiungi(request, nome, localita):
                     nome_magazzino=nome,
                     localita_magazzino=localita,
                 )
-            except IntegrityError:
-                continue
+            except DatabaseError as e:
+                errore=estrai_errore_db(e)
+                return render(request, 'stoccaggio_aggiungi.html', {'nome': nome, 'localita': localita, 'merce': m, 'error': errore})
         messages.success(request, 'Merci aggiunte con successo')
         return redirect('stoccaggio', nome=nome, localita=localita)
     return render(request, 'stoccaggio_aggiungi.html', {'nome': nome, 'localita': localita, 'merce': m})
@@ -745,8 +782,9 @@ def stoccaggio_modifica(request, sscc):
             return redirect('magazzino')
         try:
             Stoccaggio.objects.filter(sscc_id=sscc).update(nome_magazzino=nome, localita_magazzino=localita)
-        except IntegrityError:
-            return render(request, 'stoccaggio_modifica.html', {'sscc': sscc, 'magazzini': mag, 'error': 'Vincolo non rispettato'})
+        except DatabaseError as e:
+            errore=estrai_errore_db(e)
+            return render(request, 'stoccaggio_modifica.html', {'sscc': sscc, 'magazzini': mag, 'error': errore})
         messages.success(request, 'Merce modificata con successo')
         return redirect('stoccaggio', nome=nome, localita=localita)
     return render(request, 'stoccaggio_modifica.html', {'sscc': sscc, 'magazzini': mag, 'stoccaggio': s})
@@ -767,7 +805,11 @@ def stoccaggio_elimina(request, sscc):
         return redirect('magazzino')
     s = Stoccaggio.objects.get(sscc_id=sscc)
     if request.method == 'POST':
-        s.delete()
+        try:
+            s.delete()
+        except DatabaseError as e:
+            errore=estrai_errore_db(e)
+            return render(request, 'stoccaggio_elimina.html', {'sscc': sscc, 'error': errore})
         messages.success(request, 'Merce eliminata con successo')
         return redirect('stoccaggio', nome=s.nome_magazzino, localita=s.localita_magazzino)
     return render(request, 'stoccaggio_elimina.html', {'sscc': sscc, 'nome': s.nome_magazzino, 'localita': s.localita_magazzino})
@@ -789,10 +831,9 @@ def stanza_aggiungi(request, imo):
         try:
             with connection.cursor() as cursor:
                 cursor.execute("""INSERT INTO Stanza (IMO, Numero, Classe, Tipo) VALUES (%s, %s, %s, %s)""", [imo, request.POST.get('numero'), request.POST.get('classe'), request.POST.get('tipo')])
-        except IntegrityError:
-            return render(request, "stanza_aggiungi.html",{'imo': imo, 'error':"Vincolo non rispettato"})
-        except DataError:
-            return render(request, "stanza_aggiungi.html",{'imo': imo, 'error':"Dati non validi"})
+        except DatabaseError as e:
+            errore = estrai_errore_db(e)
+            return render(request, "stanza_aggiungi.html",{'imo': imo, 'error': errore})
         messages.success(request, 'Stanza aggiunta con successo')
         return redirect('stanza', imo=imo)
     return render(request, 'stanza_aggiungi.html', {'imo': imo})
@@ -807,10 +848,9 @@ def stanza_modifica(request,imo,numero):
         try:
             with connection.cursor() as cursor:
                 cursor.execute("""UPDATE Stanza SET Classe = %s, Tipo = %s WHERE IMO = %s AND Numero = %s""", [request.POST.get('classe'), request.POST.get('tipo'), imo, numero])
-        except IntegrityError:
-                return render(request, "stanza_modifica.html",{'stanza' : s, 'error':"Vincolo non rispettato"})
-        except DataError:
-                return render(request, "stanza_modifica.html",{'stanza' : s, 'error':"Dati non validi"})
+        except DatabaseError as e:
+                errore = estrai_errore_db(e)
+                return render(request, "stanza_modifica.html",{'stanza' : s, 'error': errore})
         messages.success(request, 'Stanza modificata con successo')
         return redirect('stanza', imo=imo)
     return render(request, 'stanza_modifica.html', {'stanza':s})
@@ -821,8 +861,12 @@ def stanza_elimina(request, imo, numero):
         messages.error(request, "Non sei autorizzato ad eliminare questa stanza")
         return redirect('crociera')
     if request.method == 'POST':
-        with connection.cursor() as cursor:
-            cursor.execute("""DELETE FROM Stanza WHERE IMO = %s AND Numero = %s""", [imo, numero])
+        try:
+            with connection.cursor() as cursor:
+                cursor.execute("""DELETE FROM Stanza WHERE IMO = %s AND Numero = %s""", [imo, numero])
+        except DatabaseError as e:
+            errore = estrai_errore_db(e)
+            return render(request, "stanza_elimina.html",{'imo': imo, 'numero': numero, 'error': errore})
         messages.success(request, 'Stanza eliminata con successo')
         return redirect('stanza', imo=imo)
     return render(request, 'stanza_elimina.html', {'imo': imo, 'numero': numero})
@@ -883,16 +927,9 @@ def itinerario_aggiungi(request):
                         INSERT INTO Tappe_itinerario(ID_itinerario, Tappa)
                         VALUES (%s, %s)
                     """, [it.id, tappa])
-
-        except IntegrityError:
-            return render(request, 'itinerario_aggiungi.html', {
-                'error': 'Vincolo non rispettato'
-            })
-
-        except DataError:
-            return render(request, 'itinerario_aggiungi.html', {
-                'error': 'Dati non validi'
-            })
+        except DatabaseError as e:
+            errore = estrai_errore_db(e)
+            return render(request, 'itinerario_aggiungi.html', {'error': errore})
         UserItinerario.objects.create(user=request.user, itinerario=it)
         messages.success(request, 'Itinerario aggiunto con successo')
         return redirect('itinerario')
@@ -956,24 +993,16 @@ def itinerario_modifica(request, itinerario_id):
                         VALUES (%s, %s)
                     """, [itinerario_id, tappa])
 
-        except IntegrityError:
+
+        except DatabaseError as e:
+            errore = estrai_errore_db(e)
             return render(request, 'itinerario_modifica.html', {
                 'itinerario': it,
                 'tappe': ", ".join(tappe),
-                'error': 'Vincolo non rispettato'
+                'error': errore
             })
-
-        except DataError:
-            return render(request, 'itinerario_modifica.html', {
-                'itinerario': it,
-                'tappe': ", ".join(tappe),
-                'error': 'Dati non validi'
-            })
-
         messages.success(request, 'Itinerario modificato con successo')
-
         return redirect('itinerario')
-
     return render(request, 'itinerario_modifica.html', {
         'itinerario': it,
         'tappe': ", ".join(tappe)
@@ -996,63 +1025,50 @@ def itinerario_elimina(request, itinerario_id):
         try:
             UserItinerario.objects.filter(itinerario_id=itinerario_id).delete()
             it.delete()
-        except IntegrityError:
+        except DatabaseError as e:
+            errore = estrai_errore_db(e)
             return render(request, 'itinerario_elimina.html', {
                 'itinerario': it,
-                'error': 'Vincolo non rispettato'
+                'error': errore
             })
-
         messages.success(request, 'Itinerario eliminato con successo')
         return redirect('itinerario')
-
     return render(request, 'itinerario_elimina.html', {
         'itinerario': it
     })
 @login_required
 @group_required('gestore_navi_crociera')
 def guida(request):
-
     guide_modificabili = UserGuida.objects.filter(user=request.user)
     guide_non_modificabili = UserGuida.objects.exclude(user=request.user)
-
     # arricchisco ogni guida con le lingue
     guide_mod = []
     guide_non_mod = []
-
     with connection.cursor() as cursor:
-
         for ug in guide_modificabili:
             guida = ug.guida
-
             cursor.execute("""
                 SELECT Lingua, Livello
                 FROM Lingue_guida
                 WHERE Codice_fiscale = %s
             """, [guida.codice_fiscale])
-
             lingue = cursor.fetchall()
-
             guide_mod.append({
                 'guida': guida,
                 'lingue': lingue
             })
-
         for ug in guide_non_modificabili:
             guida = ug.guida
-
             cursor.execute("""
                 SELECT Lingua, Livello
                 FROM Lingue_guida
                 WHERE Codice_fiscale = %s
             """, [guida.codice_fiscale])
-
             lingue = cursor.fetchall()
-
             guide_non_mod.append({
                 'guida': guida,
                 'lingue': lingue
             })
-
     return render(request, 'guida.html', {
         'guide_mod': guide_mod,
         'guide_non_mod': guide_non_mod
@@ -1060,11 +1076,8 @@ def guida(request):
 @login_required
 @group_required('gestore_navi_crociera')
 def guida_aggiungi(request):
-
     itinerari = UserItinerario.objects.filter(user=request.user)
-
     if request.method == 'POST':
-
         try:
             g = Guida.objects.create(
                 codice_fiscale=request.POST.get('codice_fiscale'),
@@ -1098,16 +1111,10 @@ def guida_aggiungi(request):
                         INSERT INTO Lingue_guida(Codice_fiscale, Lingua, Livello)
                         VALUES (%s, %s, %s)
                     """, [g.codice_fiscale, lingua.strip(), livello.strip()])
-
-        except IntegrityError:
+        except DatabaseError as e:
+            errore = estrai_errore_db(e)
             return render(request, 'guida_aggiungi.html', {
-                'error': 'Vincolo non rispettato',
-                'itinerari': itinerari
-            })
-
-        except DataError:
-            return render(request, 'guida_aggiungi.html', {
-                'error': 'Dati non validi',
+                'error': errore,
                 'itinerari': itinerari
             })
         UserGuida.objects.create(user=request.user, guida=g)
@@ -1185,25 +1192,17 @@ def guida_modifica(request, codice_fiscale):
                         VALUES (%s, %s, %s)
                     """, [codice_fiscale, lingua.strip(), livello.strip()])
 
-        except IntegrityError:
+
+        except DatabaseError as e:
+            errore = estrai_errore_db(e)
             return render(request, 'guida_modifica.html', {
                 'guida': g,
                 'itinerari': itinerari,
                 'lingue': lingue_str,
-                'error': 'Vincolo non rispettato'
+                'error': errore
             })
-
-        except DataError:
-            return render(request, 'guida_modifica.html', {
-                'guida': g,
-                'itinerari': itinerari,
-                'lingue': lingue_str,
-                'error': 'Dati non validi'
-            })
-
         messages.success(request, 'Guida modificata con successo')
         return redirect('guida')
-
     return render(request, 'guida_modifica.html', {
         'guida': g,
         'itinerari': itinerari,
@@ -1225,11 +1224,12 @@ def guida_elimina(request, codice_fiscale):
     if request.method == 'POST':
         try:
             UserGuida.objects.filter(guida_id=codice_fiscale).delete()
-            g.delete()  # CASCADE gestisce tutto nel DB
-        except IntegrityError:
+            g.delete()
+        except DatabaseError as e:
+            errore = estrai_errore_db(e)
             return render(request, 'guida_elimina.html', {
                 'guida': g,
-                'error': 'Vincolo non rispettato'
+                'error': errore
             })
 
         messages.success(request, 'Guida eliminata con successo')
@@ -1348,11 +1348,9 @@ def prenotazione_aggiungi(request, imo, numero):
                 scadenza=request.POST.get('data_fine'),
                 servizio_guida=1 if request.POST.get('servizio_guida') else 0,
             )
-        except IntegrityError:
-            return render(request, 'prenotazione_aggiungi.html', {'itinerario': i, 'stanza':s,'error': 'Vincolo non rispettato'})
-        except DataError:
-            return render(request, 'prenotazione_aggiungi.html', {'itinerario': i , 'stanza':s ,'error': 'Dati non validi'})
-        messages.success(request, 'Prenotazione effettuata con successo')
+        except DatabaseError as e:
+            errore=estrai_errore_db(e)
+            return render(request,'prenotazione_aggiungi.html',{'itinerario': i,'stanza': s,'prezzo': prezzo,'error': errore })
         return redirect('prenotazione_visualizza')
     return render(request, 'prenotazione_aggiungi.html', {'itinerario': i, 'stanza': s, 'prezzo': prezzo})
 @login_required
@@ -1401,8 +1399,9 @@ def prenotazione_modifica(request, id_prenotazione):
             p.scadenza = request.POST.get('data_fine')
             p.servizio_guida = 1 if request.POST.get('servizio_guida') else 0
             p.save()
-        except IntegrityError:
-            return render(request, 'prenotazione_modifica.html', {'prenotazione': p, 'error': 'Vincolo non rispettato'})
+        except DatabaseError as e:
+            errore = estrai_errore_db(e)
+            return render(request, 'prenotazione_modifica.html', {'prenotazione': p, 'error': errore})
         except DataError:
             return render(request, 'prenotazione_modifica.html', {'prenotazione': p, 'error': 'Dati non validi'})
         messages.success(request, 'Prenotazione modificata con successo')
@@ -1416,7 +1415,11 @@ def prenotazione_elimina(request, id_prenotazione):
         return redirect('prenotazione')
     p = Prenotazione.objects.get(id=id_prenotazione)
     if request.method == 'POST':
-        p.delete()
+        try:
+            p.delete()
+        except DatabaseError as e:
+            errore = estrai_errore_db(e)
+            return render(request, 'prenotazione_elimina.html', {'prenotazione': p, 'error': errore})
         messages.success(request, 'Prenotazione eliminata con successo')
         return redirect('prenotazione_visualizza')
     return render(request, 'prenotazione_elimina.html', {'prenotazione': p})

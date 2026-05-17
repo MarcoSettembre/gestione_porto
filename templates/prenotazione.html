@@ -44,7 +44,6 @@
         .navbar h2{
             font-size:18px;
         }
-
         .nav-btn a{
             text-decoration:none;
         }
@@ -171,6 +170,15 @@
 
     opacity:0.85;
 }
+.nav-actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
     </style>
 </head>
 
@@ -180,13 +188,18 @@
 <div class="navbar">
 
     <h2>Dashboard Prenotazioni · {{request.user.username}}</h2>
-
+    <div class="nav-actions">
     <div class="nav-btn">
         <a href="/cliente/prenotazione/visualizza">
             <button>Visualizza Prenotazioni</button>
         </a>
     </div>
-
+    <div class="nav-btn">
+        <a href="/cliente">
+            <button>Ritorna alla Dashboard</button>
+        </a>
+    </div>
+    </div>
 </div>
 
 <h1>Ricerca Stanze Disponibili</h1>

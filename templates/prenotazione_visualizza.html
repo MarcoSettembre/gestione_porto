@@ -141,6 +141,15 @@
 .nav-btn button:hover{
     background:#0096c7;
 }
+.nav-actions{
+
+    display:flex;
+
+    align-items:center;
+
+    gap:12px;
+
+}
     </style>
 </head>
 
@@ -150,12 +159,21 @@
 
     <h2>Visualizzazione Prenotazioni · {{request.user.username}}</h2>
 
+    <div class="nav-actions">
+
     <div class="nav-btn">
         <a href="/cliente/prenotazione">
             <button>Ricerca Stanze</button>
         </a>
     </div>
 
+    <div class="nav-btn">
+        <a href="/cliente">
+            <button>Ritorna alla Dashboard</button>
+        </a>
+    </div>
+
+</div>
 </div>
     <h1>Visualizzazione Prenotazioni</h1>
 

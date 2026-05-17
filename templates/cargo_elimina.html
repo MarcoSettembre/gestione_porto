@@ -134,7 +134,11 @@
 
             opacity:0.75;
         }
-
+.error{
+            color:#ffb4b4;
+            margin-bottom:10px;
+            font-weight:bold;
+        }
     </style>
 </head>
 
@@ -143,7 +147,11 @@
     <div class="container">
 
         <h1>Eliminazione Nave Cargo</h1>
-
+        {% if error %}
+            <div class="error">
+                Errore: {{ error }}
+            </div>
+        {% endif %}
         <p class="warning">
             Sei sicuro di voler eliminare la nave con IMO
             <span class="imo">{{nave.imo}}</span>?
