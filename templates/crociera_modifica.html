@@ -194,7 +194,64 @@
 
             opacity:.75;
         }
+        .warning-box{
 
+    margin-top:12px;
+
+    display:flex;
+    align-items:flex-start;
+    gap:12px;
+
+    padding:14px;
+
+    border-radius:12px;
+
+    background:rgba(255,0,0,.15);
+
+    border:1px solid rgba(255,80,80,.4);
+
+    color:#ffd6d6;
+
+    font-size:14px;
+
+    line-height:1.5;
+}
+
+.warning-icon{
+
+    width:0;
+    height:0;
+
+    border-left:18px solid transparent;
+    border-right:18px solid transparent;
+    border-bottom:32px solid #ff4d4d;
+
+    position:relative;
+
+    flex-shrink:0;
+}
+.warning-icon::after{
+
+    content:"!";
+
+    position:absolute;
+
+    top:11px;
+    left:-3px;
+
+    color:white;
+
+    font-weight:bold;
+
+    font-size:16px;
+}
+
+.warning-text{
+
+    font-size:14px;
+
+    line-height:1.5;
+}
     </style>
 </head>
 
@@ -287,20 +344,38 @@
         </div>
 
         <div class="field">
-            <label for="id_itinerario">Itinerario:</label>
 
-            <select name="id_itinerario" id="id_itinerario">
+    <label for="id_itinerario">
+        Itinerario:
+    </label>
 
-                <option value="">Nessuno</option>
+    <select name="id_itinerario" id="id_itinerario">
 
-                {% for i in itinerari %}
-                    <option value="{{ i.id }}">
-                        {{ i.nome }}
-                    </option>
-                {% endfor %}
+        <option value="">Nessuno</option>
 
-            </select>
-        </div>
+        {% for i in itinerari %}
+            <option value="{{ i.id }}" {% if i.id == nave.id_itinerario_id %} selected {% endif %}>
+                {{ i.nome }}
+            </option>
+        {% endfor %}
+
+    </select>
+
+     <div class="warning-box">
+
+    <div class="warning-icon"></div>
+
+    <div class="warning-text">
+
+         <strong>Attenzione:</strong>
+            modificare l'itinerario risulterà nella
+            cancellazione di tutte le prenotazioni
+            associate a questa nave.
+    </div>
+
+    </div>
+
+</div>
 
         <div class="buttons">
 
