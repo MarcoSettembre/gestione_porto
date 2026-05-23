@@ -1,6 +1,7 @@
 from celery import shared_task
 from django.conf import settings
-from core.models import Nave
+from django.utils import timezone
+from core.models import Nave, SystemStatus
 import requests
 
 
@@ -46,9 +47,14 @@ def aggiorna_posizioni_navi():
                 nave.longitudine = float(
                     info["lng"]
                 )
-
+                nave.course = float(
+                    info["course"]
+                )
                 nave.save()
-
+                SystemStatus.objects.update_or_create(
+                    id=1,
+                    defaults={"last_update": timezone.now()}
+                )
                 print(
                     f"{nave.nome} aggiornata"
                 )

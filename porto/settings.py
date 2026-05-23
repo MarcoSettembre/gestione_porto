@@ -12,6 +12,9 @@ https://docs.djangoproject.com/en/6.0/ref/settings/
 
 from pathlib import Path
 import os
+from dotenv import load_dotenv
+
+load_dotenv()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -130,4 +133,4 @@ CELERY_TASK_SERIALIZER='json'
 CELERY_BEAT_SCHEDULER=(
     'django_celery_beat.schedulers:DatabaseScheduler'
 )
-MYST_API_KEY = "WQ7ALWbo5*7m9ay9z8P^fiMqdiZrDoclCt"
+MYST_API_KEY = os.getenv("MYST_API_KEY")

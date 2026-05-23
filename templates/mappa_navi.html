@@ -62,6 +62,40 @@
 
     transform:translateY(-2px);
 }
+.last-updated{
+
+    position:absolute;
+    top:15px;
+    right:15px;
+
+    z-index:1000;
+
+    display:flex;
+    align-items:center;
+
+    padding:10px 14px;
+
+    border-radius:14px;
+
+    background:rgba(0,0,0,.55);
+    backdrop-filter:blur(12px);
+
+    border:1px solid rgba(255,255,255,.15);
+
+    color:white;
+
+    font-size:14px;
+    font-weight:500;
+
+    box-shadow:0 8px 20px rgba(0,0,0,.3);
+
+    gap:6px;
+}
+
+.last-updated::before{
+    content:"🕒";
+    font-size:14px;
+}
     </style>
 </head>
 <body>
@@ -82,7 +116,14 @@
     </a>
 
 </div>
-
+<div class="last-updated">
+    Last Updated:
+    {% if last_update %}
+        {{ last_update|date:"d/m/Y H:i" }} UTC
+    {% else %}
+        never
+    {% endif %}
+</div>
 <div id="map"></div>
     <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
 
@@ -107,7 +148,7 @@ navi.forEach(nave=>{
 
     if(nave.latitudine !=null && nave.longitudine != null){
 
-        const direzione = parseInt(nave.imo)%360;
+        const direzione = nave.course ?? 0;
 
 let marker = L.marker(
     [nave.latitudine,nave.longitudine],
@@ -146,7 +187,8 @@ let marker = L.marker(
             Tipo: ${nave.tipo}<br>
             Coordinate:
             ${nave.latitudine},
-            ${nave.longitudine}
+            ${nave.longitudine}<br>
+            Direzione: ${nave.course}°
         `);
 
         markers.push(

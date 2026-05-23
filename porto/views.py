@@ -1449,6 +1449,8 @@ def mappa_navi(request):
             'nazionalita': nave.nazionalita,
             'tipo': nave.tipo,
             'latitudine': nave.latitudine,
-            'longitudine': nave.longitudine
+            'longitudine': nave.longitudine,
+            'course' : nave.course
         })
-    return render(request, 'mappa_navi.html', {'navi_json': data_navi})
+    status = SystemStatus.objects.first()
+    return render(request, 'mappa_navi.html', {'navi_json': data_navi, 'last_update': status.last_update if status else None})
