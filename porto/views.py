@@ -1,4 +1,5 @@
 import datetime
+import json
 from collections import defaultdict
 
 from django.contrib import messages
@@ -232,7 +233,9 @@ def crociera_aggiungi(request):
                 capacita=None,
                 peso_occupato=0,
                 volume_occupato=0,
-                id_itinerario=itinerarioOB
+                id_itinerario=itinerarioOB,
+                latitudine=0,
+                longitudine=0,
             )
         except DatabaseError as e:
             errore=estrai_errore_db(e)
@@ -301,6 +304,8 @@ def cargo_aggiungi(request):
                 peso_occupato=0,
                 volume_occupato=0,
                 capienza=None,
+                latitudine=0,
+                longitudine=0,
                 tipo="Cargo",
             )
         except DatabaseError as e:
@@ -1432,3 +1437,18 @@ def nave_prenotazione(request, imo):
         return redirect('crociera')
     p = Prenotazione.objects.filter(imo=imo)
     return render(request, 'nave_prenotazione.html', {'prenotazioni': p, 'imo':imo})
+@login_required
+def mappa_navi(request):
+    navi = Nave.objects.all()
+    data_navi = []
+    for nave in navi:
+        data_navi.append({
+            'imo': nave.imo,
+            'nome': nave.nome,
+            'compagnia': nave.compagnia,
+            'nazionalita': nave.nazionalita,
+            'tipo': nave.tipo,
+            'latitudine': nave.latitudine,
+            'longitudine': nave.longitudine
+        })
+    return render(request, 'mappa_navi.html', {'navi_json': data_navi})

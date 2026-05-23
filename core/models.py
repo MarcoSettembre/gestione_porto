@@ -30,7 +30,7 @@ class Cliente(models.Model):
     telefono = models.CharField(db_column='Telefono', max_length=20, blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'Cliente'
 
 
@@ -42,7 +42,7 @@ class Container(models.Model):
     imo = models.ForeignKey('Nave', models.DO_NOTHING, db_column='IMO', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'Container'
 
 
@@ -58,7 +58,7 @@ class Guida(models.Model):
     id_itinerario = models.ForeignKey('Itinerario', models.DO_NOTHING, db_column='ID_itinerario', blank=True, null=True)  # Field name made lowercase.
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'Guida'
 
 
@@ -70,7 +70,7 @@ class Itinerario(models.Model):
     prezzo = models.DecimalField(db_column='Prezzo', max_digits=20, decimal_places=2)  # Field name made lowercase.
 
     class Meta:
-        managed = True
+        managed = False
         db_table = 'Itinerario'
 
 
@@ -188,7 +188,6 @@ class TappeItinerario(models.Model):
     @property
     def pk(self):
         return (self.id_itinerario, self.tappa)
-
 class UserCliente(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
     cliente = models.OneToOneField(Cliente, on_delete=models.CASCADE)

@@ -277,7 +277,57 @@
 
             border-radius:8px;
         }
+    .info-bar{
 
+    display:flex;
+
+    justify-content:center;
+    align-items:center;
+
+    gap:16px;
+
+    padding:14px 20px;
+
+    background:rgba(0,119,182,0.18);
+
+    border-bottom:1px solid rgba(144,224,239,0.25);
+
+    backdrop-filter:blur(12px);
+
+}
+
+.info-text{
+
+    font-size:15px;
+
+    color:white;
+}
+
+.map-btn{
+
+    border:none;
+
+    padding:10px 16px;
+
+    border-radius:10px;
+
+    background:#0077b6;
+
+    color:white;
+
+    font-weight:bold;
+
+    cursor:pointer;
+
+    transition:.2s;
+}
+
+.map-btn:hover{
+
+    background:#0096c7;
+
+    transform:translateY(-2px);
+}
     </style>
 
 </head>
@@ -316,7 +366,24 @@
     </div>
 
 </div>
+<div class="info-bar">
 
+    <div class="info-text">
+
+        Adesso puoi visualizzare le navi sulla mappa!
+        Prova qui:
+
+    </div>
+
+    <a href="/mappa">
+
+        <button class="map-btn">
+            Visualizza Mappa
+        </button>
+
+    </a>
+
+</div>
 <!-- CONTENT -->
 <div class="container">
 
