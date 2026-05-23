@@ -37,6 +37,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_celery_beat',
     'core',
     'porto'
 ]
@@ -120,3 +121,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 
 STATIC_URL = 'static/'
+CELERY_BROKER_URL='redis://localhost:6379/0'
+
+CELERY_ACCEPT_CONTENT=['json']
+
+CELERY_TASK_SERIALIZER='json'
+
+CELERY_BEAT_SCHEDULER=(
+    'django_celery_beat.schedulers:DatabaseScheduler'
+)
+MYST_API_KEY = "WQ7ALWbo5*7m9ay9z8P^fiMqdiZrDoclCt"
