@@ -1,0 +1,8 @@
+Credenziali utenza per test:
+Username              Password      Ruolo
+Gennaro_Esposito      Napoli1926    Gestore attracco navi
+Giuseppe_Napolitano   Nola1925      Gestore navi cargo
+Mario_Rossi           password      Cliente
+Marta_Bianchi         0123456789    Gestore magazzino
+Sofia_Meis            password123   Gestore navi da crociera
+Felice_Verdi          secret        Cliente
