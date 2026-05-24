@@ -121,7 +121,7 @@ class Nave(models.Model):
     compagnia = models.CharField(db_column='Compagnia', max_length=100)  # Field name made lowercase.
     latitudine = models.FloatField(db_column='Latitudine')
     longitudine = models.FloatField(db_column='Longitudine')
-    course = models.FloatField(db_column='Course')
+    direzione = models.FloatField(db_column='Direzione')
     altezza = models.FloatField(db_column='Altezza')  # Field name made lowercase.
     lunghezza = models.FloatField(db_column='Lunghezza')  # Field name made lowercase.
     larghezza = models.FloatField(db_column='Larghezza')  # Field name made lowercase.

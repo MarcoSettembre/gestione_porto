@@ -148,7 +148,7 @@ navi.forEach(nave=>{
 
     if(nave.latitudine !=null && nave.longitudine != null){
 
-        const direzione = nave.course ?? 0;
+        const course = nave.direzione ?? 0;
 
 let marker = L.marker(
     [nave.latitudine,nave.longitudine],
@@ -158,7 +158,7 @@ let marker = L.marker(
 
             html: `
             <div style="
-                transform: rotate(${direzione}deg);
+                transform: rotate(${course}deg);
             ">
                 <svg width="30" height="30"
                      viewBox="0 0 100 100">
@@ -188,7 +188,7 @@ let marker = L.marker(
             Coordinate:
             ${nave.latitudine},
             ${nave.longitudine}<br>
-            Direzione: ${nave.course}°
+            Direzione: ${nave.direzione}°
         `);
 
         markers.push(

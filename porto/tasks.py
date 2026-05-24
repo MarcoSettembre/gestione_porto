@@ -47,7 +47,7 @@ def aggiorna_posizioni_navi():
                 nave.longitudine = float(
                     info["lng"]
                 )
-                nave.course = float(
+                nave.direzione = float(
                     info["course"]
                 )
                 nave.save()

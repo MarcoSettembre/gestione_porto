@@ -1450,7 +1450,7 @@ def mappa_navi(request):
             'tipo': nave.tipo,
             'latitudine': nave.latitudine,
             'longitudine': nave.longitudine,
-            'course' : nave.course
+            'direzione' : nave.direzione
         })
     status = SystemStatus.objects.first()
     return render(request, 'mappa_navi.html', {'navi_json': data_navi, 'last_update': status.last_update if status else None})
