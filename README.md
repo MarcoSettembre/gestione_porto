@@ -72,7 +72,7 @@ pip install -r requirements.txt
 
 ---
 ---
-
+## Step per far aggiornare la mappa con informazioni in tempo reale (opzionale)
 ## 3.1 Configurare le variabili d'ambiente
 
 Il progetto utilizza un file `.env` per conservare informazioni sensibili come API key e configurazioni private.
