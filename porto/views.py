@@ -236,6 +236,7 @@ def crociera_aggiungi(request):
                 id_itinerario=itinerarioOB,
                 latitudine=0,
                 longitudine=0,
+                direzione=0,
             )
         except DatabaseError as e:
             errore=estrai_errore_db(e)
@@ -306,6 +307,7 @@ def cargo_aggiungi(request):
                 capienza=None,
                 latitudine=0,
                 longitudine=0,
+                direzione=0,
                 tipo="Cargo",
             )
         except DatabaseError as e:
