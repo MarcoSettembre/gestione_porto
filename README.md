@@ -71,7 +71,108 @@ pip install -r requirements.txt
 ```
 
 ---
+---
+## Step per far aggiornare la mappa con informazioni in tempo reale (opzionale)
+## 3.1 Configurare le variabili d'ambiente
 
+Il progetto utilizza un file `.env` per conservare informazioni sensibili come API key e configurazioni private.
+
+Creare un file chiamato:
+
+```txt
+.env
+```
+
+nella cartella principale del progetto.
+
+Inserire al suo interno:
+
+```env
+MYST_API_KEY=la_tua_api_key_myshiptracking
+```
+
+L'API key può essere ottenuta creando un account su MyShipTracking.
+
+Importante:
+
+- il file `.env` NON viene incluso nella repository
+- non va caricato su GitHub
+- è già presente nel `.gitignore`
+
+Per verificare che il file venga ignorato correttamente:
+
+```bash
+git check-ignore -v .env
+```
+
+---
+
+## 3.2 Installare Redis
+
+Il sistema utilizza Redis e Celery per eseguire aggiornamenti automatici delle posizioni delle navi.
+
+### Ubuntu / WSL
+
+```bash
+sudo apt update
+sudo apt install redis-server
+```
+
+Avviare Redis:
+
+```bash
+redis-server
+```
+
+Verificare che Redis sia attivo:
+
+```bash
+redis-cli ping
+```
+
+Dovrebbe comparire:
+
+```txt
+PONG
+```
+
+---
+
+## 3.3 Avviare Celery Worker
+
+Aprire un nuovo terminale nella cartella del progetto ed eseguire:
+
+```bash
+celery -A porto worker -l info
+```
+
+Il worker esegue le task in background.
+
+---
+
+## 3.4 Avviare Celery Beat
+
+Aprire un altro terminale:
+
+```bash
+celery -A porto beat -l info
+```
+
+Celery Beat esegue automaticamente l'aggiornamento delle posizioni delle navi ogni ora.
+
+Il sistema aggiorna automaticamente:
+
+- coordinate
+- direzione (`course`)
+- timestamp ultimo aggiornamento
+
+Le informazioni vengono ottenute tramite API MyShipTracking.
+
+Nota:
+
+Le task vengono eseguite solo se Worker e Beat sono attivi.
+
+---
 ## 4. Configurare MySQL
 
 Il progetto usa un database MySQL chiamato:
@@ -256,24 +357,45 @@ Verranno richiesti username, email e password.
 
 ---
 
-## 11. Avviare il server locale
+## 11. Avviare il progetto
 
-Per avviare il progetto:
+Aprire terminali separati.
+
+Terminale 1:
+
+```bash
+redis-server
+```
+
+Terminale 2:
+
+```bash
+celery -A porto worker -l info
+```
+
+Terminale 3:
+
+```bash
+celery -A porto beat -l info
+```
+
+Terminale 4:
 
 ```bash
 python manage.py runserver
 ```
 
-Se tutto è configurato correttamente, il sito sarà disponibile all’indirizzo:
+Se tutto è configurato correttamente:
 
 ```txt
 http://127.0.0.1:8000/
 ```
 
-Il pannello admin sarà disponibile all’indirizzo:
+Il sistema mostrerà una mappa interattiva delle navi con:
 
-```txt
-http://127.0.0.1:8000/admin/
-```
+- posizione aggiornata
+- orientamento reale tramite `course`
+- popup con informazioni della nave
+- timestamp ultimo aggiornamento
 
 
