@@ -66,7 +66,7 @@ CREATE TABLE `Cliente` (
 
 LOCK TABLES `Cliente` WRITE;
 /*!40000 ALTER TABLE `Cliente` DISABLE KEYS */;
-INSERT INTO `Cliente` VALUES ('RSSMRA80A01H501U','Mario','Rossi','1970-01-01','(69) 95654-3254'),('ZZIRCR05S15I391G','Riccardo','Izzo','2005-11-15','(67) 95654-3254');
+INSERT INTO `Cliente` VALUES ('RSSMRA80A01H501U','Mario','Rossi','1970-01-01','(69) 95654-3254'),('VRDFLC00C05F839I','Felice','Verdi','2000-03-05','0812341222'),('ZZIRCR05S15I391G','Riccardo','Izzo','2005-11-15','(67) 95654-3254');
 /*!40000 ALTER TABLE `Cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -351,7 +351,7 @@ CREATE TABLE `Guida` (
 
 LOCK TABLES `Guida` WRITE;
 /*!40000 ALTER TABLE `Guida` DISABLE KEYS */;
-INSERT INTO `Guida` VALUES ('BNHGLI92L65F205V','Giulia','Bianchi','1992-07-25',2,1500.00,'2023-01-03',4.0,2),('FRRRCR88P30F205L','Riccardo','Ferrari','1998-09-30',5,1600.00,'2025-02-11',5.0,2),('RCCSFO95E54L219K','Sofia','Ricci','1995-05-14',6,1100.00,'2026-04-02',2.3,2),('RMNFNC00A58H501Y','Francesca','Romano','2000-01-18',4,1800.00,'2024-09-19',3.9,2),('RSSMRC85C12H501Z','Marco','Rossi','1985-03-12',1,1200.00,'2020-10-14',2.7,2),('SPSLSN78S05A662O','Alessandro','Esposito','1978-11-05',3,2000.00,'2021-05-22',4.5,2);
+INSERT INTO `Guida` VALUES ('BNCGLI88D55H501V','Giulia','Bianchi','1988-04-15',442,2100.00,'2016-03-12',4.6,5),('BNHGLI92L65F205V','Giulia','Bianchi','1992-07-25',2,1500.00,'2023-01-03',4.0,2),('ESPDVD81T05F839W','Davide','Esposito','1981-12-05',57,2600.00,'2006-09-10',5.0,5),('FRRLNE92P60G224S','Elena','Ferrari','1992-09-20',883,1850.00,'2020-06-15',4.2,5),('FRRRCR88P30F205L','Riccardo','Ferrari','1998-09-30',5,1600.00,'2025-02-11',5.0,2),('MRTLCA85E20C351D','Luca','Moretti','1985-05-20',305,2200.00,'2012-11-22',4.5,5),('RCCSFO95E54L219K','Sofia','Ricci','1995-05-14',6,1100.00,'2026-04-02',2.3,2),('RMNFNC00A58H501Y','Francesca','Romano','2000-01-18',4,1800.00,'2024-09-19',3.9,2),('RMNSRA95L48H501Z','Sara','Romano','1995-07-08',991,1700.00,'2022-04-01',3.9,5),('RSSMRC79M10F205A','Marco','Rossi','1979-08-10',119,2450.00,'2009-01-05',4.9,5),('RSSMRC85C12H501Z','Marco','Rossi','1985-03-12',1,1200.00,'2020-10-14',2.7,2),('SPSLSN78S05A662O','Alessandro','Esposito','1978-11-05',3,2000.00,'2021-05-22',4.5,2);
 /*!40000 ALTER TABLE `Guida` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -465,7 +465,7 @@ CREATE TABLE `Itinerario` (
   PRIMARY KEY (`ID`),
   CONSTRAINT `Itinerario_chk_1` CHECK ((`Data_inizio` <= `Data_fine`)),
   CONSTRAINT `Itinerario_chk_2` CHECK ((`Prezzo` > 0))
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -474,7 +474,7 @@ CREATE TABLE `Itinerario` (
 
 LOCK TABLES `Itinerario` WRITE;
 /*!40000 ALTER TABLE `Itinerario` DISABLE KEYS */;
-INSERT INTO `Itinerario` VALUES (2,'2026-05-23','2026-05-30','Mediterraneo Occidentale',450.00),(3,'2026-05-18','2026-05-25','Mediterraneo Orientale',400.00);
+INSERT INTO `Itinerario` VALUES (2,'2026-05-23','2026-05-30','Mediterraneo Occidentale',450.00),(3,'2026-05-18','2026-05-25','Mediterraneo Orientale',400.00),(5,'2026-05-18','2026-05-27','Europa Occidentale',800.00);
 /*!40000 ALTER TABLE `Itinerario` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -540,7 +540,7 @@ CREATE TABLE `Lingue_guida` (
 
 LOCK TABLES `Lingue_guida` WRITE;
 /*!40000 ALTER TABLE `Lingue_guida` DISABLE KEYS */;
-INSERT INTO `Lingue_guida` VALUES ('BNHGLI92L65F205V','Inglese','B2'),('BNHGLI92L65F205V','Italiano','Nativa'),('BNHGLI92L65F205V','Spagnolo','C1'),('FRRRCR88P30F205L','Inglese','C2'),('FRRRCR88P30F205L','Italiano','Nativa'),('FRRRCR88P30F205L','Russo','A2'),('FRRRCR88P30F205L','Spagnolo','C2'),('RCCSFO95E54L219K','Inglese','B2'),('RCCSFO95E54L219K','Italiano','Nativa'),('RCCSFO95E54L219K','Portoghese','A2'),('RMNFNC00A58H501Y','Francese','B2'),('RMNFNC00A58H501Y','Italiano','Nativa'),('RMNFNC00A58H501Y','Tedesco','B1'),('RSSMRC85C12H501Z','Inglese','C1'),('RSSMRC85C12H501Z','Italiano','Nativa'),('SPSLSN78S05A662O','Francese','A2'),('SPSLSN78S05A662O','Inglese','C2'),('SPSLSN78S05A662O','Italiano','Nativa'),('SPSLSN78S05A662O','Spagnolo','C1');
+INSERT INTO `Lingue_guida` VALUES ('BNCGLI88D55H501V','Francese','B2'),('BNCGLI88D55H501V','Inglese','C2'),('BNCGLI88D55H501V','Italiano','Nativa'),('BNHGLI92L65F205V','Inglese','B2'),('BNHGLI92L65F205V','Italiano','Nativa'),('BNHGLI92L65F205V','Spagnolo','C1'),('ESPDVD81T05F839W','Inglese','C2'),('ESPDVD81T05F839W','Italiano','Nativa'),('ESPDVD81T05F839W','Spagnolo','C2'),('FRRLNE92P60G224S','Inglese','B2'),('FRRLNE92P60G224S','Italiano','Nativa'),('FRRLNE92P60G224S','Portoghese','A2'),('FRRRCR88P30F205L','Inglese','C2'),('FRRRCR88P30F205L','Italiano','Nativa'),('FRRRCR88P30F205L','Russo','A2'),('FRRRCR88P30F205L','Spagnolo','C2'),('MRTLCA85E20C351D','Inglese','C1'),('MRTLCA85E20C351D','Italiano','Nativa'),('MRTLCA85E20C351D','Russo','B2'),('RCCSFO95E54L219K','Inglese','B2'),('RCCSFO95E54L219K','Italiano','Nativa'),('RCCSFO95E54L219K','Portoghese','A2'),('RMNFNC00A58H501Y','Francese','B2'),('RMNFNC00A58H501Y','Italiano','Nativa'),('RMNFNC00A58H501Y','Tedesco','B1'),('RMNSRA95L48H501Z','Cinese','A1'),('RMNSRA95L48H501Z','Inglese','B2'),('RMNSRA95L48H501Z','Italiano','Nativa'),('RSSMRC79M10F205A','Italiano','Nativa'),('RSSMRC79M10F205A','Spagnolo','B1'),('RSSMRC79M10F205A','Tedesco','C1'),('RSSMRC85C12H501Z','Inglese','C1'),('RSSMRC85C12H501Z','Italiano','Nativa'),('SPSLSN78S05A662O','Francese','A2'),('SPSLSN78S05A662O','Inglese','C2'),('SPSLSN78S05A662O','Italiano','Nativa'),('SPSLSN78S05A662O','Spagnolo','C1');
 /*!40000 ALTER TABLE `Lingue_guida` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -777,8 +777,9 @@ CREATE TABLE `Nave` (
   `Numero_banchina` int DEFAULT NULL,
   `Settore_banchina` int DEFAULT NULL,
   `ID_itinerario` int DEFAULT NULL,
-  `Longitudine` double NOT NULL,
-  `Latitudine` double NOT NULL,
+  `Longitudine` double NOT NULL DEFAULT '0',
+  `Latitudine` double NOT NULL DEFAULT '0',
+  `Direzione` double NOT NULL DEFAULT '0',
   PRIMARY KEY (`IMO`),
   KEY `Numero_banchina` (`Numero_banchina`,`Settore_banchina`),
   KEY `ID_itinerario` (`ID_itinerario`),
@@ -786,6 +787,7 @@ CREATE TABLE `Nave` (
   CONSTRAINT `Nave_ibfk_2` FOREIGN KEY (`ID_itinerario`) REFERENCES `Itinerario` (`ID`) ON DELETE SET NULL ON UPDATE CASCADE,
   CONSTRAINT `Nave_chk_1` CHECK (regexp_like(`IMO`,_utf8mb4'^[0-9]{7}$')),
   CONSTRAINT `Nave_chk_10` CHECK (((`Longitudine` >= -(180)) and (`Longitudine` <= 180))),
+  CONSTRAINT `Nave_chk_11` CHECK (((`Direzione` >= 0) and (`Direzione` <= 360))),
   CONSTRAINT `Nave_chk_2` CHECK (((`Altezza` > 0) and (`Lunghezza` > 0) and (`Larghezza` > 0))),
   CONSTRAINT `Nave_chk_3` CHECK ((((`Peso_massimo` is null) or (`Peso_massimo` > 0)) and ((`Capacita` is null) or (`Capacita` > 0)) and (`Peso_occupato` >= 0) and (`Volume_occupato` >= 0))),
   CONSTRAINT `Nave_chk_4` CHECK (((`Capienza` is null) or (`Capienza` > 0))),
@@ -803,7 +805,7 @@ CREATE TABLE `Nave` (
 
 LOCK TABLES `Nave` WRITE;
 /*!40000 ALTER TABLE `Nave` DISABLE KEYS */;
-INSERT INTO `Nave` VALUES ('8717647','Seaven Luck','Panama','TURATE SHIPPING SA',32,114.85,17.92,7477,4906,1000,20,NULL,'Cargo',1,1,NULL,0,0),('9358060','Sea Cargo Express','Malta','SeaCargo AS',7,117,18,3855,118,1500,20,NULL,'Cargo',6,10,NULL,0,0),('9837420','World Europa','Malta','MSC',68,333,54,NULL,NULL,0,0,6762,'Crociera',5,1,2,0,0);
+INSERT INTO `Nave` VALUES ('8717647','Seaven Luck','Panama','TURATE SHIPPING SA',32,114.85,17.92,7477,4906,1000,20,NULL,'Cargo',1,1,NULL,20.13853,39.12691,329.4),('9214513','QING YUN HE','Cina','Cosco Shanghai Ship Management',9.5,179.7,27.6,25645,1900,0,0,NULL,'Cargo',NULL,NULL,NULL,139.63838,35.05064,231.7),('9224336','JEANNE IV','Liberia','MSC',19.3,260,32.25,50954,4253,0,0,NULL,'Cargo',NULL,NULL,NULL,31.02326,-29.88086,199),('9280627','Puccini','Malta','CMA CGM',24.3,277.28,40,73235,5782,0,0,NULL,'Cargo',NULL,NULL,NULL,-42.78628,-23.13806,121.8),('9358060','Sea Cargo Express','Malta','SeaCargo AS',7,117,18,3855,118,1500,20,NULL,'Cargo',6,10,NULL,5.31101,60.38917,312),('9387085','Magnifica','Panama','MSC',59.6,293.8,32.2,NULL,NULL,0,0,3223,'Crociera',5,1,5,11.11394,56.06594,205.5),('9751511','Norwegian Encore','Bahamas','NCL',66,333.44,48.13,NULL,NULL,0,0,4903,'Crociera',NULL,NULL,NULL,-133.30913,54.84787,322.8),('9781889','Costa Smeralda','Italia','Costa Crociere',65.2,336.8,41.9,NULL,NULL,0,0,6600,'Crociera',NULL,NULL,NULL,1.44496,38.90235,165),('9818709','MV Hondius','Paesi Bassi','Oceanwide Expeditions',5.3,107.6,17.6,NULL,NULL,0,0,176,'Crociera',NULL,NULL,NULL,4.15446,51.95389,130),('9829930','Icon of the Seas','Bahamas','Royal Caribbean',72.4,365.2,65,NULL,NULL,0,0,7600,'Crociera',NULL,NULL,NULL,-80.00288,25.46559,180.4),('9837420','World Europa','Malta','MSC',68,333,54,NULL,NULL,0,0,6762,'Crociera',5,1,2,15.53215,37.69707,177.5),('9930038','Tessa','Liberia','MSC',83.5,400,61.5,241164,24116,0,0,NULL,'Cargo',NULL,NULL,NULL,31.92368,-29.4306,43.2);
 /*!40000 ALTER TABLE `Nave` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -995,27 +997,6 @@ DELIMITER ;
 /*!50003 SET character_set_client  = @saved_cs_client */ ;
 /*!50003 SET character_set_results = @saved_cs_results */ ;
 /*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `rimuovi_prenotazioni` AFTER UPDATE ON `Nave` FOR EACH ROW BEGIN
-IF NOT(OLD.ID_itinerario <=> NEW.ID_itinerario) AND OLD.ID_itinerario IS NOT NULL THEN
-DELETE 
-FROM Prenotazione
-WHERE IMO = NEW.IMO;
-END IF;
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
 
 --
 -- Table structure for table `Prenotazione`
@@ -1038,7 +1019,7 @@ CREATE TABLE `Prenotazione` (
   CONSTRAINT `Prenotazione_ibfk_1` FOREIGN KEY (`IMO`, `Numero`) REFERENCES `Stanza` (`IMO`, `Numero`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `Prenotazione_ibfk_2` FOREIGN KEY (`Codice_fiscale`) REFERENCES `Cliente` (`Codice_fiscale`) ON DELETE CASCADE ON UPDATE CASCADE,
   CONSTRAINT `Prenotazione_chk_1` CHECK ((`Data_inizio` <= `Scadenza`))
-) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1047,6 +1028,7 @@ CREATE TABLE `Prenotazione` (
 
 LOCK TABLES `Prenotazione` WRITE;
 /*!40000 ALTER TABLE `Prenotazione` DISABLE KEYS */;
+INSERT INTO `Prenotazione` VALUES (5,'9837420',1,'VRDFLC00C05F839I','2026-05-23','2026-05-30',1),(6,'9837420',2,'VRDFLC00C05F839I','2026-05-23','2026-05-26',0),(7,'9837420',2,'RSSMRA80A01H501U','2026-05-27','2026-05-30',1);
 /*!40000 ALTER TABLE `Prenotazione` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -1192,7 +1174,7 @@ CREATE TABLE `Stanza` (
 
 LOCK TABLES `Stanza` WRITE;
 /*!40000 ALTER TABLE `Stanza` DISABLE KEYS */;
-INSERT INTO `Stanza` VALUES ('9837420',1,'Interna','Matrimoniale'),('9837420',2,'Suite','Doppia');
+INSERT INTO `Stanza` VALUES ('9837420',1,'Interna','Matrimoniale'),('9837420',2,'Suite','Doppia'),('9837420',3,'Suite','Singola'),('9837420',4,'Interna','Singola'),('9837420',5,'Interna','Doppia'),('9837420',6,'Esterna','Singola'),('9837420',7,'Esterna','Doppia'),('9837420',8,'Esterna','Matrimoniale'),('9837420',9,'Suite','Matrimoniale');
 /*!40000 ALTER TABLE `Stanza` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -1525,7 +1507,7 @@ CREATE TABLE `Tappe_itinerario` (
 
 LOCK TABLES `Tappe_itinerario` WRITE;
 /*!40000 ALTER TABLE `Tappe_itinerario` DISABLE KEYS */;
-INSERT INTO `Tappe_itinerario` VALUES (2,'Barcellona'),(2,'Genova'),(2,'Malta'),(2,'Marsiglia'),(2,'Messina'),(2,'Napoli'),(3,'Catania'),(3,'Malta'),(3,'Mykonos'),(3,'Napoli'),(3,'Santorini');
+INSERT INTO `Tappe_itinerario` VALUES (2,'Barcellona'),(2,'Genova'),(2,'Malta'),(2,'Marsiglia'),(2,'Messina'),(2,'Napoli'),(3,'Catania'),(3,'Malta'),(3,'Mykonos'),(3,'Napoli'),(3,'Santorini'),(5,'Barcellona'),(5,'Bilbao'),(5,'Brest'),(5,'La Coruna'),(5,'La Rochelle'),(5,'Rostock');
 /*!40000 ALTER TABLE `Tappe_itinerario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1598,7 +1580,7 @@ CREATE TABLE `auth_permission` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `auth_permission_content_type_id_codename_01ab375a_uniq` (`content_type_id`,`codename`),
   CONSTRAINT `auth_permission_content_type_id_2f476e4b_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=101 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=137 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1607,7 +1589,7 @@ CREATE TABLE `auth_permission` (
 
 LOCK TABLES `auth_permission` WRITE;
 /*!40000 ALTER TABLE `auth_permission` DISABLE KEYS */;
-INSERT INTO `auth_permission` VALUES (1,'Can add log entry',1,'add_logentry'),(2,'Can change log entry',1,'change_logentry'),(3,'Can delete log entry',1,'delete_logentry'),(4,'Can view log entry',1,'view_logentry'),(5,'Can add permission',3,'add_permission'),(6,'Can change permission',3,'change_permission'),(7,'Can delete permission',3,'delete_permission'),(8,'Can view permission',3,'view_permission'),(9,'Can add group',2,'add_group'),(10,'Can change group',2,'change_group'),(11,'Can delete group',2,'delete_group'),(12,'Can view group',2,'view_group'),(13,'Can add user',4,'add_user'),(14,'Can change user',4,'change_user'),(15,'Can delete user',4,'delete_user'),(16,'Can view user',4,'view_user'),(17,'Can add content type',5,'add_contenttype'),(18,'Can change content type',5,'change_contenttype'),(19,'Can delete content type',5,'delete_contenttype'),(20,'Can view content type',5,'view_contenttype'),(21,'Can add session',6,'add_session'),(22,'Can change session',6,'change_session'),(23,'Can delete session',6,'delete_session'),(24,'Can view session',6,'view_session'),(25,'Can add cliente',8,'add_cliente'),(26,'Can change cliente',8,'change_cliente'),(27,'Can delete cliente',8,'delete_cliente'),(28,'Can view cliente',8,'view_cliente'),(29,'Can add itinerario',11,'add_itinerario'),(30,'Can change itinerario',11,'change_itinerario'),(31,'Can delete itinerario',11,'delete_itinerario'),(32,'Can view itinerario',11,'view_itinerario'),(33,'Can add merce',14,'add_merce'),(34,'Can change merce',14,'change_merce'),(35,'Can delete merce',14,'delete_merce'),(36,'Can view merce',14,'view_merce'),(37,'Can add banchina',7,'add_banchina'),(38,'Can change banchina',7,'change_banchina'),(39,'Can delete banchina',7,'delete_banchina'),(40,'Can view banchina',7,'view_banchina'),(41,'Can add guida',10,'add_guida'),(42,'Can change guida',10,'change_guida'),(43,'Can delete guida',10,'delete_guida'),(44,'Can view guida',10,'view_guida'),(45,'Can add magazzino',13,'add_magazzino'),(46,'Can change magazzino',13,'change_magazzino'),(47,'Can delete magazzino',13,'delete_magazzino'),(48,'Can view magazzino',13,'view_magazzino'),(49,'Can add nave',15,'add_nave'),(50,'Can change nave',15,'change_nave'),(51,'Can delete nave',15,'delete_nave'),(52,'Can view nave',15,'view_nave'),(53,'Can add container',9,'add_container'),(54,'Can change container',9,'change_container'),(55,'Can delete container',9,'delete_container'),(56,'Can view container',9,'view_container'),(57,'Can add stanza',17,'add_stanza'),(58,'Can change stanza',17,'change_stanza'),(59,'Can delete stanza',17,'delete_stanza'),(60,'Can view stanza',17,'view_stanza'),(61,'Can add prenotazione',16,'add_prenotazione'),(62,'Can change prenotazione',16,'change_prenotazione'),(63,'Can delete prenotazione',16,'delete_prenotazione'),(64,'Can view prenotazione',16,'view_prenotazione'),(65,'Can add lingue guida',12,'add_lingueguida'),(66,'Can change lingue guida',12,'change_lingueguida'),(67,'Can delete lingue guida',12,'delete_lingueguida'),(68,'Can view lingue guida',12,'view_lingueguida'),(69,'Can add stoccaggio',18,'add_stoccaggio'),(70,'Can change stoccaggio',18,'change_stoccaggio'),(71,'Can delete stoccaggio',18,'delete_stoccaggio'),(72,'Can view stoccaggio',18,'view_stoccaggio'),(73,'Can add tappe itinerario',19,'add_tappeitinerario'),(74,'Can change tappe itinerario',19,'change_tappeitinerario'),(75,'Can delete tappe itinerario',19,'delete_tappeitinerario'),(76,'Can view tappe itinerario',19,'view_tappeitinerario'),(77,'Can add user nave',23,'add_usernave'),(78,'Can change user nave',23,'change_usernave'),(79,'Can delete user nave',23,'delete_usernave'),(80,'Can view user nave',23,'view_usernave'),(81,'Can add user banchina',20,'add_userbanchina'),(82,'Can change user banchina',20,'change_userbanchina'),(83,'Can delete user banchina',20,'delete_userbanchina'),(84,'Can view user banchina',20,'view_userbanchina'),(85,'Can add user magazzino',22,'add_usermagazzino'),(86,'Can change user magazzino',22,'change_usermagazzino'),(87,'Can delete user magazzino',22,'delete_usermagazzino'),(88,'Can view user magazzino',22,'view_usermagazzino'),(89,'Can add user cliente',21,'add_usercliente'),(90,'Can change user cliente',21,'change_usercliente'),(91,'Can delete user cliente',21,'delete_usercliente'),(92,'Can view user cliente',21,'view_usercliente'),(93,'Can add user itinerario',25,'add_useritinerario'),(94,'Can change user itinerario',25,'change_useritinerario'),(95,'Can delete user itinerario',25,'delete_useritinerario'),(96,'Can view user itinerario',25,'view_useritinerario'),(97,'Can add user guida',24,'add_userguida'),(98,'Can change user guida',24,'change_userguida'),(99,'Can delete user guida',24,'delete_userguida'),(100,'Can view user guida',24,'view_userguida');
+INSERT INTO `auth_permission` VALUES (1,'Can add log entry',1,'add_logentry'),(2,'Can change log entry',1,'change_logentry'),(3,'Can delete log entry',1,'delete_logentry'),(4,'Can view log entry',1,'view_logentry'),(5,'Can add permission',3,'add_permission'),(6,'Can change permission',3,'change_permission'),(7,'Can delete permission',3,'delete_permission'),(8,'Can view permission',3,'view_permission'),(9,'Can add group',2,'add_group'),(10,'Can change group',2,'change_group'),(11,'Can delete group',2,'delete_group'),(12,'Can view group',2,'view_group'),(13,'Can add user',4,'add_user'),(14,'Can change user',4,'change_user'),(15,'Can delete user',4,'delete_user'),(16,'Can view user',4,'view_user'),(17,'Can add content type',5,'add_contenttype'),(18,'Can change content type',5,'change_contenttype'),(19,'Can delete content type',5,'delete_contenttype'),(20,'Can view content type',5,'view_contenttype'),(21,'Can add session',6,'add_session'),(22,'Can change session',6,'change_session'),(23,'Can delete session',6,'delete_session'),(24,'Can view session',6,'view_session'),(25,'Can add cliente',8,'add_cliente'),(26,'Can change cliente',8,'change_cliente'),(27,'Can delete cliente',8,'delete_cliente'),(28,'Can view cliente',8,'view_cliente'),(29,'Can add itinerario',11,'add_itinerario'),(30,'Can change itinerario',11,'change_itinerario'),(31,'Can delete itinerario',11,'delete_itinerario'),(32,'Can view itinerario',11,'view_itinerario'),(33,'Can add merce',14,'add_merce'),(34,'Can change merce',14,'change_merce'),(35,'Can delete merce',14,'delete_merce'),(36,'Can view merce',14,'view_merce'),(37,'Can add banchina',7,'add_banchina'),(38,'Can change banchina',7,'change_banchina'),(39,'Can delete banchina',7,'delete_banchina'),(40,'Can view banchina',7,'view_banchina'),(41,'Can add guida',10,'add_guida'),(42,'Can change guida',10,'change_guida'),(43,'Can delete guida',10,'delete_guida'),(44,'Can view guida',10,'view_guida'),(45,'Can add magazzino',13,'add_magazzino'),(46,'Can change magazzino',13,'change_magazzino'),(47,'Can delete magazzino',13,'delete_magazzino'),(48,'Can view magazzino',13,'view_magazzino'),(49,'Can add nave',15,'add_nave'),(50,'Can change nave',15,'change_nave'),(51,'Can delete nave',15,'delete_nave'),(52,'Can view nave',15,'view_nave'),(53,'Can add container',9,'add_container'),(54,'Can change container',9,'change_container'),(55,'Can delete container',9,'delete_container'),(56,'Can view container',9,'view_container'),(57,'Can add stanza',17,'add_stanza'),(58,'Can change stanza',17,'change_stanza'),(59,'Can delete stanza',17,'delete_stanza'),(60,'Can view stanza',17,'view_stanza'),(61,'Can add prenotazione',16,'add_prenotazione'),(62,'Can change prenotazione',16,'change_prenotazione'),(63,'Can delete prenotazione',16,'delete_prenotazione'),(64,'Can view prenotazione',16,'view_prenotazione'),(65,'Can add lingue guida',12,'add_lingueguida'),(66,'Can change lingue guida',12,'change_lingueguida'),(67,'Can delete lingue guida',12,'delete_lingueguida'),(68,'Can view lingue guida',12,'view_lingueguida'),(69,'Can add stoccaggio',18,'add_stoccaggio'),(70,'Can change stoccaggio',18,'change_stoccaggio'),(71,'Can delete stoccaggio',18,'delete_stoccaggio'),(72,'Can view stoccaggio',18,'view_stoccaggio'),(73,'Can add tappe itinerario',19,'add_tappeitinerario'),(74,'Can change tappe itinerario',19,'change_tappeitinerario'),(75,'Can delete tappe itinerario',19,'delete_tappeitinerario'),(76,'Can view tappe itinerario',19,'view_tappeitinerario'),(77,'Can add user nave',23,'add_usernave'),(78,'Can change user nave',23,'change_usernave'),(79,'Can delete user nave',23,'delete_usernave'),(80,'Can view user nave',23,'view_usernave'),(81,'Can add user banchina',20,'add_userbanchina'),(82,'Can change user banchina',20,'change_userbanchina'),(83,'Can delete user banchina',20,'delete_userbanchina'),(84,'Can view user banchina',20,'view_userbanchina'),(85,'Can add user magazzino',22,'add_usermagazzino'),(86,'Can change user magazzino',22,'change_usermagazzino'),(87,'Can delete user magazzino',22,'delete_usermagazzino'),(88,'Can view user magazzino',22,'view_usermagazzino'),(89,'Can add user cliente',21,'add_usercliente'),(90,'Can change user cliente',21,'change_usercliente'),(91,'Can delete user cliente',21,'delete_usercliente'),(92,'Can view user cliente',21,'view_usercliente'),(93,'Can add user itinerario',25,'add_useritinerario'),(94,'Can change user itinerario',25,'change_useritinerario'),(95,'Can delete user itinerario',25,'delete_useritinerario'),(96,'Can view user itinerario',25,'view_useritinerario'),(97,'Can add user guida',24,'add_userguida'),(98,'Can change user guida',24,'change_userguida'),(99,'Can delete user guida',24,'delete_userguida'),(100,'Can view user guida',24,'view_userguida'),(101,'Can add storico prenotazione',26,'add_storicoprenotazione'),(102,'Can change storico prenotazione',26,'change_storicoprenotazione'),(103,'Can delete storico prenotazione',26,'delete_storicoprenotazione'),(104,'Can view storico prenotazione',26,'view_storicoprenotazione'),(105,'Can add tappe prenotazione',27,'add_tappeprenotazione'),(106,'Can change tappe prenotazione',27,'change_tappeprenotazione'),(107,'Can delete tappe prenotazione',27,'delete_tappeprenotazione'),(108,'Can view tappe prenotazione',27,'view_tappeprenotazione'),(109,'Can add crontab',29,'add_crontabschedule'),(110,'Can change crontab',29,'change_crontabschedule'),(111,'Can delete crontab',29,'delete_crontabschedule'),(112,'Can view crontab',29,'view_crontabschedule'),(113,'Can add interval',30,'add_intervalschedule'),(114,'Can change interval',30,'change_intervalschedule'),(115,'Can delete interval',30,'delete_intervalschedule'),(116,'Can view interval',30,'view_intervalschedule'),(117,'Can add periodic task',31,'add_periodictask'),(118,'Can change periodic task',31,'change_periodictask'),(119,'Can delete periodic task',31,'delete_periodictask'),(120,'Can view periodic task',31,'view_periodictask'),(121,'Can add periodic task track',32,'add_periodictasks'),(122,'Can change periodic task track',32,'change_periodictasks'),(123,'Can delete periodic task track',32,'delete_periodictasks'),(124,'Can view periodic task track',32,'view_periodictasks'),(125,'Can add solar event',33,'add_solarschedule'),(126,'Can change solar event',33,'change_solarschedule'),(127,'Can delete solar event',33,'delete_solarschedule'),(128,'Can view solar event',33,'view_solarschedule'),(129,'Can add clocked',28,'add_clockedschedule'),(130,'Can change clocked',28,'change_clockedschedule'),(131,'Can delete clocked',28,'delete_clockedschedule'),(132,'Can view clocked',28,'view_clockedschedule'),(133,'Can add system status',34,'add_systemstatus'),(134,'Can change system status',34,'change_systemstatus'),(135,'Can delete system status',34,'delete_systemstatus'),(136,'Can view system status',34,'view_systemstatus');
 /*!40000 ALTER TABLE `auth_permission` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1632,7 +1614,7 @@ CREATE TABLE `auth_user` (
   `date_joined` datetime(6) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `username` (`username`)
-) ENGINE=InnoDB AUTO_INCREMENT=10 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1641,7 +1623,7 @@ CREATE TABLE `auth_user` (
 
 LOCK TABLES `auth_user` WRITE;
 /*!40000 ALTER TABLE `auth_user` DISABLE KEYS */;
-INSERT INTO `auth_user` VALUES (1,'pbkdf2_sha256$1200000$U6l8hoiRICgSzZS7dpx7Jh$wS0rltNFohn1FtKPTs8I5xwrsJ7AU6sDJrr6DYy5KfM=','2026-04-30 13:47:16.708545',1,'haley','','','',1,1,'2026-04-28 15:24:44.000000'),(3,'pbkdf2_sha256$1200000$56XAyzxjVCCIjKtz9SDS5s$RQBArrypYRTTX/tDD7EAzzuAx7vOoRd8bYF6UwMPeIY=','2026-05-15 07:22:58.305593',1,'admin','','','',1,1,'2026-04-29 13:43:47.800017'),(4,'pbkdf2_sha256$1200000$A7lDVf72Mi0k5FvS0iaNPJ$r+4dv9qQ1s9dNtU8OeLFp0i4jHv2RdZ1RGO33OOzA1o=','2026-05-22 12:12:19.570732',0,'Mario_Rossi','','','',0,1,'2026-04-29 14:14:02.671269'),(5,'pbkdf2_sha256$1200000$wnqnypBmqy4CXBsZ9tgUmK$52fmvp+N9/VsxSYxFxopOVcnw9cCAi31QUl8p0MWiHA=','2026-05-22 12:11:09.040058',0,'Marta_Bianchi','','','',0,1,'2026-04-29 14:17:28.789965'),(6,'pbkdf2_sha256$1200000$Af2KCIBXm5TqucR2pMYGcn$drNb66i3Ip0atDq9lyJV3/U3vBQ9XNWp/akFz7ITW1U=','2026-05-22 16:39:21.059616',0,'Gennaro_Esposito','','','',0,1,'2026-04-29 14:22:49.987699'),(7,'pbkdf2_sha256$1200000$P0kABe5TUyVRaALynBNcsV$EZ1KVA/vH+IZPJnEyBGYwLU7Ugf7eUBYUQrAod/76ek=','2026-05-22 16:39:39.200641',0,'Sofia_Meis','','','',0,1,'2026-04-29 14:26:49.280535'),(8,'pbkdf2_sha256$1200000$PFiKuzVFNR2ziXa7ar95hU$n8SPvr1bhX0sQbbRMSI0AnnQ+O2GW13DQUpXms7qJwk=','2026-05-22 12:10:09.921773',0,'Giuseppe_Napolitano','','','',0,1,'2026-04-29 14:29:07.018550'),(9,'pbkdf2_sha256$1200000$nfvNIn8obkamrHjwR2GNgI$b5wthFXBd3462ZYDkvmKPs2zyB5GLjqvc7wRxqCWBuY=','2026-04-30 13:57:41.312527',0,'Riccardo_Izzo','','','',0,1,'2026-04-30 13:57:24.399403');
+INSERT INTO `auth_user` VALUES (1,'pbkdf2_sha256$1200000$U6l8hoiRICgSzZS7dpx7Jh$wS0rltNFohn1FtKPTs8I5xwrsJ7AU6sDJrr6DYy5KfM=','2026-04-30 13:47:16.708545',1,'haley','','','',1,1,'2026-04-28 15:24:44.000000'),(3,'pbkdf2_sha256$1200000$56XAyzxjVCCIjKtz9SDS5s$RQBArrypYRTTX/tDD7EAzzuAx7vOoRd8bYF6UwMPeIY=','2026-05-23 11:12:42.370189',1,'admin','','','',1,1,'2026-04-29 13:43:47.800017'),(4,'pbkdf2_sha256$1200000$A7lDVf72Mi0k5FvS0iaNPJ$r+4dv9qQ1s9dNtU8OeLFp0i4jHv2RdZ1RGO33OOzA1o=','2026-05-23 10:06:28.943379',0,'Mario_Rossi','','','',0,1,'2026-04-29 14:14:02.671269'),(5,'pbkdf2_sha256$1200000$wnqnypBmqy4CXBsZ9tgUmK$52fmvp+N9/VsxSYxFxopOVcnw9cCAi31QUl8p0MWiHA=','2026-05-23 11:11:23.344516',0,'Marta_Bianchi','','','',0,1,'2026-04-29 14:17:28.789965'),(6,'pbkdf2_sha256$1200000$Af2KCIBXm5TqucR2pMYGcn$drNb66i3Ip0atDq9lyJV3/U3vBQ9XNWp/akFz7ITW1U=','2026-05-23 11:11:32.845691',0,'Gennaro_Esposito','','','',0,1,'2026-04-29 14:22:49.987699'),(7,'pbkdf2_sha256$1200000$FjDoou6s7jlH4Id48vrFx5$TWstZv1e4n4IOhyrJHO3zeVV/BZaLBu2EMQ2xQKOOC0=','2026-05-24 10:58:25.855937',0,'Sofia_Meis','','','',0,1,'2026-04-29 14:26:49.280535'),(8,'pbkdf2_sha256$1200000$PFiKuzVFNR2ziXa7ar95hU$n8SPvr1bhX0sQbbRMSI0AnnQ+O2GW13DQUpXms7qJwk=','2026-05-24 11:36:16.204189',0,'Giuseppe_Napolitano','','','',0,1,'2026-04-29 14:29:07.018550'),(9,'pbkdf2_sha256$1200000$nfvNIn8obkamrHjwR2GNgI$b5wthFXBd3462ZYDkvmKPs2zyB5GLjqvc7wRxqCWBuY=','2026-04-30 13:57:41.312527',0,'Riccardo_Izzo','','','',0,1,'2026-04-30 13:57:24.399403'),(10,'pbkdf2_sha256$1200000$3AZxfzTudQNYbHPzT8SPi3$c0rmDecB3mWc0RXWM9gYeCIBjr08uiBFGlFOp1NGqP8=','2026-05-23 08:59:06.144803',0,'Felice_Verdi','','','',0,1,'2026-05-23 08:58:56.435567'),(11,'pbkdf2_sha256$1200000$JmsgXO7mwXk72P3oKJlCL9$VsUwZJOmweIKgpPWUzFKLP84CHWfI74erq0spqgeGmk=','2026-05-26 18:46:02.198856',0,'Antonio_Simonetti','','','',0,1,'2026-05-26 18:32:49.658637'),(12,'pbkdf2_sha256$1200000$DAWfFCR46QPFpmiqOWgUi7$qIac3gIAtEubJ0DIBC6slSTOpYOJlB0wgLmjah9NBd4=','2026-05-26 18:44:31.873268',0,'Giovanni_Riccardi','','','',0,1,'2026-05-26 18:44:23.569881');
 /*!40000 ALTER TABLE `auth_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1661,7 +1643,7 @@ CREATE TABLE `auth_user_groups` (
   KEY `auth_user_groups_group_id_97559544_fk_auth_group_id` (`group_id`),
   CONSTRAINT `auth_user_groups_group_id_97559544_fk_auth_group_id` FOREIGN KEY (`group_id`) REFERENCES `auth_group` (`id`),
   CONSTRAINT `auth_user_groups_user_id_6a12ed8b_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=11 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1670,7 +1652,7 @@ CREATE TABLE `auth_user_groups` (
 
 LOCK TABLES `auth_user_groups` WRITE;
 /*!40000 ALTER TABLE `auth_user_groups` DISABLE KEYS */;
-INSERT INTO `auth_user_groups` VALUES (1,4,1),(2,5,2),(3,6,3),(4,7,4),(5,8,5),(7,9,1);
+INSERT INTO `auth_user_groups` VALUES (1,4,1),(2,5,2),(3,6,3),(4,7,4),(5,8,5),(7,9,1),(8,10,1),(9,11,4),(10,12,5);
 /*!40000 ALTER TABLE `auth_user_groups` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1700,6 +1682,30 @@ CREATE TABLE `auth_user_user_permissions` (
 LOCK TABLES `auth_user_user_permissions` WRITE;
 /*!40000 ALTER TABLE `auth_user_user_permissions` DISABLE KEYS */;
 /*!40000 ALTER TABLE `auth_user_user_permissions` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `core_systemstatus`
+--
+
+DROP TABLE IF EXISTS `core_systemstatus`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `core_systemstatus` (
+  `id` bigint NOT NULL AUTO_INCREMENT,
+  `last_update` datetime(6) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `core_systemstatus`
+--
+
+LOCK TABLES `core_systemstatus` WRITE;
+/*!40000 ALTER TABLE `core_systemstatus` DISABLE KEYS */;
+INSERT INTO `core_systemstatus` VALUES (1,'2026-05-26 18:51:34.178017');
+/*!40000 ALTER TABLE `core_systemstatus` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1753,7 +1759,7 @@ CREATE TABLE `core_usercliente` (
 
 LOCK TABLES `core_usercliente` WRITE;
 /*!40000 ALTER TABLE `core_usercliente` DISABLE KEYS */;
-INSERT INTO `core_usercliente` VALUES (4,'RSSMRA80A01H501U'),(9,'ZZIRCR05S15I391G');
+INSERT INTO `core_usercliente` VALUES (4,'RSSMRA80A01H501U'),(10,'VRDFLC00C05F839I'),(9,'ZZIRCR05S15I391G');
 /*!40000 ALTER TABLE `core_usercliente` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1773,7 +1779,7 @@ CREATE TABLE `core_userguida` (
   KEY `core_userguida_guida_id_534099e9_fk_Guida_Codice_fiscale` (`guida_id`),
   CONSTRAINT `core_userguida_guida_id_534099e9_fk_Guida_Codice_fiscale` FOREIGN KEY (`guida_id`) REFERENCES `Guida` (`Codice_fiscale`),
   CONSTRAINT `core_userguida_user_id_6ce0ff78_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1782,7 +1788,7 @@ CREATE TABLE `core_userguida` (
 
 LOCK TABLES `core_userguida` WRITE;
 /*!40000 ALTER TABLE `core_userguida` DISABLE KEYS */;
-INSERT INTO `core_userguida` VALUES (2,'BNHGLI92L65F205V',7),(6,'FRRRCR88P30F205L',7),(7,'RCCSFO95E54L219K',7),(5,'RMNFNC00A58H501Y',7),(1,'RSSMRC85C12H501Z',7),(4,'SPSLSN78S05A662O',7);
+INSERT INTO `core_userguida` VALUES (8,'BNCGLI88D55H501V',7),(2,'BNHGLI92L65F205V',7),(13,'ESPDVD81T05F839W',7),(10,'FRRLNE92P60G224S',7),(6,'FRRRCR88P30F205L',7),(11,'MRTLCA85E20C351D',7),(7,'RCCSFO95E54L219K',7),(5,'RMNFNC00A58H501Y',7),(12,'RMNSRA95L48H501Z',7),(9,'RSSMRC79M10F205A',7),(1,'RSSMRC85C12H501Z',7),(4,'SPSLSN78S05A662O',7);
 /*!40000 ALTER TABLE `core_userguida` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1802,7 +1808,7 @@ CREATE TABLE `core_useritinerario` (
   KEY `core_useritinerario_itinerario_id_1632c716_fk_Itinerario_ID` (`itinerario_id`),
   CONSTRAINT `core_useritinerario_itinerario_id_1632c716_fk_Itinerario_ID` FOREIGN KEY (`itinerario_id`) REFERENCES `Itinerario` (`ID`),
   CONSTRAINT `core_useritinerario_user_id_42d6cd7f_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=4 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1811,7 +1817,7 @@ CREATE TABLE `core_useritinerario` (
 
 LOCK TABLES `core_useritinerario` WRITE;
 /*!40000 ALTER TABLE `core_useritinerario` DISABLE KEYS */;
-INSERT INTO `core_useritinerario` VALUES (1,2,7),(2,3,7);
+INSERT INTO `core_useritinerario` VALUES (1,2,7),(2,3,7),(4,5,7);
 /*!40000 ALTER TABLE `core_useritinerario` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1855,7 +1861,7 @@ CREATE TABLE `core_usernave` (
   `nave_id` varchar(7) NOT NULL,
   `user_id` int NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=18 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1864,7 +1870,7 @@ CREATE TABLE `core_usernave` (
 
 LOCK TABLES `core_usernave` WRITE;
 /*!40000 ALTER TABLE `core_usernave` DISABLE KEYS */;
-INSERT INTO `core_usernave` VALUES (1,'9837420',7),(3,'8717647',8),(5,'9358060',8);
+INSERT INTO `core_usernave` VALUES (1,'9837420',7),(3,'8717647',8),(5,'9358060',8),(6,'9387085',7),(7,'9224336',8),(8,'9214513',8),(9,'9280627',8),(12,'9751511',11),(13,'9818709',11),(14,'9930038',12),(16,'9781889',11),(17,'9829930',11);
 /*!40000 ALTER TABLE `core_usernave` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1890,7 +1896,7 @@ CREATE TABLE `django_admin_log` (
   CONSTRAINT `django_admin_log_content_type_id_c4bce8eb_fk_django_co` FOREIGN KEY (`content_type_id`) REFERENCES `django_content_type` (`id`),
   CONSTRAINT `django_admin_log_user_id_c564eba6_fk_auth_user_id` FOREIGN KEY (`user_id`) REFERENCES `auth_user` (`id`),
   CONSTRAINT `django_admin_log_chk_1` CHECK ((`action_flag` >= 0))
-) ENGINE=InnoDB AUTO_INCREMENT=12 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1899,8 +1905,192 @@ CREATE TABLE `django_admin_log` (
 
 LOCK TABLES `django_admin_log` WRITE;
 /*!40000 ALTER TABLE `django_admin_log` DISABLE KEYS */;
-INSERT INTO `django_admin_log` VALUES (1,'2026-04-29 13:46:18.071128','1','cliente',1,'[{\"added\": {}}]',2,3),(2,'2026-04-29 13:47:30.253222','2','gestore_magazzino',1,'[{\"added\": {}}]',2,3),(3,'2026-04-29 13:50:04.945980','3','gestore_attracco_navi',1,'[{\"added\": {}}]',2,3),(4,'2026-04-29 13:52:04.012949','4','gestore_navi_crociera',1,'[{\"added\": {}}]',2,3),(5,'2026-04-29 13:53:04.768528','5','gestore_navi_cargo',1,'[{\"added\": {}}]',2,3),(6,'2026-04-29 14:10:38.949928','2','boh',3,'',4,3),(7,'2026-04-29 14:12:03.734118','1','haley',2,'[{\"changed\": {\"fields\": [\"password\"]}}]',4,3),(8,'2026-04-29 14:12:21.409844','1','haley',2,'[{\"changed\": {\"fields\": [\"Superuser status\"]}}]',4,3),(9,'2026-04-29 14:57:43.249463','6','admin',1,'[{\"added\": {}}]',2,3),(10,'2026-04-29 14:58:27.438948','1','haley',2,'[{\"changed\": {\"fields\": [\"Staff status\", \"Groups\"]}}]',4,3),(11,'2026-04-30 13:47:36.359438','6','admin',3,'',2,1);
+INSERT INTO `django_admin_log` VALUES (1,'2026-04-29 13:46:18.071128','1','cliente',1,'[{\"added\": {}}]',2,3),(2,'2026-04-29 13:47:30.253222','2','gestore_magazzino',1,'[{\"added\": {}}]',2,3),(3,'2026-04-29 13:50:04.945980','3','gestore_attracco_navi',1,'[{\"added\": {}}]',2,3),(4,'2026-04-29 13:52:04.012949','4','gestore_navi_crociera',1,'[{\"added\": {}}]',2,3),(5,'2026-04-29 13:53:04.768528','5','gestore_navi_cargo',1,'[{\"added\": {}}]',2,3),(6,'2026-04-29 14:10:38.949928','2','boh',3,'',4,3),(7,'2026-04-29 14:12:03.734118','1','haley',2,'[{\"changed\": {\"fields\": [\"password\"]}}]',4,3),(8,'2026-04-29 14:12:21.409844','1','haley',2,'[{\"changed\": {\"fields\": [\"Superuser status\"]}}]',4,3),(9,'2026-04-29 14:57:43.249463','6','admin',1,'[{\"added\": {}}]',2,3),(10,'2026-04-29 14:58:27.438948','1','haley',2,'[{\"changed\": {\"fields\": [\"Staff status\", \"Groups\"]}}]',4,3),(11,'2026-04-30 13:47:36.359438','6','admin',3,'',2,1),(12,'2026-05-23 11:13:34.544161','1','every hour',1,'[{\"added\": {}}]',30,3),(13,'2026-05-23 11:13:54.122545','2','Aggiorna navi ogni ora: every hour',1,'[{\"added\": {}}]',31,3);
 /*!40000 ALTER TABLE `django_admin_log` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `django_celery_beat_clockedschedule`
+--
+
+DROP TABLE IF EXISTS `django_celery_beat_clockedschedule`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `django_celery_beat_clockedschedule` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `clocked_time` datetime(6) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `django_celery_beat_clockedschedule`
+--
+
+LOCK TABLES `django_celery_beat_clockedschedule` WRITE;
+/*!40000 ALTER TABLE `django_celery_beat_clockedschedule` DISABLE KEYS */;
+/*!40000 ALTER TABLE `django_celery_beat_clockedschedule` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `django_celery_beat_crontabschedule`
+--
+
+DROP TABLE IF EXISTS `django_celery_beat_crontabschedule`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `django_celery_beat_crontabschedule` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `minute` varchar(240) NOT NULL,
+  `hour` varchar(96) NOT NULL,
+  `day_of_week` varchar(64) NOT NULL,
+  `day_of_month` varchar(124) NOT NULL,
+  `month_of_year` varchar(64) NOT NULL,
+  `timezone` varchar(63) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `django_celery_beat_crontabschedule`
+--
+
+LOCK TABLES `django_celery_beat_crontabschedule` WRITE;
+/*!40000 ALTER TABLE `django_celery_beat_crontabschedule` DISABLE KEYS */;
+INSERT INTO `django_celery_beat_crontabschedule` VALUES (1,'0','4','*','*','*','UTC');
+/*!40000 ALTER TABLE `django_celery_beat_crontabschedule` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `django_celery_beat_intervalschedule`
+--
+
+DROP TABLE IF EXISTS `django_celery_beat_intervalschedule`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `django_celery_beat_intervalschedule` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `every` int NOT NULL,
+  `period` varchar(24) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `django_celery_beat_intervalschedule`
+--
+
+LOCK TABLES `django_celery_beat_intervalschedule` WRITE;
+/*!40000 ALTER TABLE `django_celery_beat_intervalschedule` DISABLE KEYS */;
+INSERT INTO `django_celery_beat_intervalschedule` VALUES (1,1,'hours');
+/*!40000 ALTER TABLE `django_celery_beat_intervalschedule` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `django_celery_beat_periodictask`
+--
+
+DROP TABLE IF EXISTS `django_celery_beat_periodictask`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `django_celery_beat_periodictask` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `name` varchar(200) NOT NULL,
+  `task` varchar(200) NOT NULL,
+  `args` longtext NOT NULL,
+  `kwargs` longtext NOT NULL,
+  `queue` varchar(200) DEFAULT NULL,
+  `exchange` varchar(200) DEFAULT NULL,
+  `routing_key` varchar(200) DEFAULT NULL,
+  `expires` datetime(6) DEFAULT NULL,
+  `enabled` tinyint(1) NOT NULL,
+  `last_run_at` datetime(6) DEFAULT NULL,
+  `total_run_count` int unsigned NOT NULL,
+  `date_changed` datetime(6) NOT NULL,
+  `description` longtext NOT NULL,
+  `crontab_id` int DEFAULT NULL,
+  `interval_id` int DEFAULT NULL,
+  `solar_id` int DEFAULT NULL,
+  `one_off` tinyint(1) NOT NULL,
+  `start_time` datetime(6) DEFAULT NULL,
+  `priority` int unsigned DEFAULT NULL,
+  `headers` longtext NOT NULL DEFAULT (_utf8mb4'{}'),
+  `clocked_id` int DEFAULT NULL,
+  `expire_seconds` int unsigned DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `name` (`name`),
+  KEY `django_celery_beat_p_crontab_id_d3cba168_fk_django_ce` (`crontab_id`),
+  KEY `django_celery_beat_p_interval_id_a8ca27da_fk_django_ce` (`interval_id`),
+  KEY `django_celery_beat_p_solar_id_a87ce72c_fk_django_ce` (`solar_id`),
+  KEY `django_celery_beat_p_clocked_id_47a69f82_fk_django_ce` (`clocked_id`),
+  CONSTRAINT `django_celery_beat_p_clocked_id_47a69f82_fk_django_ce` FOREIGN KEY (`clocked_id`) REFERENCES `django_celery_beat_clockedschedule` (`id`),
+  CONSTRAINT `django_celery_beat_p_crontab_id_d3cba168_fk_django_ce` FOREIGN KEY (`crontab_id`) REFERENCES `django_celery_beat_crontabschedule` (`id`),
+  CONSTRAINT `django_celery_beat_p_interval_id_a8ca27da_fk_django_ce` FOREIGN KEY (`interval_id`) REFERENCES `django_celery_beat_intervalschedule` (`id`),
+  CONSTRAINT `django_celery_beat_p_solar_id_a87ce72c_fk_django_ce` FOREIGN KEY (`solar_id`) REFERENCES `django_celery_beat_solarschedule` (`id`),
+  CONSTRAINT `django_celery_beat_periodictask_chk_1` CHECK ((`total_run_count` >= 0)),
+  CONSTRAINT `django_celery_beat_periodictask_chk_2` CHECK ((`priority` >= 0)),
+  CONSTRAINT `django_celery_beat_periodictask_chk_3` CHECK ((`expire_seconds` >= 0))
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `django_celery_beat_periodictask`
+--
+
+LOCK TABLES `django_celery_beat_periodictask` WRITE;
+/*!40000 ALTER TABLE `django_celery_beat_periodictask` DISABLE KEYS */;
+INSERT INTO `django_celery_beat_periodictask` VALUES (1,'celery.backend_cleanup','celery.backend_cleanup','[]','{}',NULL,NULL,NULL,NULL,1,NULL,0,'2026-05-26 18:51:31.862786','',1,NULL,NULL,0,NULL,NULL,'{}',NULL,43200),(2,'Aggiorna navi ogni ora','porto.tasks.aggiorna_posizioni_navi','[]','{}',NULL,NULL,NULL,NULL,1,'2026-05-26 18:51:31.872633',4,'2026-05-26 18:51:32.029176','',NULL,1,NULL,0,NULL,NULL,'{}',NULL,NULL);
+/*!40000 ALTER TABLE `django_celery_beat_periodictask` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `django_celery_beat_periodictasks`
+--
+
+DROP TABLE IF EXISTS `django_celery_beat_periodictasks`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `django_celery_beat_periodictasks` (
+  `ident` smallint NOT NULL,
+  `last_update` datetime(6) NOT NULL,
+  PRIMARY KEY (`ident`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `django_celery_beat_periodictasks`
+--
+
+LOCK TABLES `django_celery_beat_periodictasks` WRITE;
+/*!40000 ALTER TABLE `django_celery_beat_periodictasks` DISABLE KEYS */;
+INSERT INTO `django_celery_beat_periodictasks` VALUES (1,'2026-05-26 18:51:31.863238');
+/*!40000 ALTER TABLE `django_celery_beat_periodictasks` ENABLE KEYS */;
+UNLOCK TABLES;
+
+--
+-- Table structure for table `django_celery_beat_solarschedule`
+--
+
+DROP TABLE IF EXISTS `django_celery_beat_solarschedule`;
+/*!40101 SET @saved_cs_client     = @@character_set_client */;
+/*!50503 SET character_set_client = utf8mb4 */;
+CREATE TABLE `django_celery_beat_solarschedule` (
+  `id` int NOT NULL AUTO_INCREMENT,
+  `event` varchar(24) NOT NULL,
+  `latitude` decimal(9,6) NOT NULL,
+  `longitude` decimal(9,6) NOT NULL,
+  PRIMARY KEY (`id`),
+  UNIQUE KEY `django_celery_beat_solar_event_latitude_longitude_ba64999a_uniq` (`event`,`latitude`,`longitude`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+/*!40101 SET character_set_client = @saved_cs_client */;
+
+--
+-- Dumping data for table `django_celery_beat_solarschedule`
+--
+
+LOCK TABLES `django_celery_beat_solarschedule` WRITE;
+/*!40000 ALTER TABLE `django_celery_beat_solarschedule` DISABLE KEYS */;
+/*!40000 ALTER TABLE `django_celery_beat_solarschedule` ENABLE KEYS */;
 UNLOCK TABLES;
 
 --
@@ -1916,7 +2106,7 @@ CREATE TABLE `django_content_type` (
   `model` varchar(100) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `django_content_type_app_label_model_76bd3d3b_uniq` (`app_label`,`model`)
-) ENGINE=InnoDB AUTO_INCREMENT=26 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=35 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1925,7 +2115,7 @@ CREATE TABLE `django_content_type` (
 
 LOCK TABLES `django_content_type` WRITE;
 /*!40000 ALTER TABLE `django_content_type` DISABLE KEYS */;
-INSERT INTO `django_content_type` VALUES (1,'admin','logentry'),(2,'auth','group'),(3,'auth','permission'),(4,'auth','user'),(5,'contenttypes','contenttype'),(7,'core','banchina'),(8,'core','cliente'),(9,'core','container'),(10,'core','guida'),(11,'core','itinerario'),(12,'core','lingueguida'),(13,'core','magazzino'),(14,'core','merce'),(15,'core','nave'),(16,'core','prenotazione'),(17,'core','stanza'),(18,'core','stoccaggio'),(19,'core','tappeitinerario'),(20,'core','userbanchina'),(21,'core','usercliente'),(24,'core','userguida'),(25,'core','useritinerario'),(22,'core','usermagazzino'),(23,'core','usernave'),(6,'sessions','session');
+INSERT INTO `django_content_type` VALUES (1,'admin','logentry'),(2,'auth','group'),(3,'auth','permission'),(4,'auth','user'),(5,'contenttypes','contenttype'),(7,'core','banchina'),(8,'core','cliente'),(9,'core','container'),(10,'core','guida'),(11,'core','itinerario'),(12,'core','lingueguida'),(13,'core','magazzino'),(14,'core','merce'),(15,'core','nave'),(16,'core','prenotazione'),(17,'core','stanza'),(18,'core','stoccaggio'),(26,'core','storicoprenotazione'),(34,'core','systemstatus'),(19,'core','tappeitinerario'),(27,'core','tappeprenotazione'),(20,'core','userbanchina'),(21,'core','usercliente'),(24,'core','userguida'),(25,'core','useritinerario'),(22,'core','usermagazzino'),(23,'core','usernave'),(28,'django_celery_beat','clockedschedule'),(29,'django_celery_beat','crontabschedule'),(30,'django_celery_beat','intervalschedule'),(31,'django_celery_beat','periodictask'),(32,'django_celery_beat','periodictasks'),(33,'django_celery_beat','solarschedule'),(6,'sessions','session');
 /*!40000 ALTER TABLE `django_content_type` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1942,7 +2132,7 @@ CREATE TABLE `django_migrations` (
   `name` varchar(255) NOT NULL,
   `applied` datetime(6) NOT NULL,
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=30 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+) ENGINE=InnoDB AUTO_INCREMENT=57 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
 /*!40101 SET character_set_client = @saved_cs_client */;
 
 --
@@ -1951,7 +2141,7 @@ CREATE TABLE `django_migrations` (
 
 LOCK TABLES `django_migrations` WRITE;
 /*!40000 ALTER TABLE `django_migrations` DISABLE KEYS */;
-INSERT INTO `django_migrations` VALUES (1,'contenttypes','0001_initial','2026-04-28 14:03:51.577655'),(2,'auth','0001_initial','2026-04-28 14:03:52.113741'),(3,'admin','0001_initial','2026-04-28 14:03:52.230777'),(4,'admin','0002_logentry_remove_auto_add','2026-04-28 14:03:52.237987'),(5,'admin','0003_logentry_add_action_flag_choices','2026-04-28 14:03:52.245839'),(6,'contenttypes','0002_remove_content_type_name','2026-04-28 14:03:52.322094'),(7,'auth','0002_alter_permission_name_max_length','2026-04-28 14:03:52.372661'),(8,'auth','0003_alter_user_email_max_length','2026-04-28 14:03:52.391953'),(9,'auth','0004_alter_user_username_opts','2026-04-28 14:03:52.398284'),(10,'auth','0005_alter_user_last_login_null','2026-04-28 14:03:52.442863'),(11,'auth','0006_require_contenttypes_0002','2026-04-28 14:03:52.446535'),(12,'auth','0007_alter_validators_add_error_messages','2026-04-28 14:03:52.454684'),(13,'auth','0008_alter_user_username_max_length','2026-04-28 14:03:52.503455'),(14,'auth','0009_alter_user_last_name_max_length','2026-04-28 14:03:52.554906'),(15,'auth','0010_alter_group_name_max_length','2026-04-28 14:03:52.571883'),(16,'auth','0011_update_proxy_permissions','2026-04-28 14:03:52.581581'),(17,'auth','0012_alter_user_first_name_max_length','2026-04-28 14:03:52.634150'),(18,'core','0001_initial','2026-04-28 14:03:52.659114'),(19,'sessions','0001_initial','2026-04-28 14:03:52.811732'),(20,'core','0002_usercliente_userbanchina_usermagazzino_usernave','2026-04-30 11:19:19.987839'),(21,'core','0003_alter_userbanchina_unique_together_and_more','2026-04-30 11:19:19.997429'),(22,'core','0003_userbanchina_usermagazzino','2026-05-02 13:30:23.232735'),(23,'core','0002_usercliente_usernave','2026-05-02 14:29:07.229676'),(24,'core','0003_alter_banchina_options_alter_lingueguida_options_and_more','2026-05-02 14:29:07.271667'),(25,'core','0004_alter_nave_options','2026-05-03 11:57:25.514277'),(26,'core','0005_alter_merce_options','2026-05-05 13:33:02.386908'),(27,'core','0006_alter_stoccaggio_options','2026-05-06 15:29:45.119974'),(28,'core','0007_userguida_useritinerario','2026-05-07 15:23:04.827745'),(29,'core','0008_alter_prenotazione_options','2026-05-08 13:42:40.910484');
+INSERT INTO `django_migrations` VALUES (1,'contenttypes','0001_initial','2026-04-28 14:03:51.577655'),(2,'auth','0001_initial','2026-04-28 14:03:52.113741'),(3,'admin','0001_initial','2026-04-28 14:03:52.230777'),(4,'admin','0002_logentry_remove_auto_add','2026-04-28 14:03:52.237987'),(5,'admin','0003_logentry_add_action_flag_choices','2026-04-28 14:03:52.245839'),(6,'contenttypes','0002_remove_content_type_name','2026-04-28 14:03:52.322094'),(7,'auth','0002_alter_permission_name_max_length','2026-04-28 14:03:52.372661'),(8,'auth','0003_alter_user_email_max_length','2026-04-28 14:03:52.391953'),(9,'auth','0004_alter_user_username_opts','2026-04-28 14:03:52.398284'),(10,'auth','0005_alter_user_last_login_null','2026-04-28 14:03:52.442863'),(11,'auth','0006_require_contenttypes_0002','2026-04-28 14:03:52.446535'),(12,'auth','0007_alter_validators_add_error_messages','2026-04-28 14:03:52.454684'),(13,'auth','0008_alter_user_username_max_length','2026-04-28 14:03:52.503455'),(14,'auth','0009_alter_user_last_name_max_length','2026-04-28 14:03:52.554906'),(15,'auth','0010_alter_group_name_max_length','2026-04-28 14:03:52.571883'),(16,'auth','0011_update_proxy_permissions','2026-04-28 14:03:52.581581'),(17,'auth','0012_alter_user_first_name_max_length','2026-04-28 14:03:52.634150'),(18,'core','0001_initial','2026-04-28 14:03:52.659114'),(19,'sessions','0001_initial','2026-04-28 14:03:52.811732'),(20,'core','0002_usercliente_userbanchina_usermagazzino_usernave','2026-04-30 11:19:19.987839'),(21,'core','0003_alter_userbanchina_unique_together_and_more','2026-04-30 11:19:19.997429'),(22,'core','0003_userbanchina_usermagazzino','2026-05-02 13:30:23.232735'),(23,'core','0002_usercliente_usernave','2026-05-02 14:29:07.229676'),(24,'core','0003_alter_banchina_options_alter_lingueguida_options_and_more','2026-05-02 14:29:07.271667'),(25,'core','0004_alter_nave_options','2026-05-03 11:57:25.514277'),(26,'core','0005_alter_merce_options','2026-05-05 13:33:02.386908'),(27,'core','0006_alter_stoccaggio_options','2026-05-06 15:29:45.119974'),(28,'core','0007_userguida_useritinerario','2026-05-07 15:23:04.827745'),(29,'core','0008_alter_prenotazione_options','2026-05-08 13:42:40.910484'),(30,'core','0009_storicoprenotazione','2026-05-23 08:18:30.388874'),(31,'core','0010_remove_storicoprenotazione_tappe_tappeprenotazione','2026-05-23 08:22:23.178627'),(32,'core','0011_remove_storicoprenotazione_numero_and_more','2026-05-23 08:35:51.217153'),(33,'core','0009_alter_cliente_options_alter_container_options_and_more','2026-05-23 08:45:49.645572'),(34,'django_celery_beat','0001_initial','2026-05-23 10:25:48.078718'),(35,'django_celery_beat','0002_auto_20161118_0346','2026-05-23 10:25:48.164997'),(36,'django_celery_beat','0003_auto_20161209_0049','2026-05-23 10:25:48.187329'),(37,'django_celery_beat','0004_auto_20170221_0000','2026-05-23 10:25:48.191229'),(38,'django_celery_beat','0005_add_solarschedule_events_choices','2026-05-23 10:25:48.194468'),(39,'django_celery_beat','0006_auto_20180322_0932','2026-05-23 10:25:48.267844'),(40,'django_celery_beat','0007_auto_20180521_0826','2026-05-23 10:25:48.356419'),(41,'django_celery_beat','0008_auto_20180914_1922','2026-05-23 10:25:48.373506'),(42,'django_celery_beat','0006_auto_20180210_1226','2026-05-23 10:25:48.385866'),(43,'django_celery_beat','0006_periodictask_priority','2026-05-23 10:25:48.443523'),(44,'django_celery_beat','0009_periodictask_headers','2026-05-23 10:25:48.501341'),(45,'django_celery_beat','0010_auto_20190429_0326','2026-05-23 10:25:48.588521'),(46,'django_celery_beat','0011_auto_20190508_0153','2026-05-23 10:25:48.665968'),(47,'django_celery_beat','0012_periodictask_expire_seconds','2026-05-23 10:25:48.728019'),(48,'django_celery_beat','0013_auto_20200609_0727','2026-05-23 10:25:48.736993'),(49,'django_celery_beat','0014_remove_clockedschedule_enabled','2026-05-23 10:25:48.764290'),(50,'django_celery_beat','0015_edit_solarschedule_events_choices','2026-05-23 10:25:48.768940'),(51,'django_celery_beat','0016_alter_crontabschedule_timezone','2026-05-23 10:25:48.775400'),(52,'django_celery_beat','0017_alter_crontabschedule_month_of_year','2026-05-23 10:25:48.780834'),(53,'django_celery_beat','0018_improve_crontab_helptext','2026-05-23 10:25:48.786068'),(54,'django_celery_beat','0019_alter_periodictasks_options','2026-05-23 10:25:48.790727'),(55,'core','0010_systemstatus','2026-05-23 11:46:16.611063'),(56,'core','0011_alter_systemstatus_table','2026-05-23 12:58:50.213879');
 /*!40000 ALTER TABLE `django_migrations` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1977,7 +2167,7 @@ CREATE TABLE `django_session` (
 
 LOCK TABLES `django_session` WRITE;
 /*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
-INSERT INTO `django_session` VALUES ('daph71vcyg8lldhgeh1w9j3c5gb7veuq','.eJxVjMsOwiAUBf-FtSFwwZa6dO83EO6jUjWQlHZl_HfbpAvdnpk5bxXTuuS4NpnjxOqizur0u2Gip5Qd8COVe9VUyzJPqHdFH7TpW2V5XQ_37yCnlre6Hz07TCidZRRGhC704IEAafDJOQOIlvymGDaDEwoiJDCCWIDA6vMFGBc5Lw:1wKg28:4rlgECotWhOSSySG8vt-aF1g5o7eTePNspO9MCQFZDY','2026-05-20 17:27:40.900372'),('e2mns62csx0dv6s1ff37ys6rugtdujhq','.eJxVjDsOwjAQRO_iGln2sv5R0nMGa21vcAA5UpxUiLuTSCmgG817M28RaV1qXDvPcSziIrw4_XaJ8pPbDsqD2n2SeWrLPCa5K_KgXd6mwq_r4f4dVOp1W2vrdCbgYA1bhGICwtmn4lEpxZa941ScH9AAMuGWMqEeAmR2GQHF5wvOjjeL:1wNFOv:vkz36IYPFWY-U3Pv4SGkHQcZZ8ZxERYgVCTJn-mpjl4','2026-05-27 19:37:49.770016'),('foxznw7kzmzm6fw68wcelr1r0pcszlc4','.eJxVjMsOwiAUBf-FtSFwwZa6dO83EO6jUjWQlHZl_HfbpAvdnpk5bxXTuuS4NpnjxOqizur0u2Gip5Qd8COVe9VUyzJPqHdFH7TpW2V5XQ_37yCnlre6Hz07TCidZRRGhC704IEAafDJOQOIlvymGDaDEwoiJDCCWIDA6vMFGBc5Lw:1wKg4a:hjZqgjrHixvNEI0V2NM47TZTlw9BT-nvIaAT863vXAk','2026-05-20 17:30:12.611010'),('jxzneztxexxu5dkreogbd7e3fgt52zj4','.eJxVjMsOwiAQRf-FtSEMDwGX7v0GMjAgVQNJaVfGf7dNutDtPefcNwu4LjWsI89hInZhip1-t4jpmdsO6IHt3nnqbZmnyHeFH3TwW6f8uh7u30HFUbfagS8in4UFh1AsCuW1gELWSBMRvDQepEsaJBRtvE06qigAZUlEm8Y-X7WCNzY:1wLFhU:3nzyOb5WrZU2VuCEYWrihMUa4NXSWTdQ4BVKxQRyLi8','2026-05-22 07:32:44.373167'),('l9fgm26txlqoxsrxydgrs6ax2z6j9hre','e30:1wI6Kj:7A9xvNIL6c4LcudZ5eUj2D4llbEcmWhUKo4MtTgp6M8','2026-05-13 14:56:13.863914'),('olbdr9h4snwlrxet34g1b1zmfyzlcs4z','e30:1wJTeT:mH9_FLNAkISidkfcRxyENKZNAZjm2Qkg09k3GmmIvlg','2026-05-17 10:02:17.961696'),('rq5hne9hvg0s131fa7wuevxtumddxj31','.eJxVjEsOwjAMBe-SNYri9BOHJXvOUNmxQwqolZp2hbg7VOoCtm9m3ssMtK1l2KouwyjmbII5_W5M6aHTDuRO0222aZ7WZWS7K_ag1V5n0eflcP8OCtXyrTm6VoUdihffe8zUBddAiom7HmIiykgASdn1zJkBtUFswYcGRATN-wP2_jhX:1wNEoF:f_4yotEOWLPK_UNjKZwce-dxCFTgHugcPj7xb5e8L1c','2026-05-27 18:59:55.250885'),('y9ibiozm05v1tx7o8n4gur8uavayeo2r','.eJxVjEsOwjAMBe-SNYri9BOHJXvOUNmxQwqolZp2hbg7VOoCtm9m3ssMtK1l2KouwyjmbII5_W5M6aHTDuRO0222aZ7WZWS7K_ag1V5n0eflcP8OCtXyrTm6VoUdihffe8zUBddAiom7HmIiykgASdn1zJkBtUFswYcGRATN-wP2_jhX:1wIjCA:LH8JjGmTDUOB8GCcfAMWamqW4unXaxmis2b_5xGkYcQ','2026-05-15 08:25:58.964166');
+INSERT INTO `django_session` VALUES ('daph71vcyg8lldhgeh1w9j3c5gb7veuq','.eJxVjMsOwiAUBf-FtSFwwZa6dO83EO6jUjWQlHZl_HfbpAvdnpk5bxXTuuS4NpnjxOqizur0u2Gip5Qd8COVe9VUyzJPqHdFH7TpW2V5XQ_37yCnlre6Hz07TCidZRRGhC704IEAafDJOQOIlvymGDaDEwoiJDCCWIDA6vMFGBc5Lw:1wKg28:4rlgECotWhOSSySG8vt-aF1g5o7eTePNspO9MCQFZDY','2026-05-20 17:27:40.900372'),('e2mns62csx0dv6s1ff37ys6rugtdujhq','.eJxVjDsOwjAQRO_iGln2sv5R0nMGa21vcAA5UpxUiLuTSCmgG817M28RaV1qXDvPcSziIrw4_XaJ8pPbDsqD2n2SeWrLPCa5K_KgXd6mwq_r4f4dVOp1W2vrdCbgYA1bhGICwtmn4lEpxZa941ScH9AAMuGWMqEeAmR2GQHF5wvOjjeL:1wNFOv:vkz36IYPFWY-U3Pv4SGkHQcZZ8ZxERYgVCTJn-mpjl4','2026-05-27 19:37:49.770016'),('foxznw7kzmzm6fw68wcelr1r0pcszlc4','.eJxVjMsOwiAUBf-FtSFwwZa6dO83EO6jUjWQlHZl_HfbpAvdnpk5bxXTuuS4NpnjxOqizur0u2Gip5Qd8COVe9VUyzJPqHdFH7TpW2V5XQ_37yCnlre6Hz07TCidZRRGhC704IEAafDJOQOIlvymGDaDEwoiJDCCWIDA6vMFGBc5Lw:1wKg4a:hjZqgjrHixvNEI0V2NM47TZTlw9BT-nvIaAT863vXAk','2026-05-20 17:30:12.611010'),('jxzneztxexxu5dkreogbd7e3fgt52zj4','.eJxVjMsOwiAQRf-FtSEMDwGX7v0GMjAgVQNJaVfGf7dNutDtPefcNwu4LjWsI89hInZhip1-t4jpmdsO6IHt3nnqbZmnyHeFH3TwW6f8uh7u30HFUbfagS8in4UFh1AsCuW1gELWSBMRvDQepEsaJBRtvE06qigAZUlEm8Y-X7WCNzY:1wLFhU:3nzyOb5WrZU2VuCEYWrihMUa4NXSWTdQ4BVKxQRyLi8','2026-05-22 07:32:44.373167'),('l9fgm26txlqoxsrxydgrs6ax2z6j9hre','e30:1wI6Kj:7A9xvNIL6c4LcudZ5eUj2D4llbEcmWhUKo4MtTgp6M8','2026-05-13 14:56:13.863914'),('olbdr9h4snwlrxet34g1b1zmfyzlcs4z','e30:1wJTeT:mH9_FLNAkISidkfcRxyENKZNAZjm2Qkg09k3GmmIvlg','2026-05-17 10:02:17.961696'),('sbdbiv2c34erxqv1bt5je22xmdkkhbkn','.eJxVjDsOwyAQBe9CHSFjtHxSps8ZELsLwUmEJWNXVu4eLLlI2pl5bxchbmsJW0tLmFhchRGXX4aRXqkegp-xPmZJc12XCeWRyNM2eZ85vW9n-3dQYit9bRMZhTHToLT1dkSGkdEa5yg6cAgeySmDGlArJq-hB6kjUHrImcXnC-7POAs:1wQjLV:TNttII-Dbohppel13Q-RWrou56yFnKq48ThPv019UI8','2026-06-06 10:12:41.631459'),('y9ibiozm05v1tx7o8n4gur8uavayeo2r','.eJxVjEsOwjAMBe-SNYri9BOHJXvOUNmxQwqolZp2hbg7VOoCtm9m3ssMtK1l2KouwyjmbII5_W5M6aHTDuRO0222aZ7WZWS7K_ag1V5n0eflcP8OCtXyrTm6VoUdihffe8zUBddAiom7HmIiykgASdn1zJkBtUFswYcGRATN-wP2_jhX:1wIjCA:LH8JjGmTDUOB8GCcfAMWamqW4unXaxmis2b_5xGkYcQ','2026-05-15 08:25:58.964166');
 /*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2723,4 +2913,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-05-22 19:54:54
+-- Dump completed on 2026-05-26 20:58:46
