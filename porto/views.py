@@ -2,15 +2,19 @@ import datetime
 import json
 from collections import defaultdict
 
+from django.core.exceptions import ValidationError
+
+from django.contrib.auth.password_validation import validate_password
+
 from django.contrib import messages
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth.models import Group
+from django.contrib.auth.models import Group, AbstractUser
 from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
 from django.contrib.auth.decorators import login_required
 from core.models import *
 from django.db import IntegrityError, DataError, connection, DatabaseError, transaction
 from porto.decorators import group_required
-
+from django_ratelimit.core import is_ratelimited
 
 def get_user_role(user):
     return user.groups.all()[0].name
@@ -49,6 +53,10 @@ def register(request):
         return render(request,'index.html', {'error': "Le password non combaciano"})
     if User.objects.filter(username=username).exists():
         return render(request, 'index.html', {'error': "Lo username inserito già esiste"})
+    try:
+        validate_password(username, password)
+    except ValidationError as e:
+        return render(request, 'index.html', {'error': "\n".join(e.messages)})
     user=User.objects.create_user(username=username, password=password)
     group=Group.objects.get(name=ruolo)
     user.groups.add(group)
@@ -61,10 +69,16 @@ def login_view(request):
         return render(request, 'login.html')
     username = request.POST.get('username')
     password = request.POST.get('password')
+    ip_limit = is_ratelimited(request, group='login_ip', key='ip', rate='5/5m', increment=False)
+    user_limit = is_ratelimited(request, group='login_user', key='post:username', rate='5/5m', increment=False)
+    if ip_limit or user_limit:
+        return render(request, 'login.html', {'error': "Troppi tentativi di accesso. Riprova più tardi."})
     user = authenticate(request, username=username, password=password)
     if user is not None:
         login(request, user)
         return redirect_by_role(request)
+    is_ratelimited(request, group='login_ip', key='ip', rate='5/5m', increment=True)
+    is_ratelimited(request, group='login_user', key='post:username', rate='5/5m', increment=True)
     return render(request, 'login.html', {'error': "Credenziali non valide"})
 @login_required
 def logout_view(request):
@@ -78,6 +92,10 @@ def modifica_password(request):
         if user.check_password(request.POST.get('password_vecchia')):
             if request.POST.get('password_nuova') != request.POST.get('password_nuova_conferma'):
                 return render(request, 'modifica_password.html', {'error': "Le password non coincidono"})
+            try:
+                validate_password(request.POST.get('password_nuova'), user.username)
+            except ValidationError as e:
+                return render(request, 'modifica_password.html', {'error': "\n".join(e.messages)})
             user.set_password(request.POST.get('password_nuova'))
             user.save()
             update_session_auth_hash(request, user)
