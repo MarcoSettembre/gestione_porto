@@ -6,3 +6,5 @@ Mario_Rossi           password      Cliente
 Marta_Bianchi         0123456789    Gestore magazzino
 Sofia_Meis            password123   Gestore navi da crociera
 Felice_Verdi          secret        Cliente
+Antonio_Simonetti     antonio       Gestore navi da crociera
+Giovanni_Riccardi     juan001       Gestore navi cargo
