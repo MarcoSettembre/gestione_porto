@@ -1142,7 +1142,20 @@ DELIMITER ;
 DELIMITER $$
 CREATE TRIGGER `controlla_tipo_merce_e_magazzino2` BEFORE UPDATE ON `Stoccaggio`
 FOR EACH ROW
-BEGIN DECLARE tipo_merce VARCHAR(100); DECLARE tipo_magazzino VARCHAR(100); SELECT Genere INTO tipo_merce FROM Merce WHERE Merce.SSCC=NEW.SSCC; SELECT Tipo INTO tipo_magazzino FROM Magazzino WHERE NEW.Nome_magazzino=Magazzino.Nome AND NEW.Localita_magazzino=Magazzino.Localita; IF UPPER(tipo_merce) <> UPPER(tipo_magazzino) THEN SIGNAL SQLSTATE '45000' SET MESSAGE_TEXT='Il magazzino selezionato non stocca questo tipo di merce'; END IF; END $$
+BEGIN
+DECLARE tipo_merce VARCHAR(100);
+DECLARE tipo_magazzino VARCHAR(100);
+SELECT Genere INTO tipo_merce
+FROM Merce
+WHERE Merce.SSCC=NEW.SSCC;
+SELECT Tipo INTO tipo_magazzino
+FROM Magazzino
+WHERE NEW.Nome_magazzino=Magazzino.Nome AND NEW.Localita_magazzino=Magazzino.Localita;
+IF UPPER(tipo_merce) <> UPPER(tipo_magazzino) THEN
+SIGNAL SQLSTATE '45000'
+SET MESSAGE_TEXT='Il magazzino selezionato non stocca questo tipo di merce';
+END IF;
+END $$
 DELIMITER ;
 ```
 
