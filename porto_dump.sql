@@ -66,7 +66,7 @@ CREATE TABLE `Cliente` (
 
 LOCK TABLES `Cliente` WRITE;
 /*!40000 ALTER TABLE `Cliente` DISABLE KEYS */;
-INSERT INTO `Cliente` VALUES ('RSSMRA80A01H501U','Mario','Rossi','1970-01-01','(69) 95654-3254'),('VRDFLC00C05F839I','Felice','Verdi','2000-03-05','0812341222'),('ZZIRCR05S15I391G','Riccardo','Izzo','2005-11-15','(67) 95654-3254');
+INSERT INTO `Cliente` VALUES ('RSSMRA80A01H501U','Mario','Rossi','1970-01-01','0812226565'),('VRDFLC00C05F839I','Felice','Verdi','2000-03-05','0812341222'),('ZZIRCR05S15I391G','Riccardo','Izzo','2005-11-15','(67) 95654-3254');
 /*!40000 ALTER TABLE `Cliente` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -805,7 +805,7 @@ CREATE TABLE `Nave` (
 
 LOCK TABLES `Nave` WRITE;
 /*!40000 ALTER TABLE `Nave` DISABLE KEYS */;
-INSERT INTO `Nave` VALUES ('8717647','Seaven Luck','Panama','TURATE SHIPPING SA',32,114.85,17.92,7477,4906,1000,20,NULL,'Cargo',1,1,NULL,20.13853,39.12691,329.4),('9214513','QING YUN HE','Cina','Cosco Shanghai Ship Management',9.5,179.7,27.6,25645,1900,0,0,NULL,'Cargo',NULL,NULL,NULL,139.63838,35.05064,231.7),('9224336','JEANNE IV','Liberia','MSC',19.3,260,32.25,50954,4253,0,0,NULL,'Cargo',NULL,NULL,NULL,31.02326,-29.88086,199),('9280627','Puccini','Malta','CMA CGM',24.3,277.28,40,73235,5782,0,0,NULL,'Cargo',NULL,NULL,NULL,-42.78628,-23.13806,121.8),('9358060','Sea Cargo Express','Malta','SeaCargo AS',7,117,18,3855,118,1500,20,NULL,'Cargo',6,10,NULL,5.31101,60.38917,312),('9387085','Magnifica','Panama','MSC',59.6,293.8,32.2,NULL,NULL,0,0,3223,'Crociera',5,1,5,11.11394,56.06594,205.5),('9751511','Norwegian Encore','Bahamas','NCL',66,333.44,48.13,NULL,NULL,0,0,4903,'Crociera',NULL,NULL,NULL,-133.30913,54.84787,322.8),('9781889','Costa Smeralda','Italia','Costa Crociere',65.2,336.8,41.9,NULL,NULL,0,0,6600,'Crociera',NULL,NULL,NULL,1.44496,38.90235,165),('9818709','MV Hondius','Paesi Bassi','Oceanwide Expeditions',5.3,107.6,17.6,NULL,NULL,0,0,176,'Crociera',NULL,NULL,NULL,4.15446,51.95389,130),('9829930','Icon of the Seas','Bahamas','Royal Caribbean',72.4,365.2,65,NULL,NULL,0,0,7600,'Crociera',NULL,NULL,NULL,-80.00288,25.46559,180.4),('9837420','World Europa','Malta','MSC',68,333,54,NULL,NULL,0,0,6762,'Crociera',5,1,2,15.53215,37.69707,177.5),('9930038','Tessa','Liberia','MSC',83.5,400,61.5,241164,24116,0,0,NULL,'Cargo',NULL,NULL,NULL,31.92368,-29.4306,43.2);
+INSERT INTO `Nave` VALUES ('8717647','Seaven Luck','Panama','TURATE SHIPPING SA',32,114.85,17.92,7477,4906,1000,20,NULL,'Cargo',1,1,NULL,12.24835,45.462,143),('9214513','QING YUN HE','Cina','Cosco Shanghai Ship Management',9.5,179.7,27.6,25645,1900,0,0,NULL,'Cargo',1,1,NULL,139.63838,35.05064,231.7),('9224336','JEANNE IV','Liberia','MSC',19.3,260,32.25,50954,4253,0,0,NULL,'Cargo',6,10,NULL,30.84733,-30.36426,208.7),('9280627','Puccini','Malta','CMA CGM',24.3,277.28,40,73235,5782,0,0,NULL,'Cargo',6,10,NULL,-35.3982,-9.98976,40.9),('9358060','Sea Cargo Express','Malta','SeaCargo AS',7,117,18,3855,118,1500,20,NULL,'Cargo',6,10,NULL,7.67886,63.10859,350.9),('9387085','Magnifica','Panama','MSC',59.6,293.8,32.2,NULL,NULL,0,0,3223,'Crociera',5,1,5,21.03422,55.73234,259.6),('9751511','Norwegian Encore','Bahamas','NCL',66,333.44,48.13,NULL,NULL,0,0,4903,'Crociera',5,1,NULL,-131.86782,55.4524,126),('9781889','Costa Smeralda','Italia','Costa Crociere',65.2,336.8,41.9,NULL,NULL,0,0,6600,'Crociera',NULL,NULL,NULL,11.77261,42.1039,324),('9818709','MV Hondius','Paesi Bassi','Oceanwide Expeditions',5.3,107.6,17.6,NULL,NULL,0,0,176,'Crociera',NULL,NULL,NULL,4.15445,51.95387,131),('9829930','Icon of the Seas','Bahamas','Royal Caribbean',72.4,365.2,65,NULL,NULL,0,0,7600,'Crociera',NULL,NULL,NULL,-78.23933,25.94007,112),('9837420','World Europa','Malta','MSC',68,333,54,NULL,NULL,0,0,6762,'Crociera',NULL,NULL,2,2.17041,41.34189,190),('9930038','Tessa','Liberia','MSC',83.5,400,61.5,241164,24116,0,0,NULL,'Cargo',6,10,NULL,103.61936,1.25417,270);
 /*!40000 ALTER TABLE `Nave` ENABLE KEYS */;
 UNLOCK TABLES;
 /*!50003 SET @saved_cs_client      = @@character_set_client */ ;
@@ -923,42 +923,6 @@ DELIMITER ;
 /*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
 /*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
 DELIMITER ;;
-/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `controllo_banchina2` BEFORE UPDATE ON `Nave` FOR EACH ROW BEGIN
-DECLARE tipo_banchina VARCHAR(10);
-DECLARE lunghezza_banchina DOUBLE;
-DECLARE lunghezza_occupata DOUBLE;
-IF NEW.Numero_banchina <> OLD.Numero_banchina OR NEW.Settore_banchina <> OLD.Settore_banchina OR NEW.Lunghezza <> OLD.Lunghezza THEN
-SELECT Tipo, Lunghezza
-INTO tipo_banchina, lunghezza_banchina
-FROM Banchina
-WHERE Numero=NEW.Numero_banchina AND Settore=NEW.Settore_banchina;
-SELECT COALESCE(SUM(Nave.lunghezza),0)
-INTO lunghezza_occupata
-FROM Nave
-WHERE Numero_banchina=NEW.Numero_banchina AND Settore_banchina=NEW.Settore_banchina AND IMO <> OLD.IMO;
-IF NEW.Tipo <> tipo_banchina THEN
-SIGNAL SQLSTATE '45000'
-SET MESSAGE_TEXT='Il tipo di banchina non risulta compatibile con il tipo di nave';
-ELSEIF lunghezza_occupata+NEW.lunghezza>lunghezza_banchina THEN
-SIGNAL SQLSTATE '45000'
-SET MESSAGE_TEXT='La banchina non ha abbastanza lunghezza residua per attraccare la nave';
-END IF;
-END IF;
-END */;;
-DELIMITER ;
-/*!50003 SET sql_mode              = @saved_sql_mode */ ;
-/*!50003 SET character_set_client  = @saved_cs_client */ ;
-/*!50003 SET character_set_results = @saved_cs_results */ ;
-/*!50003 SET collation_connection  = @saved_col_connection */ ;
-/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
-/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
-/*!50003 SET @saved_col_connection = @@collation_connection */ ;
-/*!50003 SET character_set_client  = utf8mb4 */ ;
-/*!50003 SET character_set_results = utf8mb4 */ ;
-/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
-/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
-/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
-DELIMITER ;;
 /*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `controllo_guide_itinerario2` BEFORE UPDATE ON `Nave` FOR EACH ROW BEGIN
 DECLARE numero_guide INT;
 IF NOT(NEW.ID_itinerario <=> OLD.ID_itinerario) AND NEW.ID_itinerario IS NOT NULL THEN
@@ -990,6 +954,42 @@ DELIMITER ;;
 IF NEW.Tipo='Cargo' AND NEW.ID_itinerario IS NOT NULL THEN
 SIGNAL SQLSTATE '45000'
 SET MESSAGE_TEXT='Gli itinerario non possono essere assegnati alle navi cargo';
+END IF;
+END */;;
+DELIMITER ;
+/*!50003 SET sql_mode              = @saved_sql_mode */ ;
+/*!50003 SET character_set_client  = @saved_cs_client */ ;
+/*!50003 SET character_set_results = @saved_cs_results */ ;
+/*!50003 SET collation_connection  = @saved_col_connection */ ;
+/*!50003 SET @saved_cs_client      = @@character_set_client */ ;
+/*!50003 SET @saved_cs_results     = @@character_set_results */ ;
+/*!50003 SET @saved_col_connection = @@collation_connection */ ;
+/*!50003 SET character_set_client  = utf8mb4 */ ;
+/*!50003 SET character_set_results = utf8mb4 */ ;
+/*!50003 SET collation_connection  = utf8mb4_0900_ai_ci */ ;
+/*!50003 SET @saved_sql_mode       = @@sql_mode */ ;
+/*!50003 SET sql_mode              = 'ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION' */ ;
+DELIMITER ;;
+/*!50003 CREATE*/ /*!50017 DEFINER=`root`@`localhost`*/ /*!50003 TRIGGER `controllo_banchina2` BEFORE UPDATE ON `Nave` FOR EACH ROW BEGIN
+DECLARE tipo_banchina VARCHAR(10);
+DECLARE lunghezza_banchina DOUBLE;
+DECLARE lunghezza_occupata DOUBLE;
+IF NOT(NEW.Numero_banchina <=> OLD.Numero_banchina) OR NOT(NEW.Settore_banchina <=> OLD.Settore_banchina) OR NOT(NEW.Lunghezza <=> OLD.Lunghezza) THEN
+SELECT Tipo, Lunghezza
+INTO tipo_banchina, lunghezza_banchina
+FROM Banchina
+WHERE Numero=NEW.Numero_banchina AND Settore=NEW.Settore_banchina;
+SELECT COALESCE(SUM(Nave.lunghezza),0)
+INTO lunghezza_occupata
+FROM Nave
+WHERE Numero_banchina=NEW.Numero_banchina AND Settore_banchina=NEW.Settore_banchina AND IMO <> OLD.IMO;
+IF NEW.Tipo <> tipo_banchina THEN
+SIGNAL SQLSTATE '45000'
+SET MESSAGE_TEXT='Il tipo di banchina non risulta compatibile con il tipo di nave';
+ELSEIF lunghezza_occupata+NEW.lunghezza>lunghezza_banchina THEN
+SIGNAL SQLSTATE '45000'
+SET MESSAGE_TEXT='La banchina non ha abbastanza lunghezza residua per attraccare la nave';
+END IF;
 END IF;
 END */;;
 DELIMITER ;
@@ -1623,7 +1623,7 @@ CREATE TABLE `auth_user` (
 
 LOCK TABLES `auth_user` WRITE;
 /*!40000 ALTER TABLE `auth_user` DISABLE KEYS */;
-INSERT INTO `auth_user` VALUES (1,'pbkdf2_sha256$1200000$U6l8hoiRICgSzZS7dpx7Jh$wS0rltNFohn1FtKPTs8I5xwrsJ7AU6sDJrr6DYy5KfM=','2026-04-30 13:47:16.708545',1,'haley','','','',1,1,'2026-04-28 15:24:44.000000'),(3,'pbkdf2_sha256$1200000$56XAyzxjVCCIjKtz9SDS5s$RQBArrypYRTTX/tDD7EAzzuAx7vOoRd8bYF6UwMPeIY=','2026-05-23 11:12:42.370189',1,'admin','','','',1,1,'2026-04-29 13:43:47.800017'),(4,'pbkdf2_sha256$1200000$A7lDVf72Mi0k5FvS0iaNPJ$r+4dv9qQ1s9dNtU8OeLFp0i4jHv2RdZ1RGO33OOzA1o=','2026-05-23 10:06:28.943379',0,'Mario_Rossi','','','',0,1,'2026-04-29 14:14:02.671269'),(5,'pbkdf2_sha256$1200000$wnqnypBmqy4CXBsZ9tgUmK$52fmvp+N9/VsxSYxFxopOVcnw9cCAi31QUl8p0MWiHA=','2026-05-23 11:11:23.344516',0,'Marta_Bianchi','','','',0,1,'2026-04-29 14:17:28.789965'),(6,'pbkdf2_sha256$1200000$Af2KCIBXm5TqucR2pMYGcn$drNb66i3Ip0atDq9lyJV3/U3vBQ9XNWp/akFz7ITW1U=','2026-05-23 11:11:32.845691',0,'Gennaro_Esposito','','','',0,1,'2026-04-29 14:22:49.987699'),(7,'pbkdf2_sha256$1200000$FjDoou6s7jlH4Id48vrFx5$TWstZv1e4n4IOhyrJHO3zeVV/BZaLBu2EMQ2xQKOOC0=','2026-05-24 10:58:25.855937',0,'Sofia_Meis','','','',0,1,'2026-04-29 14:26:49.280535'),(8,'pbkdf2_sha256$1200000$PFiKuzVFNR2ziXa7ar95hU$n8SPvr1bhX0sQbbRMSI0AnnQ+O2GW13DQUpXms7qJwk=','2026-05-24 11:36:16.204189',0,'Giuseppe_Napolitano','','','',0,1,'2026-04-29 14:29:07.018550'),(9,'pbkdf2_sha256$1200000$nfvNIn8obkamrHjwR2GNgI$b5wthFXBd3462ZYDkvmKPs2zyB5GLjqvc7wRxqCWBuY=','2026-04-30 13:57:41.312527',0,'Riccardo_Izzo','','','',0,1,'2026-04-30 13:57:24.399403'),(10,'pbkdf2_sha256$1200000$3AZxfzTudQNYbHPzT8SPi3$c0rmDecB3mWc0RXWM9gYeCIBjr08uiBFGlFOp1NGqP8=','2026-05-23 08:59:06.144803',0,'Felice_Verdi','','','',0,1,'2026-05-23 08:58:56.435567'),(11,'pbkdf2_sha256$1200000$JmsgXO7mwXk72P3oKJlCL9$VsUwZJOmweIKgpPWUzFKLP84CHWfI74erq0spqgeGmk=','2026-05-26 18:46:02.198856',0,'Antonio_Simonetti','','','',0,1,'2026-05-26 18:32:49.658637'),(12,'pbkdf2_sha256$1200000$DAWfFCR46QPFpmiqOWgUi7$qIac3gIAtEubJ0DIBC6slSTOpYOJlB0wgLmjah9NBd4=','2026-05-26 18:44:31.873268',0,'Giovanni_Riccardi','','','',0,1,'2026-05-26 18:44:23.569881');
+INSERT INTO `auth_user` VALUES (1,'pbkdf2_sha256$1200000$U6l8hoiRICgSzZS7dpx7Jh$wS0rltNFohn1FtKPTs8I5xwrsJ7AU6sDJrr6DYy5KfM=','2026-04-30 13:47:16.708545',1,'haley','','','',1,1,'2026-04-28 15:24:44.000000'),(3,'pbkdf2_sha256$1200000$56XAyzxjVCCIjKtz9SDS5s$RQBArrypYRTTX/tDD7EAzzuAx7vOoRd8bYF6UwMPeIY=','2026-05-28 08:14:39.794288',1,'admin','','','',1,1,'2026-04-29 13:43:47.800017'),(4,'pbkdf2_sha256$1200000$A7lDVf72Mi0k5FvS0iaNPJ$r+4dv9qQ1s9dNtU8OeLFp0i4jHv2RdZ1RGO33OOzA1o=','2026-05-29 11:22:56.225571',0,'Mario_Rossi','','','',0,1,'2026-04-29 14:14:02.671269'),(5,'pbkdf2_sha256$1200000$wnqnypBmqy4CXBsZ9tgUmK$52fmvp+N9/VsxSYxFxopOVcnw9cCAi31QUl8p0MWiHA=','2026-05-29 11:41:41.943041',0,'Marta_Bianchi','','','',0,1,'2026-04-29 14:17:28.789965'),(6,'pbkdf2_sha256$1200000$Af2KCIBXm5TqucR2pMYGcn$drNb66i3Ip0atDq9lyJV3/U3vBQ9XNWp/akFz7ITW1U=','2026-05-29 11:26:50.566110',0,'Gennaro_Esposito','','','',0,1,'2026-04-29 14:22:49.987699'),(7,'pbkdf2_sha256$1200000$FjDoou6s7jlH4Id48vrFx5$TWstZv1e4n4IOhyrJHO3zeVV/BZaLBu2EMQ2xQKOOC0=','2026-05-29 13:10:46.243940',0,'Sofia_Meis','','','',0,1,'2026-04-29 14:26:49.280535'),(8,'pbkdf2_sha256$1200000$26Ozc33YaSD910G4UJMEOG$7pGE+Wpa3H1oXNp1ScqHHSLucikrZTEAa8FKtrQYwIg=','2026-06-02 10:55:36.521890',0,'Giuseppe_Napolitano','','','',0,1,'2026-04-29 14:29:07.018550'),(9,'pbkdf2_sha256$1200000$nfvNIn8obkamrHjwR2GNgI$b5wthFXBd3462ZYDkvmKPs2zyB5GLjqvc7wRxqCWBuY=','2026-04-30 13:57:41.312527',0,'Riccardo_Izzo','','','',0,1,'2026-04-30 13:57:24.399403'),(10,'pbkdf2_sha256$1200000$3AZxfzTudQNYbHPzT8SPi3$c0rmDecB3mWc0RXWM9gYeCIBjr08uiBFGlFOp1NGqP8=','2026-05-27 07:56:12.022607',0,'Felice_Verdi','','','',0,1,'2026-05-23 08:58:56.435567'),(11,'pbkdf2_sha256$1200000$JmsgXO7mwXk72P3oKJlCL9$VsUwZJOmweIKgpPWUzFKLP84CHWfI74erq0spqgeGmk=','2026-05-26 18:46:02.198856',0,'Antonio_Simonetti','','','',0,1,'2026-05-26 18:32:49.658637'),(12,'pbkdf2_sha256$1200000$DAWfFCR46QPFpmiqOWgUi7$qIac3gIAtEubJ0DIBC6slSTOpYOJlB0wgLmjah9NBd4=','2026-05-26 18:44:31.873268',0,'Giovanni_Riccardi','','','',0,1,'2026-05-26 18:44:23.569881');
 /*!40000 ALTER TABLE `auth_user` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -1704,7 +1704,7 @@ CREATE TABLE `core_systemstatus` (
 
 LOCK TABLES `core_systemstatus` WRITE;
 /*!40000 ALTER TABLE `core_systemstatus` DISABLE KEYS */;
-INSERT INTO `core_systemstatus` VALUES (1,'2026-05-26 18:51:34.178017');
+INSERT INTO `core_systemstatus` VALUES (1,'2026-05-29 14:10:13.419993');
 /*!40000 ALTER TABLE `core_systemstatus` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2039,7 +2039,7 @@ CREATE TABLE `django_celery_beat_periodictask` (
 
 LOCK TABLES `django_celery_beat_periodictask` WRITE;
 /*!40000 ALTER TABLE `django_celery_beat_periodictask` DISABLE KEYS */;
-INSERT INTO `django_celery_beat_periodictask` VALUES (1,'celery.backend_cleanup','celery.backend_cleanup','[]','{}',NULL,NULL,NULL,NULL,1,NULL,0,'2026-05-26 18:51:31.862786','',1,NULL,NULL,0,NULL,NULL,'{}',NULL,43200),(2,'Aggiorna navi ogni ora','porto.tasks.aggiorna_posizioni_navi','[]','{}',NULL,NULL,NULL,NULL,1,'2026-05-26 18:51:31.872633',4,'2026-05-26 18:51:32.029176','',NULL,1,NULL,0,NULL,NULL,'{}',NULL,NULL);
+INSERT INTO `django_celery_beat_periodictask` VALUES (1,'celery.backend_cleanup','celery.backend_cleanup','[]','{}',NULL,NULL,NULL,NULL,1,NULL,0,'2026-06-02 10:54:52.703503','',1,NULL,NULL,0,NULL,NULL,'{}',NULL,43200),(2,'Aggiorna navi ogni ora','porto.tasks.aggiorna_posizioni_navi','[]','{}',NULL,NULL,NULL,NULL,1,'2026-06-02 10:54:52.712618',17,'2026-06-02 10:54:52.837037','',NULL,1,NULL,0,NULL,NULL,'{}',NULL,NULL);
 /*!40000 ALTER TABLE `django_celery_beat_periodictask` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2063,7 +2063,7 @@ CREATE TABLE `django_celery_beat_periodictasks` (
 
 LOCK TABLES `django_celery_beat_periodictasks` WRITE;
 /*!40000 ALTER TABLE `django_celery_beat_periodictasks` DISABLE KEYS */;
-INSERT INTO `django_celery_beat_periodictasks` VALUES (1,'2026-05-26 18:51:31.863238');
+INSERT INTO `django_celery_beat_periodictasks` VALUES (1,'2026-06-02 10:54:52.703913');
 /*!40000 ALTER TABLE `django_celery_beat_periodictasks` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2167,7 +2167,7 @@ CREATE TABLE `django_session` (
 
 LOCK TABLES `django_session` WRITE;
 /*!40000 ALTER TABLE `django_session` DISABLE KEYS */;
-INSERT INTO `django_session` VALUES ('daph71vcyg8lldhgeh1w9j3c5gb7veuq','.eJxVjMsOwiAUBf-FtSFwwZa6dO83EO6jUjWQlHZl_HfbpAvdnpk5bxXTuuS4NpnjxOqizur0u2Gip5Qd8COVe9VUyzJPqHdFH7TpW2V5XQ_37yCnlre6Hz07TCidZRRGhC704IEAafDJOQOIlvymGDaDEwoiJDCCWIDA6vMFGBc5Lw:1wKg28:4rlgECotWhOSSySG8vt-aF1g5o7eTePNspO9MCQFZDY','2026-05-20 17:27:40.900372'),('e2mns62csx0dv6s1ff37ys6rugtdujhq','.eJxVjDsOwjAQRO_iGln2sv5R0nMGa21vcAA5UpxUiLuTSCmgG817M28RaV1qXDvPcSziIrw4_XaJ8pPbDsqD2n2SeWrLPCa5K_KgXd6mwq_r4f4dVOp1W2vrdCbgYA1bhGICwtmn4lEpxZa941ScH9AAMuGWMqEeAmR2GQHF5wvOjjeL:1wNFOv:vkz36IYPFWY-U3Pv4SGkHQcZZ8ZxERYgVCTJn-mpjl4','2026-05-27 19:37:49.770016'),('foxznw7kzmzm6fw68wcelr1r0pcszlc4','.eJxVjMsOwiAUBf-FtSFwwZa6dO83EO6jUjWQlHZl_HfbpAvdnpk5bxXTuuS4NpnjxOqizur0u2Gip5Qd8COVe9VUyzJPqHdFH7TpW2V5XQ_37yCnlre6Hz07TCidZRRGhC704IEAafDJOQOIlvymGDaDEwoiJDCCWIDA6vMFGBc5Lw:1wKg4a:hjZqgjrHixvNEI0V2NM47TZTlw9BT-nvIaAT863vXAk','2026-05-20 17:30:12.611010'),('jxzneztxexxu5dkreogbd7e3fgt52zj4','.eJxVjMsOwiAQRf-FtSEMDwGX7v0GMjAgVQNJaVfGf7dNutDtPefcNwu4LjWsI89hInZhip1-t4jpmdsO6IHt3nnqbZmnyHeFH3TwW6f8uh7u30HFUbfagS8in4UFh1AsCuW1gELWSBMRvDQepEsaJBRtvE06qigAZUlEm8Y-X7WCNzY:1wLFhU:3nzyOb5WrZU2VuCEYWrihMUa4NXSWTdQ4BVKxQRyLi8','2026-05-22 07:32:44.373167'),('l9fgm26txlqoxsrxydgrs6ax2z6j9hre','e30:1wI6Kj:7A9xvNIL6c4LcudZ5eUj2D4llbEcmWhUKo4MtTgp6M8','2026-05-13 14:56:13.863914'),('olbdr9h4snwlrxet34g1b1zmfyzlcs4z','e30:1wJTeT:mH9_FLNAkISidkfcRxyENKZNAZjm2Qkg09k3GmmIvlg','2026-05-17 10:02:17.961696'),('sbdbiv2c34erxqv1bt5je22xmdkkhbkn','.eJxVjDsOwyAQBe9CHSFjtHxSps8ZELsLwUmEJWNXVu4eLLlI2pl5bxchbmsJW0tLmFhchRGXX4aRXqkegp-xPmZJc12XCeWRyNM2eZ85vW9n-3dQYit9bRMZhTHToLT1dkSGkdEa5yg6cAgeySmDGlArJq-hB6kjUHrImcXnC-7POAs:1wQjLV:TNttII-Dbohppel13Q-RWrou56yFnKq48ThPv019UI8','2026-06-06 10:12:41.631459'),('y9ibiozm05v1tx7o8n4gur8uavayeo2r','.eJxVjEsOwjAMBe-SNYri9BOHJXvOUNmxQwqolZp2hbg7VOoCtm9m3ssMtK1l2KouwyjmbII5_W5M6aHTDuRO0222aZ7WZWS7K_ag1V5n0eflcP8OCtXyrTm6VoUdihffe8zUBddAiom7HmIiykgASdn1zJkBtUFswYcGRATN-wP2_jhX:1wIjCA:LH8JjGmTDUOB8GCcfAMWamqW4unXaxmis2b_5xGkYcQ','2026-05-15 08:25:58.964166');
+INSERT INTO `django_session` VALUES ('b044x7aj4bqek0mmr8kjgjb012x84pjo','.eJxVjEEOwiAQRe_C2hCm0gFduvcMZJgBqRpISrsy3l2bdKHb_977LxVoXUpYe5rDJOqsRnX43SLxI9UNyJ3qrWludZmnqDdF77Tra5P0vOzu30GhXr61y2AkR4Ojc-4IFjFDGoBQTgLIYmiI5BFBRJgAk4C1mBx7xizWq_cH4TY4NA:1wS9Ba:vIso8LO4Mz9HkXEU3YtGLsmFf_wZ_chKOHHY08Exp8o','2026-06-10 08:00:18.915638'),('b6a2zlaj1xtq3elcol4bbilgpwt1l5lz','.eJxVjMsOwiAQRf-FtSEFZni4dO83EIahUjU0Ke3K-O_apAvd3nPOfYmYtrXGrZclTizOwonT70YpP0rbAd9Tu80yz21dJpK7Ig_a5XXm8rwc7t9BTb1-a3DKAGVtMQFbYD2yJsPeeIQh-4LshgBFUXaggx0VqKARAykMYCCJ9wfJ0ja9:1wS99l:spdodx8L5PZewZqDLY7ltWF0g9XCpDaeHQxgUIGnhkU','2026-06-10 07:58:25.290734'),('daph71vcyg8lldhgeh1w9j3c5gb7veuq','.eJxVjMsOwiAUBf-FtSFwwZa6dO83EO6jUjWQlHZl_HfbpAvdnpk5bxXTuuS4NpnjxOqizur0u2Gip5Qd8COVe9VUyzJPqHdFH7TpW2V5XQ_37yCnlre6Hz07TCidZRRGhC704IEAafDJOQOIlvymGDaDEwoiJDCCWIDA6vMFGBc5Lw:1wKg28:4rlgECotWhOSSySG8vt-aF1g5o7eTePNspO9MCQFZDY','2026-05-20 17:27:40.900372'),('e2mns62csx0dv6s1ff37ys6rugtdujhq','.eJxVjDsOwjAQRO_iGln2sv5R0nMGa21vcAA5UpxUiLuTSCmgG817M28RaV1qXDvPcSziIrw4_XaJ8pPbDsqD2n2SeWrLPCa5K_KgXd6mwq_r4f4dVOp1W2vrdCbgYA1bhGICwtmn4lEpxZa941ScH9AAMuGWMqEeAmR2GQHF5wvOjjeL:1wNFOv:vkz36IYPFWY-U3Pv4SGkHQcZZ8ZxERYgVCTJn-mpjl4','2026-05-27 19:37:49.770016'),('foxznw7kzmzm6fw68wcelr1r0pcszlc4','.eJxVjMsOwiAUBf-FtSFwwZa6dO83EO6jUjWQlHZl_HfbpAvdnpk5bxXTuuS4NpnjxOqizur0u2Gip5Qd8COVe9VUyzJPqHdFH7TpW2V5XQ_37yCnlre6Hz07TCidZRRGhC704IEAafDJOQOIlvymGDaDEwoiJDCCWIDA6vMFGBc5Lw:1wKg4a:hjZqgjrHixvNEI0V2NM47TZTlw9BT-nvIaAT863vXAk','2026-05-20 17:30:12.611010'),('jjgdiopld8q2rli1xzju09curnmkh1h1','.eJxVjEEOwiAQRe_C2hCm0gFduvcMZJgBqRpISrsy3l2bdKHb_977LxVoXUpYe5rDJOqsRnX43SLxI9UNyJ3qrWludZmnqDdF77Tra5P0vOzu30GhXr61y2AkR4Ojc-4IFjFDGoBQTgLIYmiI5BFBRJgAk4C1mBx7xizWq_cH4TY4NA:1wS9Ca:hGdklWnuNPQ1oiTIjVbk8hJcFjLTXhuIhdHrquOiIc0','2026-06-10 08:01:20.375147'),('jxzneztxexxu5dkreogbd7e3fgt52zj4','.eJxVjMsOwiAQRf-FtSEMDwGX7v0GMjAgVQNJaVfGf7dNutDtPefcNwu4LjWsI89hInZhip1-t4jpmdsO6IHt3nnqbZmnyHeFH3TwW6f8uh7u30HFUbfagS8in4UFh1AsCuW1gELWSBMRvDQepEsaJBRtvE06qigAZUlEm8Y-X7WCNzY:1wLFhU:3nzyOb5WrZU2VuCEYWrihMUa4NXSWTdQ4BVKxQRyLi8','2026-05-22 07:32:44.373167'),('l9fgm26txlqoxsrxydgrs6ax2z6j9hre','e30:1wI6Kj:7A9xvNIL6c4LcudZ5eUj2D4llbEcmWhUKo4MtTgp6M8','2026-05-13 14:56:13.863914'),('m1b9jrdzaw2puxun771nxm2mpep4wcjv','.eJxVjMsOwiAQRf-FtSEMlJdL934DGWCQqoGktCvjv2uTLnR7zzn3xQJuaw3boCXMmZ0ZCHb6HSOmB7Wd5Du2W-ept3WZI98VftDBrz3T83K4fwcVR_3WiMZ5G5UvNoMqxVtN0Uir0TshJDkbJyCHIKPQKZOcQIDJpTgrQSrP3h__fzd9:1wS97c:tGw5Onv_5XzVWoP3jn_2xH3AjKYlLHsR4q44mjrHdLA','2026-06-10 07:56:12.028822'),('olbdr9h4snwlrxet34g1b1zmfyzlcs4z','e30:1wJTeT:mH9_FLNAkISidkfcRxyENKZNAZjm2Qkg09k3GmmIvlg','2026-05-17 10:02:17.961696'),('p3dpdywduzvmqgi1sadc6i8sqdyhrbft','.eJxVjMsOwiAQRf-FtSHDG1y69xvIAKNUDSSlXRn_3TbpQrf3nHPfLOK61LgOmuNU2JlpdvrdEuYntR2UB7Z757m3ZZ4S3xV-0MGvvdDrcrh_BxVH3WoppTEqkBbZJYXKQfDSAlpKCVy2gtINvYdSlCYZrAKPebM8GFAgPPt8Ab78Np8:1wS9Bk:oIBr7yww5lPA-FSkf2WQK377A6Px5yBgyDbBRuDqOQI','2026-06-10 08:00:28.449943'),('sbdbiv2c34erxqv1bt5je22xmdkkhbkn','.eJxVjDsOwyAQBe9CHSFjtHxSps8ZELsLwUmEJWNXVu4eLLlI2pl5bxchbmsJW0tLmFhchRGXX4aRXqkegp-xPmZJc12XCeWRyNM2eZ85vW9n-3dQYit9bRMZhTHToLT1dkSGkdEa5yg6cAgeySmDGlArJq-hB6kjUHrImcXnC-7POAs:1wQjLV:TNttII-Dbohppel13Q-RWrou56yFnKq48ThPv019UI8','2026-06-06 10:12:41.631459'),('y9ibiozm05v1tx7o8n4gur8uavayeo2r','.eJxVjEsOwjAMBe-SNYri9BOHJXvOUNmxQwqolZp2hbg7VOoCtm9m3ssMtK1l2KouwyjmbII5_W5M6aHTDuRO0222aZ7WZWS7K_ag1V5n0eflcP8OCtXyrTm6VoUdihffe8zUBddAiom7HmIiykgASdn1zJkBtUFswYcGRATN-wP2_jhX:1wIjCA:LH8JjGmTDUOB8GCcfAMWamqW4unXaxmis2b_5xGkYcQ','2026-05-15 08:25:58.964166'),('yw3kpyhdbk2c814pxys7ozc7kjef22lk','.eJxVjMsOwiAQRf-FtSHDG1y69xvIAKNUDSSlXRn_3TbpQrf3nHPfLOK61LgOmuNU2JlpdvrdEuYntR2UB7Z757m3ZZ4S3xV-0MGvvdDrcrh_BxVH3WoppTEqkBbZJYXKQfDSAlpKCVy2gtINvYdSlCYZrAKPebM8GFAgPPt8Ab78Np8:1wS922:BjHGpcSBsJA9icMOm9SJ5c03jBamVGp1-c1_u2uTqnI','2026-06-10 07:50:26.695477'),('zua3rvmkgod6b83m7dtxg7ph1k8ekku8','.eJxVjEEOwiAQRe_C2hCm0gFduvcMZJgBqRpISrsy3l2bdKHb_977LxVoXUpYe5rDJOqsRnX43SLxI9UNyJ3qrWludZmnqDdF77Tra5P0vOzu30GhXr61y2AkR4Ojc-4IFjFDGoBQTgLIYmiI5BFBRJgAk4C1mBx7xizWq_cH4TY4NA:1wS94I:eKvqXmYOTmldkMcI6f9AOJhZKPR3X4dcqQlep_e3yq8','2026-06-10 07:52:46.745269');
 /*!40000 ALTER TABLE `django_session` ENABLE KEYS */;
 UNLOCK TABLES;
 
@@ -2913,4 +2913,4 @@ SET character_set_client = @saved_cs_client;
 /*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
--- Dump completed on 2026-05-26 20:58:46
+-- Dump completed on 2026-06-04 11:11:33
